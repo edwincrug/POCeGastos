@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="2ecbe44c-ed77-49f7-8b5b-6c8495643b2b" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://saosultdev02/WCFGastos/Expense/ExpenseAccount.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="ExpenseAccount.xsd" MetadataType="Schema" ID="8a80fbc5-f0cf-4707-8d02-19dd4a3f896d" SourceId="1" SourceUrl="http://saosultdev02.pharma.aventis.com/WCFGastos/Expense/ExpenseAccount.svc?xsd=xsd1" />
+    <MetadataFile FileName="ExpenseAccount1.xsd" MetadataType="Schema" ID="14467a06-bcd9-4bdf-bf64-0d70be7b63de" SourceId="1" SourceUrl="http://saosultdev02.pharma.aventis.com/WCFGastos/Expense/ExpenseAccount.svc?xsd=xsd2" />
+    <MetadataFile FileName="ExpenseAccount2.xsd" MetadataType="Schema" ID="2b700f45-c68b-41ff-9827-198b4642911a" SourceId="1" SourceUrl="http://saosultdev02.pharma.aventis.com/WCFGastos/Expense/ExpenseAccount.svc?xsd=xsd0" />
+    <MetadataFile FileName="ExpenseAccount.disco" MetadataType="Disco" ID="930aaa21-207a-400f-b423-1d6c336aa19f" SourceId="1" SourceUrl="http://saosultdev02.pharma.aventis.com/WCFGastos/Expense/ExpenseAccount.svc?disco" />
+    <MetadataFile FileName="ExpenseAccount.wsdl" MetadataType="Wsdl" ID="b767a483-c609-4847-843c-52246a21ce47" SourceId="1" SourceUrl="http://saosultdev02.pharma.aventis.com/WCFGastos/Expense/ExpenseAccount.svc?wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

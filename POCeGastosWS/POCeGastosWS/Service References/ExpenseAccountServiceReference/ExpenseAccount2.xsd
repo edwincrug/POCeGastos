@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://saosultdev02.pharma.aventis.com/WCFGastos/Expense/ExpenseAccount.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Entities.Ultimus" />
+  <xs:element name="initiateVariables">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="requestDate" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="companyName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="companyCode" type="xs:int" />
+        <xs:element minOccurs="0" name="CeCoCode" type="xs:int" />
+        <xs:element minOccurs="0" name="CeCoMiniCode" type="xs:int" />
+        <xs:element minOccurs="0" name="CeCoMiniName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="isMiniEvent" type="xs:boolean" />
+        <xs:element minOccurs="0" name="arrival" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="departureDate" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="returnDate" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="PEPElementId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="PEPElementName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="currencyId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="currencyName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="initiatorLogin" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="initiatorName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="responsibleLogin" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="responsibleName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="responsibleEmployeeNum" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="responsibleUserName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="pasteur" type="xs:boolean" />
+        <xs:element minOccurs="0" name="areaId" type="xs:int" />
+        <xs:element minOccurs="0" name="areaText" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="salesForce" type="xs:boolean" />
+        <xs:element minOccurs="0" name="nationalManagerLogin" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="nationalManagerName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="creditCard" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="initiateVariablesResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="createExpenseAccountDetail">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idExpenseAccountDetail" type="xs:int" />
+        <xs:element minOccurs="0" name="expenseDate" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="idAccount" type="xs:int" />
+        <xs:element minOccurs="0" name="accountName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="amount" type="xs:double" />
+        <xs:element minOccurs="0" name="invoiceNumber" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="place" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="numberOfDiners" type="xs:int" />
+        <xs:element minOccurs="0" name="IVA" type="xs:double" />
+        <xs:element minOccurs="0" name="healthProfessional" type="xs:boolean" />
+        <xs:element minOccurs="0" name="hasPAClient" type="xs:boolean" />
+        <xs:element minOccurs="0" name="total" type="xs:double" />
+        <xs:element minOccurs="0" name="observationId" type="xs:int" />
+        <xs:element minOccurs="0" name="observationName" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="createExpenseAccountDetailResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="createPAClient">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idExpenseAccountDetail" type="xs:int" />
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="createPAClientResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="validateAndSaveRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="attachCount" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="validateAndSaveRequestResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="validateAndSaveRequestResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="updateRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ultimusNumber" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="updateRequestResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="updateRequestResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getUltExpenseFlowVariables">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getUltExpenseFlowVariablesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Entities.Ultimus" minOccurs="0" name="getUltExpenseFlowVariablesResult" nillable="true" type="q1:UltExpenseFlowVariables" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getUltRequest">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getUltRequestResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Entities.Ultimus" minOccurs="0" name="getUltRequestResult" nillable="true" type="q2:UltRequest" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getUltExpenseAccount">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getUltExpenseAccountResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Entities.Ultimus" minOccurs="0" name="getUltExpenseAccountResult" nillable="true" type="q3:UltExpenseAccount" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getUltExpenseAccountDetailList">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getUltExpenseAccountDetailListResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Entities.Ultimus" minOccurs="0" name="getUltExpenseAccountDetailListResult" nillable="true" type="q4:ArrayOfUltExpenseAccountDetail" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getUltPAClientList">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getUltPAClientListResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Entities.Ultimus" minOccurs="0" name="getUltPAClientListResult" nillable="true" type="q5:ArrayOfUltPAClient" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

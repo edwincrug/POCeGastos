@@ -1,0 +1,10 @@
+D:\PROJETOS\POCeGastosWS\POCeGastosWS\obj\Debug\ResolveAssemblyReference.cache
+D:\PROJETOS\POCeGastosWS\POCeGastosWS\bin\eGastosToUltimus.asmx
+D:\PROJETOS\POCeGastosWS\POCeGastosWS\bin\eGastosToUltimus.asmx.cs
+D:\PROJETOS\POCeGastosWS\POCeGastosWS\bin\eGastosWS.dll
+D:\PROJETOS\POCeGastosWS\POCeGastosWS\bin\eGastosWS.pdb
+D:\PROJETOS\POCeGastosWS\POCeGastosWS\bin\eGastosEntity.dll
+D:\PROJETOS\POCeGastosWS\POCeGastosWS\bin\eGastosEntity.pdb
+D:\PROJETOS\POCeGastosWS\POCeGastosWS\obj\Debug\eGastosWS.dll
+D:\PROJETOS\POCeGastosWS\POCeGastosWS\obj\Debug\eGastosWS.pdb
+D:\PROJETOS\POCeGastosWS\POCeGastosWS\bin\AutoMapper.dll

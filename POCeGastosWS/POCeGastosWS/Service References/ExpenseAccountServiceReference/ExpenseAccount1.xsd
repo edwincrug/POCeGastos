@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Entities.Ultimus" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Entities.Ultimus" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="UltExpenseFlowVariables">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="activeDirAreaGastos" type="xs:boolean" />
+      <xs:element minOccurs="0" name="activeDirFinanzasGastos" type="xs:boolean" />
+      <xs:element minOccurs="0" name="activeDirGralGastos" type="xs:boolean" />
+      <xs:element minOccurs="0" name="activeManager" type="xs:boolean" />
+      <xs:element minOccurs="0" name="jobFunctionAutorizador1" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="jobFunctionAutorizador2" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="jobFunctionAutorizador3" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="jobFunctionAutorizador4" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="jobFunctionController1" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="jobFunctionController2" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="jobFunctionControlling" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="jobFunctionDirAreaGastos" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="jobFunctionFinanzasGastos" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="jobFunctionNationalManager" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="jobFunctionObservador" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="jobFunctionResponsible" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="summaryText" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UltExpenseFlowVariables" nillable="true" type="tns:UltExpenseFlowVariables" />
+  <xs:complexType name="UltRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CeCoCode" type="xs:int" />
+      <xs:element minOccurs="0" name="CeCoMiniCode" type="xs:int" />
+      <xs:element minOccurs="0" name="CeCoMiniName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CeCoName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PAClientId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PAClientName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PEPElementId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PEPElementName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="areaId" type="xs:int" />
+      <xs:element minOccurs="0" name="areaText" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="arrival" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="companyCode" type="xs:int" />
+      <xs:element minOccurs="0" name="companyName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="currencyId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="currencyName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="departureDate" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="exchangeRate" type="xs:double" />
+      <xs:element minOccurs="0" name="idRequest" type="xs:int" />
+      <xs:element minOccurs="0" name="initiatorLogin" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="initiatorName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="isMiniEvent" type="xs:boolean" />
+      <xs:element minOccurs="0" name="pasteur" type="xs:boolean" />
+      <xs:element minOccurs="0" name="requestDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="responsibleEmployeeNum" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="responsibleLogin" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="responsibleName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="responsiblePayMethod" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="responsibleUserName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="returnDate" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="salesForce" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="status" type="xs:int" />
+      <xs:element minOccurs="0" name="statusName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="type" type="xs:int" />
+      <xs:element minOccurs="0" name="typeName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ultimusNumber" nillable="true" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UltRequest" nillable="true" type="tns:UltRequest" />
+  <xs:complexType name="UltExpenseAccount">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="charged" type="xs:boolean" />
+      <xs:element minOccurs="0" name="creditCard" type="xs:boolean" />
+      <xs:element minOccurs="0" name="idExpenseAccount" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="idRequest" type="xs:int" />
+      <xs:element minOccurs="0" name="nationalManagerLogin" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="nationalManagerName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="overdue" type="xs:boolean" />
+      <xs:element minOccurs="0" name="totalMeal" type="xs:double" />
+      <xs:element minOccurs="0" name="totalMiniEvent" type="xs:double" />
+      <xs:element minOccurs="0" name="totalNationalMeal" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UltExpenseAccount" nillable="true" type="tns:UltExpenseAccount" />
+  <xs:complexType name="ArrayOfUltExpenseAccountDetail">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="UltExpenseAccountDetail" nillable="true" type="tns:UltExpenseAccountDetail" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfUltExpenseAccountDetail" nillable="true" type="tns:ArrayOfUltExpenseAccountDetail" />
+  <xs:complexType name="UltExpenseAccountDetail">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="IVA" type="xs:double" />
+      <xs:element minOccurs="0" name="IVATypeId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IVATypeName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="accountName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="amount" type="xs:double" />
+      <xs:element minOccurs="0" name="discount" type="xs:double" />
+      <xs:element minOccurs="0" name="expenseDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="hasPAClient" type="xs:boolean" />
+      <xs:element minOccurs="0" name="healthProfessional" type="xs:boolean" />
+      <xs:element minOccurs="0" name="idAccount" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="idExpenseAccount" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="idExpenseAccountDetail" type="xs:int" />
+      <xs:element minOccurs="0" name="invoiceNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="numberOfDiners" type="xs:int" />
+      <xs:element minOccurs="0" name="observationId" type="xs:int" />
+      <xs:element minOccurs="0" name="observationName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="place" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="status" type="xs:boolean" />
+      <xs:element minOccurs="0" name="total" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UltExpenseAccountDetail" nillable="true" type="tns:UltExpenseAccountDetail" />
+  <xs:complexType name="ArrayOfUltPAClient">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="UltPAClient" nillable="true" type="tns:UltPAClient" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfUltPAClient" nillable="true" type="tns:ArrayOfUltPAClient" />
+  <xs:complexType name="UltPAClient">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="idExpenseAccountDetail" type="xs:int" />
+      <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UltPAClient" nillable="true" type="tns:UltPAClient" />
+</xs:schema>

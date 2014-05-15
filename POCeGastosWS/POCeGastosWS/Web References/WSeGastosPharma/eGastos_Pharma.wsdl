@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.ultimus.com/eGastos_Pharma" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.ultimus.com/eGastos_Pharma" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service allows you to launch incidents of eGastos Pharma. It also allows you to perform steps that are activated to you for this process</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.ultimus.com/eGastos_Pharma">
+      <s:element name="GetLaunchInformation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strUserName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLaunchInformationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetLaunchInformationResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="BeginSchema" type="tns:ArrayOfSchemaFile" />
+            <s:element minOccurs="0" maxOccurs="1" name="strDefaultXML" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strError" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfSchemaFile">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SchemaFile" nillable="true" type="tns:SchemaFile" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SchemaFile">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="SchemaFileName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SchemaData" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="LaunchIncident">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strSummary" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strMemo" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="bDisableAbort" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="nPriority" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="strXML" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="bValidateXML" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LaunchIncidentResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="LaunchIncidentResult" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="nIncidentNo" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="strError" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetActiveTasks">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strUserName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetActiveTasksResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetActiveTasksResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="taskList" type="tns:ArrayOfCTaskInfo" />
+            <s:element minOccurs="0" maxOccurs="1" name="strError" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfCTaskInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="CTaskInfo" nillable="true" type="tns:CTaskInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CTaskInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="m_strStepLabel" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_strSummary" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="m_nIncidentNum" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AbortIncident">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strUserName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="nIncidentNumber" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="strSummary" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AbortIncidentResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AbortIncidentResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="strError" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTaskInformation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strUserName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="nIncidentNumber" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="strStepName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTaskInformationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetTaskInformationResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="TaskSchema" type="tns:ArrayOfSchemaFile" />
+            <s:element minOccurs="0" maxOccurs="1" name="strTaskXML" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strError" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CompleteStep">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strUserName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="nIncidentNumber" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="strStepName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strSummary" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strMemo" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="bDisableAbort" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="nPriority" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="strXML" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="bValidateXML" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CompleteStepResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CompleteStepResult" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="nIncidentNumber" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="strError" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReturnStep">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strUserName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="nIncidentNumber" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="strStepName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strSummary" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strMemo" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="bDisableAbort" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="nPriority" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="strXML" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="bValidateXML" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReturnStepResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ReturnStepResult" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="nIncidentNumber" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="strError" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetLaunchInformationSoapIn">
+    <wsdl:part name="parameters" element="tns:GetLaunchInformation" />
+  </wsdl:message>
+  <wsdl:message name="GetLaunchInformationSoapOut">
+    <wsdl:part name="parameters" element="tns:GetLaunchInformationResponse" />
+  </wsdl:message>
+  <wsdl:message name="LaunchIncidentSoapIn">
+    <wsdl:part name="parameters" element="tns:LaunchIncident" />
+  </wsdl:message>
+  <wsdl:message name="LaunchIncidentSoapOut">
+    <wsdl:part name="parameters" element="tns:LaunchIncidentResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetActiveTasksSoapIn">
+    <wsdl:part name="parameters" element="tns:GetActiveTasks" />
+  </wsdl:message>
+  <wsdl:message name="GetActiveTasksSoapOut">
+    <wsdl:part name="parameters" element="tns:GetActiveTasksResponse" />
+  </wsdl:message>
+  <wsdl:message name="AbortIncidentSoapIn">
+    <wsdl:part name="parameters" element="tns:AbortIncident" />
+  </wsdl:message>
+  <wsdl:message name="AbortIncidentSoapOut">
+    <wsdl:part name="parameters" element="tns:AbortIncidentResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTaskInformationSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTaskInformation" />
+  </wsdl:message>
+  <wsdl:message name="GetTaskInformationSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTaskInformationResponse" />
+  </wsdl:message>
+  <wsdl:message name="CompleteStepSoapIn">
+    <wsdl:part name="parameters" element="tns:CompleteStep" />
+  </wsdl:message>
+  <wsdl:message name="CompleteStepSoapOut">
+    <wsdl:part name="parameters" element="tns:CompleteStepResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReturnStepSoapIn">
+    <wsdl:part name="parameters" element="tns:ReturnStep" />
+  </wsdl:message>
+  <wsdl:message name="ReturnStepSoapOut">
+    <wsdl:part name="parameters" element="tns:ReturnStepResponse" />
+  </wsdl:message>
+  <wsdl:portType name="eGastos_PharmaSoap">
+    <wsdl:operation name="GetLaunchInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method returns Begin Step Schema and default XML for lauching an incident of eGastos Pharma</wsdl:documentation>
+      <wsdl:input message="tns:GetLaunchInformationSoapIn" />
+      <wsdl:output message="tns:GetLaunchInformationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LaunchIncident">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method launches an incident of eGastos Pharma</wsdl:documentation>
+      <wsdl:input message="tns:LaunchIncidentSoapIn" />
+      <wsdl:output message="tns:LaunchIncidentSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetActiveTasks">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method returns the active tasks of eGastos Pharma for the user specified as an input parameter</wsdl:documentation>
+      <wsdl:input message="tns:GetActiveTasksSoapIn" />
+      <wsdl:output message="tns:GetActiveTasksSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AbortIncident">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method aborts an incident of eGastos Pharma</wsdl:documentation>
+      <wsdl:input message="tns:AbortIncidentSoapIn" />
+      <wsdl:output message="tns:AbortIncidentSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTaskInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method returns the Step Schema and its current values for a particular task of eGastos Pharma</wsdl:documentation>
+      <wsdl:input message="tns:GetTaskInformationSoapIn" />
+      <wsdl:output message="tns:GetTaskInformationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CompleteStep">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method completes a step of eGastos Pharma with given XML data</wsdl:documentation>
+      <wsdl:input message="tns:CompleteStepSoapIn" />
+      <wsdl:output message="tns:CompleteStepSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReturnStep">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method returns a step of eGastos Pharma with given XML data</wsdl:documentation>
+      <wsdl:input message="tns:ReturnStepSoapIn" />
+      <wsdl:output message="tns:ReturnStepSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="eGastos_PharmaSoap" type="tns:eGastos_PharmaSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetLaunchInformation">
+      <soap:operation soapAction="http://www.ultimus.com/eGastos_Pharma/GetLaunchInformation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LaunchIncident">
+      <soap:operation soapAction="http://www.ultimus.com/eGastos_Pharma/LaunchIncident" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActiveTasks">
+      <soap:operation soapAction="http://www.ultimus.com/eGastos_Pharma/GetActiveTasks" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AbortIncident">
+      <soap:operation soapAction="http://www.ultimus.com/eGastos_Pharma/AbortIncident" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTaskInformation">
+      <soap:operation soapAction="http://www.ultimus.com/eGastos_Pharma/GetTaskInformation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CompleteStep">
+      <soap:operation soapAction="http://www.ultimus.com/eGastos_Pharma/CompleteStep" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReturnStep">
+      <soap:operation soapAction="http://www.ultimus.com/eGastos_Pharma/ReturnStep" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="eGastos_PharmaSoap12" type="tns:eGastos_PharmaSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetLaunchInformation">
+      <soap12:operation soapAction="http://www.ultimus.com/eGastos_Pharma/GetLaunchInformation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LaunchIncident">
+      <soap12:operation soapAction="http://www.ultimus.com/eGastos_Pharma/LaunchIncident" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActiveTasks">
+      <soap12:operation soapAction="http://www.ultimus.com/eGastos_Pharma/GetActiveTasks" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AbortIncident">
+      <soap12:operation soapAction="http://www.ultimus.com/eGastos_Pharma/AbortIncident" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTaskInformation">
+      <soap12:operation soapAction="http://www.ultimus.com/eGastos_Pharma/GetTaskInformation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CompleteStep">
+      <soap12:operation soapAction="http://www.ultimus.com/eGastos_Pharma/CompleteStep" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReturnStep">
+      <soap12:operation soapAction="http://www.ultimus.com/eGastos_Pharma/ReturnStep" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="eGastos_Pharma">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service allows you to launch incidents of eGastos Pharma. It also allows you to perform steps that are activated to you for this process</wsdl:documentation>
+    <wsdl:port name="eGastos_PharmaSoap" binding="tns:eGastos_PharmaSoap">
+      <soap:address location="http://trustultimus.trust.com.br/PLWebservices/eGastos_Pharma.asmx" />
+    </wsdl:port>
+    <wsdl:port name="eGastos_PharmaSoap12" binding="tns:eGastos_PharmaSoap12">
+      <soap12:address location="http://trustultimus.trust.com.br/PLWebservices/eGastos_Pharma.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

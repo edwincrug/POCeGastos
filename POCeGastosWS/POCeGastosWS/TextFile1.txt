@@ -1,0 +1,4 @@
+﻿http://saosultdev02.pharma.aventis.com/PLWebServices/eGastos_Pasteur.asmx
+http://saosultdev02.pharma.aventis.com/PLWebservices/eGastos_Pharma.asmx
+http://trustultimus.trust.com.br/PLWebServices/eGastos_Pasteur.asmx
+http://trustultimus.trust.com.br/PLWebservices/eGastos_Pharma.asmx

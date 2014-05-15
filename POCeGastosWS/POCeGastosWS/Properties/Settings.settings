@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="eGastosWS.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="eGastosWS_WSeGastosPasteur_eGastos_Pasteur" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://trustultimus.trust.com.br/PLWebServices/eGastos_Pasteur.asmx</Value>
+    </Setting>
+    <Setting Name="eGastosWS_WSeGastosPharma_eGastos_Pharma" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://trustultimus.trust.com.br/PLWebservices/eGastos_Pharma.asmx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

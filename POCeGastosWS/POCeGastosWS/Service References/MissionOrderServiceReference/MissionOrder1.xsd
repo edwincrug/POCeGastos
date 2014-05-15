@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://saosultdev02.pharma.aventis.com/WCFGastos/Expense/MissionOrder.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Entities.Ultimus" />
+  <xs:element name="initiateVariables">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="requestDate" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="companyName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="companyCode" type="xs:int" />
+        <xs:element minOccurs="0" name="CeCoCode" type="xs:int" />
+        <xs:element minOccurs="0" name="arrival" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="departureDate" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="returnDate" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="PEPElementId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="PEPElementName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="currencyId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="currencyName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="initiatorLogin" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="initiatorName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="responsibleLogin" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="responsibleName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="responsibleEmployeeNum" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="responsibleUserName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="pasteur" type="xs:boolean" />
+        <xs:element minOccurs="0" name="areaId" type="xs:int" />
+        <xs:element minOccurs="0" name="areaText" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="salesForce" type="xs:boolean" />
+        <xs:element minOccurs="0" name="travelId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="travelName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="objective" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="advance" type="xs:double" />
+        <xs:element minOccurs="0" name="comment" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="initiateVariablesResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="createItinerary">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idItinerary" type="xs:int" />
+        <xs:element minOccurs="0" name="idLedgerAccount" type="xs:int" />
+        <xs:element minOccurs="0" name="nameLedgerAccount" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="departureHour" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="returnHour" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="observations" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="travelType" type="xs:int" />
+        <xs:element minOccurs="0" name="nameTravelType" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="departureCountry" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="departureCity" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="arrivalCountry" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="arrivalCity" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="departureDate" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="arrivalDate" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="createItineraryResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="createHotel">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idHotel" type="xs:int" />
+        <xs:element minOccurs="0" name="idLegerAccount" type="xs:int" />
+        <xs:element minOccurs="0" name="nameLegerAccount" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="country" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="city" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="observations" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="checkInDate" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="checkoutDate" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="createHotelResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="validateAndSaveRequest">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="validateAndSaveRequestResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="validateAndSaveRequestResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="updateRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ultimusNumber" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="updateRequestResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="updateRequestResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getUltExpenseFlowVariables">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getUltExpenseFlowVariablesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Entities.Ultimus" minOccurs="0" name="getUltExpenseFlowVariablesResult" nillable="true" type="q1:UltExpenseFlowVariables" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getUltRequest">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getUltRequestResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Entities.Ultimus" minOccurs="0" name="getUltRequestResult" nillable="true" type="q2:UltRequest" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getUltMissionOrder">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getUltMissionOrderResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Entities.Ultimus" minOccurs="0" name="getUltMissionOrderResult" nillable="true" type="q3:UltMissionOrder" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getUltItineraryList">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getUltItineraryListResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Entities.Ultimus" minOccurs="0" name="getUltItineraryListResult" nillable="true" type="q4:ArrayOfUltItinerary" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getUltHotelList">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getUltHotelListResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Entities.Ultimus" minOccurs="0" name="getUltHotelListResult" nillable="true" type="q5:ArrayOfUltHotel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

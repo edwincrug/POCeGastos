@@ -1,0 +1,5 @@
+D:\PROJETOS\POCeGastosWS\eGastosEntity\bin\Debug\eGastosEntity.dll
+D:\PROJETOS\POCeGastosWS\eGastosEntity\bin\Debug\eGastosEntity.pdb
+D:\PROJETOS\POCeGastosWS\eGastosEntity\obj\Debug\ResolveAssemblyReference.cache
+D:\PROJETOS\POCeGastosWS\eGastosEntity\obj\Debug\eGastosEntity.dll
+D:\PROJETOS\POCeGastosWS\eGastosEntity\obj\Debug\eGastosEntity.pdb
