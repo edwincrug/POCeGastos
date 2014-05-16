@@ -144,7 +144,7 @@ namespace eGastosWS
             //me = ge.me1(ref fd);
             //// EndDebug
             ////------------------------------------------------------------------
-
+            //Comentario
             string xmlstr = getUltimusXML(fd);
 
             XmlDataDocument MOApprovalXML = new System.Xml.XmlDataDocument();
