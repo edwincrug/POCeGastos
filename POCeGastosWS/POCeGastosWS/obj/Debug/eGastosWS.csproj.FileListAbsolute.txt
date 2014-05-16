@@ -8,3 +8,12 @@ D:\PROJETOS\POCeGastosWS\POCeGastosWS\bin\eGastosEntity.pdb
 D:\PROJETOS\POCeGastosWS\POCeGastosWS\obj\Debug\eGastosWS.dll
 D:\PROJETOS\POCeGastosWS\POCeGastosWS\obj\Debug\eGastosWS.pdb
 D:\PROJETOS\POCeGastosWS\POCeGastosWS\bin\AutoMapper.dll
+C:\Users\E0206163\Documents\GitHub\POCeGastos\POCeGastosWS\POCeGastosWS\bin\eGastosToUltimus.asmx
+C:\Users\E0206163\Documents\GitHub\POCeGastos\POCeGastosWS\POCeGastosWS\bin\eGastosToUltimus.asmx.cs
+C:\Users\E0206163\Documents\GitHub\POCeGastos\POCeGastosWS\POCeGastosWS\bin\eGastosWS.dll
+C:\Users\E0206163\Documents\GitHub\POCeGastos\POCeGastosWS\POCeGastosWS\bin\eGastosWS.pdb
+C:\Users\E0206163\Documents\GitHub\POCeGastos\POCeGastosWS\POCeGastosWS\bin\eGastosEntity.dll
+C:\Users\E0206163\Documents\GitHub\POCeGastos\POCeGastosWS\POCeGastosWS\bin\eGastosEntity.pdb
+C:\Users\E0206163\Documents\GitHub\POCeGastos\POCeGastosWS\POCeGastosWS\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\E0206163\Documents\GitHub\POCeGastos\POCeGastosWS\POCeGastosWS\obj\Debug\eGastosWS.dll
+C:\Users\E0206163\Documents\GitHub\POCeGastos\POCeGastosWS\POCeGastosWS\obj\Debug\eGastosWS.pdb

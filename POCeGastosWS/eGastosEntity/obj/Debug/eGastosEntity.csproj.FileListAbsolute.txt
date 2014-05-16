@@ -3,3 +3,8 @@ D:\PROJETOS\POCeGastosWS\eGastosEntity\bin\Debug\eGastosEntity.pdb
 D:\PROJETOS\POCeGastosWS\eGastosEntity\obj\Debug\ResolveAssemblyReference.cache
 D:\PROJETOS\POCeGastosWS\eGastosEntity\obj\Debug\eGastosEntity.dll
 D:\PROJETOS\POCeGastosWS\eGastosEntity\obj\Debug\eGastosEntity.pdb
+C:\Users\E0206163\Documents\GitHub\POCeGastos\POCeGastosWS\eGastosEntity\bin\Debug\eGastosEntity.dll
+C:\Users\E0206163\Documents\GitHub\POCeGastos\POCeGastosWS\eGastosEntity\bin\Debug\eGastosEntity.pdb
+C:\Users\E0206163\Documents\GitHub\POCeGastos\POCeGastosWS\eGastosEntity\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\E0206163\Documents\GitHub\POCeGastos\POCeGastosWS\eGastosEntity\obj\Debug\eGastosEntity.dll
+C:\Users\E0206163\Documents\GitHub\POCeGastos\POCeGastosWS\eGastosEntity\obj\Debug\eGastosEntity.pdb

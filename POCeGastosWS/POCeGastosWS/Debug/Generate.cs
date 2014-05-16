@@ -11,7 +11,7 @@ namespace eGastosWS.Debug
             MasterEntity me = new MasterEntity();
             //
             //---------------------------------------------------------
-            fd.UserLogin = "adultimus.local/marcio.nakamura";
+            fd.UserLogin = "pharma.aventis.com/MEX-GGARCIA2";
             fd.isPasteur = false;
             fd.StepName = "Confirma Cotizacion";
             fd.ProcessName = "";
@@ -23,46 +23,47 @@ namespace eGastosWS.Debug
             me.UltRequest = new eGastosEntity.Ultimus.UltRequest();
             me.UltRequest.areaId = 0;
             me.UltRequest.areaText = "Area TRext";
-            me.UltRequest.arrival = "asd";
-            me.UltRequest.CeCoCode = 0;
-            me.UltRequest.CeCoMiniCode = 4000001;
+            me.UltRequest.arrival = "Mexico";
+            me.UltRequest.CeCoCode = 4110700;
+            me.UltRequest.CeCoMiniCode = 0;
             me.UltRequest.CeCoMiniName = "Ceco um";
             me.UltRequest.companyCode = 2238;
-            me.UltRequest.companyName = "Trust";
-            me.UltRequest.currencyId = "1";
+            me.UltRequest.companyName = "Sanofi Aventis de México";
+            me.UltRequest.currencyId = "MXN";
             me.UltRequest.currencyName = "Pesos";
             me.UltRequest.departureDate = DateTime.Now.ToString();
-            me.UltRequest.exchangeRate = 2.45;
-            me.UltRequest.idRequest = 123;
-            me.UltRequest.initiatorLogin = "pharma.aventis.com/e0193822";
-            me.UltRequest.initiatorName = "Marcio Nakamura";
+            me.UltRequest.exchangeRate = 1;
+            me.UltRequest.idRequest = 2000202;
+            //me.UltRequest.initiatorLogin = "pharma.aventis.com/e0193822";
+            me.UltRequest.initiatorLogin = "MEX-BCAMPOS";
+            me.UltRequest.initiatorName = "Campos, Benjamin PH/MX";
             me.UltRequest.isMiniEvent = false;
-            me.UltRequest.PAClientId = "12";
-            me.UltRequest.PAClientName = "Doze";
+            me.UltRequest.PAClientId = "0000093109";
+            me.UltRequest.PAClientName = "CAMPOS TUN BENJAMIN";
             me.UltRequest.pasteur = fd.isPasteur;
-            me.UltRequest.PEPElementId = "asdfer";
-            me.UltRequest.PEPElementName = "ASDFER";
+            me.UltRequest.PEPElementId = "";
+            me.UltRequest.PEPElementName = "";
             me.UltRequest.requestDate = DateTime.Now;
-            me.UltRequest.responsibleEmployeeNum = "Empregado N1";
-            me.UltRequest.responsibleLogin = "pharma.aventis.com/e0193822";
-            me.UltRequest.responsibleName = "Responsavel Marcio";
-            me.UltRequest.responsiblePayMethod = "Dinheiro";
-            me.UltRequest.responsibleUserName = "pharma.aventis.com/e0193822";
+            me.UltRequest.responsibleEmployeeNum = "00093109";
+            me.UltRequest.responsibleLogin = "pharma.aventis.com/MEX-BCAMPOS";
+            me.UltRequest.responsibleName = "BENJAMIN CAMPOS";
+            me.UltRequest.responsiblePayMethod = "B";
+            me.UltRequest.responsibleUserName = "pharma.aventis.com/MEX-BCAMPOS";
             me.UltRequest.returnDate = DateTime.Now.AddDays(30).ToString();
             me.UltRequest.salesForce = false;
-            me.UltRequest.status = 2;
-            me.UltRequest.statusName = "dois";
-            me.UltRequest.type = 2; // <3 = MissionOrder
-            me.UltRequest.typeName = "tres";
+            me.UltRequest.status = 1;
+            me.UltRequest.statusName = "PorAutorizar";
+            me.UltRequest.type = 4; // <3 = MissionOrder
+            me.UltRequest.typeName = "Cuenta de Gastos";
             me.UltRequest.ultimusNumber = 0;
             #endregion
 
             #region me.UltApprove
             me.UltApprove = new eGastosEntity.Ultimus.UltApprove();
             me.UltApprove.approved = true;
-            me.UltApprove.approverEmail = "marcio.nakamura@sanofi.com";
-            me.UltApprove.approverLogin = "pharma.aventis.com/e0193822";
-            me.UltApprove.approverName = "aprovador Marcio Nakamura";
+            me.UltApprove.approverEmail = "Sandra.OrtegaM@sanofi.com";
+            me.UltApprove.approverLogin = "I0140113";
+            me.UltApprove.approverName = "Ortega M, Sandra PH/MX";
             #endregion
 
             #region UltApprovalHistory
