@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BA22DF1D-E2B8-436B-B3EB-DB4FA25B28F2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>eGastosEntity</RootNamespace>
+    <AssemblyName>eGastosEntity</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Ultimus\UltApprovalHistory.cs" />
+    <Compile Include="Ultimus\UltApprove.cs" />
+    <Compile Include="Ultimus\UltAttachments.cs" />
+    <Compile Include="Ultimus\UltConfiguration.cs" />
+    <Compile Include="Ultimus\UltExpenseAccount.cs" />
+    <Compile Include="Ultimus\UltExpenseAccountDetail.cs" />
+    <Compile Include="Ultimus\UltExpenseFlowVariables.cs" />
+    <Compile Include="Ultimus\UltFlobotVariables.cs" />
+    <Compile Include="Ultimus\UltGlobal.cs" />
+    <Compile Include="Ultimus\UltHotel.cs" />
+    <Compile Include="Ultimus\UltItinerary.cs" />
+    <Compile Include="Ultimus\UltItineraryOptions.cs" />
+    <Compile Include="Ultimus\UltItineraryOptionsDetail.cs" />
+    <Compile Include="Ultimus\UltItineraryRate.cs" />
+    <Compile Include="Ultimus\UltMissionOrder.cs" />
+    <Compile Include="Ultimus\UltPAClient.cs" />
+    <Compile Include="Ultimus\UltRequest.cs" />
+    <Compile Include="Ultimus\UltRequester.cs" />
+    <Compile Include="Ultimus\UltResponsible.cs" />
+    <Compile Include="Ultimus\UltSAPResponse.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

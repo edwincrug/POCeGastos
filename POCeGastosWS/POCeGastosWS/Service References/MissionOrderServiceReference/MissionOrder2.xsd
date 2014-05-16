@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Entities.Ultimus" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Entities.Ultimus" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="UltExpenseFlowVariables">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="activeDirAreaGastos" type="xs:boolean" />
+      <xs:element minOccurs="0" name="activeDirFinanzasGastos" type="xs:boolean" />
+      <xs:element minOccurs="0" name="activeDirGralGastos" type="xs:boolean" />
+      <xs:element minOccurs="0" name="activeManager" type="xs:boolean" />
+      <xs:element minOccurs="0" name="jobFunctionAutorizador1" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="jobFunctionAutorizador2" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="jobFunctionAutorizador3" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="jobFunctionAutorizador4" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="jobFunctionController1" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="jobFunctionController2" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="jobFunctionControlling" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="jobFunctionDirAreaGastos" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="jobFunctionFinanzasGastos" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="jobFunctionNationalManager" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="jobFunctionObservador" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="jobFunctionResponsible" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="summaryText" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UltExpenseFlowVariables" nillable="true" type="tns:UltExpenseFlowVariables" />
+  <xs:complexType name="UltRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CeCoCode" type="xs:int" />
+      <xs:element minOccurs="0" name="CeCoMiniCode" type="xs:int" />
+      <xs:element minOccurs="0" name="CeCoMiniName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CeCoName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PAClientId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PAClientName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PEPElementId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PEPElementName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="areaId" type="xs:int" />
+      <xs:element minOccurs="0" name="areaText" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="arrival" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="companyCode" type="xs:int" />
+      <xs:element minOccurs="0" name="companyName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="currencyId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="currencyName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="departureDate" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="exchangeRate" type="xs:double" />
+      <xs:element minOccurs="0" name="idRequest" type="xs:int" />
+      <xs:element minOccurs="0" name="initiatorLogin" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="initiatorName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="isMiniEvent" type="xs:boolean" />
+      <xs:element minOccurs="0" name="pasteur" type="xs:boolean" />
+      <xs:element minOccurs="0" name="requestDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="responsibleEmployeeNum" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="responsibleLogin" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="responsibleName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="responsiblePayMethod" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="responsibleUserName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="returnDate" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="salesForce" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="status" type="xs:int" />
+      <xs:element minOccurs="0" name="statusName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="type" type="xs:int" />
+      <xs:element minOccurs="0" name="typeName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ultimusNumber" nillable="true" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UltRequest" nillable="true" type="tns:UltRequest" />
+  <xs:complexType name="UltMissionOrder">
+    <xs:sequence>
+      <xs:element name="_x003C_advanceApply_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_advance_x003E_k__BackingField" type="xs:double" />
+      <xs:element name="_x003C_comment_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_countAgencyWait_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_hotel_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_idAgencyLog_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_idAgencyResponse_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_idMissionOrder_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_idRequest_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_itinerary_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_nationalCurrency_x003E_k__BackingField" type="xs:double" />
+      <xs:element name="_x003C_objective_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_statusAgencyProcess_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_statusAgencySend_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_travelId_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_travelName_x003E_k__BackingField" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UltMissionOrder" nillable="true" type="tns:UltMissionOrder" />
+  <xs:complexType name="ArrayOfUltItinerary">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="UltItinerary" nillable="true" type="tns:UltItinerary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfUltItinerary" nillable="true" type="tns:ArrayOfUltItinerary" />
+  <xs:complexType name="UltItinerary">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arrivalCity" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="arrivalCountry" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="arrivalDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="departureCity" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="departureCountry" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="departureDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="departureHour" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="idConsecutive" type="xs:int" />
+      <xs:element minOccurs="0" name="idItinerary" type="xs:int" />
+      <xs:element minOccurs="0" name="idLedgerAccount" type="xs:int" />
+      <xs:element minOccurs="0" name="idMissionOrder" type="xs:int" />
+      <xs:element minOccurs="0" name="nameLedgerAccount" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="nameTravelType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="observations" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="returnHour" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="status" type="xs:boolean" />
+      <xs:element minOccurs="0" name="travelType" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UltItinerary" nillable="true" type="tns:UltItinerary" />
+  <xs:complexType name="ArrayOfUltHotel">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="UltHotel" nillable="true" type="tns:UltHotel" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfUltHotel" nillable="true" type="tns:ArrayOfUltHotel" />
+  <xs:complexType name="UltHotel">
+    <xs:sequence>
+      <xs:element name="_x003C_IVA_x003E_k__BackingField" type="xs:double" />
+      <xs:element name="_x003C_address_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_checkInDate_x003E_k__BackingField" type="xs:dateTime" />
+      <xs:element name="_x003C_checkoutDate_x003E_k__BackingField" type="xs:dateTime" />
+      <xs:element name="_x003C_city_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_country_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_hotelName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_hotelTax_x003E_k__BackingField" type="xs:double" />
+      <xs:element name="_x003C_idConsecutive_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_idHotel_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_idLegerAccount_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_idMissionOrder_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_idRated_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_lineStatusName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_lineStatus_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_nameLegerAccount_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_observations_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_otherTaxes_x003E_k__BackingField" type="xs:double" />
+      <xs:element name="_x003C_quotedRate_x003E_k__BackingField" type="xs:double" />
+      <xs:element name="_x003C_realRate_x003E_k__BackingField" type="xs:double" />
+      <xs:element name="_x003C_reservation_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_status_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_telephone_x003E_k__BackingField" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UltHotel" nillable="true" type="tns:UltHotel" />
+</xs:schema>

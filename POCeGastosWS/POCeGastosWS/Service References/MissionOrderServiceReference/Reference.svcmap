@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="4785e82a-7bdd-4a4e-965e-c7f70f75984e" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://saosultdev02/WCFGastos/Expense/MissionOrder.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="MissionOrder.xsd" MetadataType="Schema" ID="2acaab2e-bb14-4663-8e44-5dcf36134e83" SourceId="1" SourceUrl="http://saosultdev02.pharma.aventis.com/WCFGastos/Expense/MissionOrder.svc?xsd=xsd1" />
+    <MetadataFile FileName="MissionOrder1.xsd" MetadataType="Schema" ID="2691da3e-9696-4d42-bc8d-3429d9e3fd20" SourceId="1" SourceUrl="http://saosultdev02.pharma.aventis.com/WCFGastos/Expense/MissionOrder.svc?xsd=xsd0" />
+    <MetadataFile FileName="MissionOrder.disco" MetadataType="Disco" ID="0e0373c6-f4cf-4c8c-beef-5d0b89480c6a" SourceId="1" SourceUrl="http://saosultdev02.pharma.aventis.com/WCFGastos/Expense/MissionOrder.svc?disco" />
+    <MetadataFile FileName="MissionOrder2.xsd" MetadataType="Schema" ID="9263dcd8-8405-4d88-9971-2befe43784eb" SourceId="1" SourceUrl="http://saosultdev02.pharma.aventis.com/WCFGastos/Expense/MissionOrder.svc?xsd=xsd2" />
+    <MetadataFile FileName="MissionOrder.wsdl" MetadataType="Wsdl" ID="aa5e4a6f-1172-433f-9e90-03209c102bf4" SourceId="1" SourceUrl="http://saosultdev02.pharma.aventis.com/WCFGastos/Expense/MissionOrder.svc?wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
