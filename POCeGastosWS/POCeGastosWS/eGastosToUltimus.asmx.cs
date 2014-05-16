@@ -17,6 +17,7 @@ namespace eGastosWS
     
     /// <summary>
     /// Summary description for eGastosToUltimus
+    /// comentario de Marcio Nakamura
     /// </summary>
     [WebService(Namespace = "http://WSeGastos/Chatty/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
