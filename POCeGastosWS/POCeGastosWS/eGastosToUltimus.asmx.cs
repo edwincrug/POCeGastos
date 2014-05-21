@@ -40,7 +40,7 @@ namespace eGastosWS
         [WebMethod]
         public int ExpensesAccountRequest(Entity.MasterEntity me, Entity.FilterData fd, out string error)
         {
-            String msgMO = generaExpenseAcc(me.UltRequest, me.UltExpenseAccount, me.UltExpenseAccountDetail, me.UltPAClient);
+            String msgMO = generaExpenseAcc(me.UltRequest, me.UltExpenseAccount, me.UltExpenseAccountDetail, me.UltPAClient, false, 0);
             if (string.IsNullOrEmpty(msgMO))
             {
                 me.UltExpenseFlowVariables = mapeo.MapperData<eGastosWS.ExpenseAccountServiceReference.UltExpenseFlowVariables,
@@ -71,15 +71,15 @@ namespace eGastosWS
         }
 
         [WebMethod]
-        //public int MissionOrderRequest(Entity.MasterEntity me, Entity.FilterData fd, out string error)
-        public int MissionOrderRequest()
+        public int MissionOrderRequest(Entity.MasterEntity me, Entity.FilterData fd, out string error)
+        //public int MissionOrderRequest()
         {
             //// DEBUG
-            string error = "";
-            int nIncidente = 0;
-            Entity.MasterEntity me = new eGastosWS.Entity.MasterEntity();
-            me = ge.me1(ref fd);
-            String msgMO = generaMissionOrder(me.UltRequest, me.UltMissionOrder, me.UltItinerary, me.UltHotel);
+            //string error = "";
+            //int nIncidente = 0;
+            //Entity.MasterEntity me = new eGastosWS.Entity.MasterEntity();
+            //me = ge.me1(ref fd);
+            String msgMO = generaMissionOrder(me.UltRequest, me.UltMissionOrder, me.UltItinerary, me.UltHotel, false, 0);
             if (string.IsNullOrEmpty(msgMO))
             {
                 me.UltExpenseFlowVariables = mapeo.MapperData<eGastosWS.MissionOrderServiceReference.UltExpenseFlowVariables,
@@ -93,7 +93,7 @@ namespace eGastosWS
                     eGastosEntity.Ultimus.UltItinerary>(misOrdClient.getUltItineraryList());
                 me.UltHotel = mapeo.MapperDataList<eGastosWS.MissionOrderServiceReference.UltHotel,
                     eGastosEntity.Ultimus.UltHotel>(misOrdClient.getUltHotelList());
-
+                int nIncidente = 0;
                 if (me.UltRequest.pasteur)
                 {
                     incidentGeneratePasteur(me, fd, out msgError, out nIncidente, false);
@@ -110,16 +110,16 @@ namespace eGastosWS
         }
 
         [WebMethod]
-        //public Entity.MasterEntity LoadMissionOrderApproval(Entity.FilterData fd)
-        public Entity.MasterEntity LoadMissionOrderApproval()
+        public Entity.MasterEntity LoadMissionOrderApproval(Entity.FilterData fd)
+        //public Entity.MasterEntity LoadMissionOrderApproval()
         {
             //DEBUG
-            Entity.FilterData fd = new Entity.FilterData();
-            fd.ProcessName = "eGastos Pharma";
-            fd.StepName = "Confirma Cotizacion";
-            fd.UserLogin = "adultimus.local/marcio.nakamura";
-            fd.IncidentNumber = 10;
-            fd.isPasteur = false;
+            //Entity.FilterData fd = new Entity.FilterData();
+            //fd.ProcessName = "eGastos Pharma";
+            //fd.StepName = "Confirma Cotizacion";
+            //fd.UserLogin = "adultimus.local/marcio.nakamura";
+            //fd.IncidentNumber = 10;
+            //fd.isPasteur = false;
 
             string xmlstr = getUltimusXML(fd);
 
@@ -142,82 +142,91 @@ namespace eGastosWS
             //// EndDebug
             ////------------------------------------------------------------------
             //Comentario
-            string xmlstr = getUltimusXML(fd);
 
-            XmlDataDocument MOApprovalXML = new System.Xml.XmlDataDocument();
-            XmlDocument oXmlDoc = new XmlDocument();
-            MOApprovalXML.LoadXml(xmlstr.Replace("\"", "'"));
-
-            string ProcessVersion = MOApprovalXML.ChildNodes.Item(1).Attributes["xmlns"].Value;
-            int n = ProcessVersion.LastIndexOf("/");
-            string ProcessVersionNumber = ProcessVersion.Substring(0, n).ToString() + "/Types";
-
-            XmlNode XMLNodeGlobal = (MOApprovalXML.ChildNodes[1].ChildNodes[0]);
-            XmlNode XMLNodeUltApprove = null;
-            int nodeCont = XMLNodeGlobal.ChildNodes.Count;
-            int nodeCountAH = 0, nodeAHLastIndex = 0, nodeAHFirstIndex = 0;
-
-            string nodeName = "";
-            XmlNode node = null;
-
-            for (int h = 0; h < nodeCont; h++)
+            String msgMO = generaMissionOrder(me.UltRequest, me.UltMissionOrder, me.UltItinerary, me.UltHotel, true, fd.IncidentNumber);
+            if (msgMO.ToLower() == "true")
             {
-                nodeName = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[h].Name;
-                if (nodeName == "UltApprovalHistory")
+                string xmlstr = getUltimusXML(fd);
+
+                XmlDataDocument MOApprovalXML = new System.Xml.XmlDataDocument();
+                XmlDocument oXmlDoc = new XmlDocument();
+                MOApprovalXML.LoadXml(xmlstr.Replace("\"", "'"));
+
+                string ProcessVersion = MOApprovalXML.ChildNodes.Item(1).Attributes["xmlns"].Value;
+                int n = ProcessVersion.LastIndexOf("/");
+                string ProcessVersionNumber = ProcessVersion.Substring(0, n).ToString() + "/Types";
+
+                XmlNode XMLNodeGlobal = (MOApprovalXML.ChildNodes[1].ChildNodes[0]);
+                XmlNode XMLNodeUltApprove = null;
+                int nodeCont = XMLNodeGlobal.ChildNodes.Count;
+                int nodeCountAH = 0, nodeAHLastIndex = 0, nodeAHFirstIndex = 0;
+
+                string nodeName = "";
+                XmlNode node = null;
+
+                for (int h = 0; h < nodeCont; h++)
                 {
-                    if (nodeAHFirstIndex == 0)
-                        nodeAHFirstIndex = h;
+                    nodeName = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[h].Name;
+                    if (nodeName == "UltApprovalHistory")
+                    {
+                        if (nodeAHFirstIndex == 0)
+                            nodeAHFirstIndex = h;
 
-                    nodeCountAH++;
-                    nodeAHLastIndex = h;
+                        nodeCountAH++;
+                        nodeAHLastIndex = h;
+                    }
                 }
-            }
 
-            XmlElement xmlUltApprovalHistory = MOApprovalXML.CreateElement("UltApprovalHistory", ProcessVersionNumber);
-            xmlUltApprovalHistory.InnerXml = "<stepName xmlns=\"http://processSchema.eGastos/\"></stepName><approverName xmlns=\"http://processSchema.eGastos/\"></approverName><approverLogin xmlns=\"http://processSchema.eGastos/\"></approverLogin><userEmail xmlns=\"http://processSchema.eGastos/\"></userEmail><approveDate xmlns=\"http://processSchema.eGastos/\"></approveDate><comments xmlns=\"http://processSchema.eGastos/\"></comments><approveStatus xmlns=\"http://processSchema.eGastos/\"></approveStatus>";
-            MOApprovalXML.ChildNodes[1].ChildNodes[0].InsertAfter(xmlUltApprovalHistory, MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[nodeAHLastIndex]);
-            nodeCont = XMLNodeGlobal.ChildNodes.Count;//Counter Update
-            nodeCountAH++;
-            int a = 0;
+                XmlElement xmlUltApprovalHistory = MOApprovalXML.CreateElement("UltApprovalHistory", ProcessVersionNumber);
+                xmlUltApprovalHistory.InnerXml = "<stepName xmlns=\"http://processSchema.eGastos/\"></stepName><approverName xmlns=\"http://processSchema.eGastos/\"></approverName><approverLogin xmlns=\"http://processSchema.eGastos/\"></approverLogin><userEmail xmlns=\"http://processSchema.eGastos/\"></userEmail><approveDate xmlns=\"http://processSchema.eGastos/\"></approveDate><comments xmlns=\"http://processSchema.eGastos/\"></comments><approveStatus xmlns=\"http://processSchema.eGastos/\"></approveStatus>";
+                MOApprovalXML.ChildNodes[1].ChildNodes[0].InsertAfter(xmlUltApprovalHistory, MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[nodeAHLastIndex]);
+                nodeCont = XMLNodeGlobal.ChildNodes.Count;//Counter Update
+                nodeCountAH++;
+                int a = 0;
 
-            for (int i = nodeAHFirstIndex; (i < nodeCountAH + 1) && (a < me.UltApprovalHistory.Length); i++)
-            {
-                node = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
-
-                node.ChildNodes[0].InnerText = me.UltApprovalHistory[a].stepName;
-                node.ChildNodes[1].InnerText = me.UltApprovalHistory[a].approverName;
-                node.ChildNodes[2].InnerText = me.UltApprovalHistory[a].approverLogin;
-                node.ChildNodes[3].InnerText = me.UltApprovalHistory[a].userEmail;
-                node.ChildNodes[4].InnerText = ToXMLDateFormat(me.UltApprovalHistory[a].approveDate);
-                node.ChildNodes[5].InnerText = me.UltApprovalHistory[a].comments;
-                node.ChildNodes[6].InnerText = me.UltApprovalHistory[a].approveStatus;
-                a++;
-            }
-
-            for (int i = 0; i < nodeCont; i++)
-            {
-                nodeName = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i].Name;
-                node = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
-
-                if (nodeName == "UltApprove")
+                for (int i = nodeAHFirstIndex; (i < nodeCountAH + 1) && (a < me.UltApprovalHistory.Length); i++)
                 {
-                    XMLNodeUltApprove = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
-                    node.ChildNodes[0].InnerText = me.UltApprove.approved.ToString().ToLower();
-                    node.ChildNodes[1].InnerText = me.UltApprove.approverName;
-                    node.ChildNodes[2].InnerText = me.UltApprove.approverLogin;
-                    node.ChildNodes[3].InnerText = me.UltApprove.approverEmail;
+                    node = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
+
+                    node.ChildNodes[0].InnerText = me.UltApprovalHistory[a].stepName;
+                    node.ChildNodes[1].InnerText = me.UltApprovalHistory[a].approverName;
+                    node.ChildNodes[2].InnerText = me.UltApprovalHistory[a].approverLogin;
+                    node.ChildNodes[3].InnerText = me.UltApprovalHistory[a].userEmail;
+                    node.ChildNodes[4].InnerText = ToXMLDateFormat(me.UltApprovalHistory[a].approveDate);
+                    node.ChildNodes[5].InnerText = me.UltApprovalHistory[a].comments;
+                    node.ChildNodes[6].InnerText = me.UltApprovalHistory[a].approveStatus;
+                    a++;
                 }
+
+                for (int i = 0; i < nodeCont; i++)
+                {
+                    nodeName = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i].Name;
+                    node = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
+
+                    if (nodeName == "UltApprove")
+                    {
+                        XMLNodeUltApprove = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
+                        node.ChildNodes[0].InnerText = me.UltApprove.approved.ToString().ToLower();
+                        node.ChildNodes[1].InnerText = me.UltApprove.approverName;
+                        node.ChildNodes[2].InnerText = me.UltApprove.approverLogin;
+                        node.ChildNodes[3].InnerText = me.UltApprove.approverEmail;
+                    }
+                }
+
+                WSeGastosPharma.eGastos_Pharma ult_obj = new WSeGastosPharma.eGastos_Pharma();
+
+                XmlNode XmlNodeCustom = (MOApprovalXML.ChildNodes[1].ChildNodes[0]);
+
+                int intIncident = fd.IncidentNumber;
+                string summary = "";
+                string strError = "";
+                ult_obj.CompleteStep(fd.UserLogin, ref intIncident, fd.StepName, summary, "", false, 9, MOApprovalXML.InnerXml, true, out strError);
+                error = strError;
             }
-
-            WSeGastosPharma.eGastos_Pharma ult_obj = new WSeGastosPharma.eGastos_Pharma();
-
-            XmlNode XmlNodeCustom = (MOApprovalXML.ChildNodes[1].ChildNodes[0]);
-
-            int intIncident = fd.IncidentNumber;
-            string summary = "";
-            string strError = "";
-            ult_obj.CompleteStep(fd.UserLogin, ref intIncident, fd.StepName, summary, "", false, 9, MOApprovalXML.InnerXml, true, out strError);
-            error = strError;
+            else {
+                error = msgMO;
+            }
+            
             return 0;
         }
 
@@ -250,82 +259,91 @@ namespace eGastosWS
             //// EndDebug
             ////------------------------------------------------------------------
 
-            string xmlstr = getUltimusXML(fd);
-
-            XmlDataDocument MOApprovalXML = new System.Xml.XmlDataDocument();
-            XmlDocument oXmlDoc = new XmlDocument();
-            MOApprovalXML.LoadXml(xmlstr.Replace("\"", "'"));
-
-            string ProcessVersion = MOApprovalXML.ChildNodes.Item(1).Attributes["xmlns"].Value;
-            int n = ProcessVersion.LastIndexOf("/");
-            string ProcessVersionNumber = ProcessVersion.Substring(0, n).ToString() + "/Types";
-
-            XmlNode XMLNodeGlobal = (MOApprovalXML.ChildNodes[1].ChildNodes[0]);
-            XmlNode XMLNodeUltApprove = null;
-            int nodeCont = XMLNodeGlobal.ChildNodes.Count;
-            int nodeCountAH = 0, nodeAHLastIndex = 0, nodeAHFirstIndex = 0;
-
-            string nodeName = "";
-            XmlNode node = null;
-
-            for (int h = 0; h < nodeCont; h++)
+            String msgMO = generaExpenseAcc(me.UltRequest, me.UltExpenseAccount, me.UltExpenseAccountDetail, me.UltPAClient, true, fd.IncidentNumber);
+            if (msgMO.ToLower() == "true")
             {
-                nodeName = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[h].Name;
-                if (nodeName == "UltApprovalHistory")
+                string xmlstr = getUltimusXML(fd);
+
+                XmlDataDocument MOApprovalXML = new System.Xml.XmlDataDocument();
+                XmlDocument oXmlDoc = new XmlDocument();
+                MOApprovalXML.LoadXml(xmlstr.Replace("\"", "'"));
+
+                string ProcessVersion = MOApprovalXML.ChildNodes.Item(1).Attributes["xmlns"].Value;
+                int n = ProcessVersion.LastIndexOf("/");
+                string ProcessVersionNumber = ProcessVersion.Substring(0, n).ToString() + "/Types";
+
+                XmlNode XMLNodeGlobal = (MOApprovalXML.ChildNodes[1].ChildNodes[0]);
+                XmlNode XMLNodeUltApprove = null;
+                int nodeCont = XMLNodeGlobal.ChildNodes.Count;
+                int nodeCountAH = 0, nodeAHLastIndex = 0, nodeAHFirstIndex = 0;
+
+                string nodeName = "";
+                XmlNode node = null;
+
+                for (int h = 0; h < nodeCont; h++)
                 {
-                    if (nodeAHFirstIndex == 0)
-                        nodeAHFirstIndex = h;
+                    nodeName = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[h].Name;
+                    if (nodeName == "UltApprovalHistory")
+                    {
+                        if (nodeAHFirstIndex == 0)
+                            nodeAHFirstIndex = h;
 
-                    nodeCountAH++;
-                    nodeAHLastIndex = h;
+                        nodeCountAH++;
+                        nodeAHLastIndex = h;
+                    }
                 }
-            }
 
-            XmlElement xmlUltApprovalHistory = MOApprovalXML.CreateElement("UltApprovalHistory", ProcessVersionNumber);
-            xmlUltApprovalHistory.InnerXml = "<stepName xmlns=\"http://processSchema.eGastos/\"></stepName><approverName xmlns=\"http://processSchema.eGastos/\"></approverName><approverLogin xmlns=\"http://processSchema.eGastos/\"></approverLogin><userEmail xmlns=\"http://processSchema.eGastos/\"></userEmail><approveDate xmlns=\"http://processSchema.eGastos/\"></approveDate><comments xmlns=\"http://processSchema.eGastos/\"></comments><approveStatus xmlns=\"http://processSchema.eGastos/\"></approveStatus>";
-            MOApprovalXML.ChildNodes[1].ChildNodes[0].InsertAfter(xmlUltApprovalHistory, MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[nodeAHLastIndex]);
-            nodeCont = XMLNodeGlobal.ChildNodes.Count;
-            nodeCountAH++;
-            int a = 0;
+                XmlElement xmlUltApprovalHistory = MOApprovalXML.CreateElement("UltApprovalHistory", ProcessVersionNumber);
+                xmlUltApprovalHistory.InnerXml = "<stepName xmlns=\"http://processSchema.eGastos/\"></stepName><approverName xmlns=\"http://processSchema.eGastos/\"></approverName><approverLogin xmlns=\"http://processSchema.eGastos/\"></approverLogin><userEmail xmlns=\"http://processSchema.eGastos/\"></userEmail><approveDate xmlns=\"http://processSchema.eGastos/\"></approveDate><comments xmlns=\"http://processSchema.eGastos/\"></comments><approveStatus xmlns=\"http://processSchema.eGastos/\"></approveStatus>";
+                MOApprovalXML.ChildNodes[1].ChildNodes[0].InsertAfter(xmlUltApprovalHistory, MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[nodeAHLastIndex]);
+                nodeCont = XMLNodeGlobal.ChildNodes.Count;
+                nodeCountAH++;
+                int a = 0;
 
-            for (int i = nodeAHFirstIndex; (i < nodeCountAH + 1) && (a < me.UltApprovalHistory.Length); i++)
-            {
-                node = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
-
-                node.ChildNodes[0].InnerText = me.UltApprovalHistory[a].stepName;
-                node.ChildNodes[1].InnerText = me.UltApprovalHistory[a].approverName;
-                node.ChildNodes[2].InnerText = me.UltApprovalHistory[a].approverLogin;
-                node.ChildNodes[3].InnerText = me.UltApprovalHistory[a].userEmail;
-                node.ChildNodes[4].InnerText = ToXMLDateFormat(me.UltApprovalHistory[a].approveDate);
-                node.ChildNodes[5].InnerText = me.UltApprovalHistory[a].comments;
-                node.ChildNodes[6].InnerText = me.UltApprovalHistory[a].approveStatus;
-                a++;
-            }
-
-            for (int i = 0; i < nodeCont; i++)
-            {
-                nodeName = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i].Name;
-                node = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
-
-                if (nodeName == "UltApprove")
+                for (int i = nodeAHFirstIndex; (i < nodeCountAH + 1) && (a < me.UltApprovalHistory.Length); i++)
                 {
-                    XMLNodeUltApprove = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
-                    node.ChildNodes[0].InnerText = me.UltApprove.approved.ToString().ToLower();
-                    node.ChildNodes[1].InnerText = me.UltApprove.approverName;
-                    node.ChildNodes[2].InnerText = me.UltApprove.approverLogin;
-                    node.ChildNodes[3].InnerText = me.UltApprove.approverEmail;
+                    node = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
+
+                    node.ChildNodes[0].InnerText = me.UltApprovalHistory[a].stepName;
+                    node.ChildNodes[1].InnerText = me.UltApprovalHistory[a].approverName;
+                    node.ChildNodes[2].InnerText = me.UltApprovalHistory[a].approverLogin;
+                    node.ChildNodes[3].InnerText = me.UltApprovalHistory[a].userEmail;
+                    node.ChildNodes[4].InnerText = ToXMLDateFormat(me.UltApprovalHistory[a].approveDate);
+                    node.ChildNodes[5].InnerText = me.UltApprovalHistory[a].comments;
+                    node.ChildNodes[6].InnerText = me.UltApprovalHistory[a].approveStatus;
+                    a++;
                 }
+
+                for (int i = 0; i < nodeCont; i++)
+                {
+                    nodeName = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i].Name;
+                    node = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
+
+                    if (nodeName == "UltApprove")
+                    {
+                        XMLNodeUltApprove = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
+                        node.ChildNodes[0].InnerText = me.UltApprove.approved.ToString().ToLower();
+                        node.ChildNodes[1].InnerText = me.UltApprove.approverName;
+                        node.ChildNodes[2].InnerText = me.UltApprove.approverLogin;
+                        node.ChildNodes[3].InnerText = me.UltApprove.approverEmail;
+                    }
+                }
+
+                WSeGastosPharma.eGastos_Pharma ult_obj = new WSeGastosPharma.eGastos_Pharma();
+
+                XmlNode XmlNodeCustom = (MOApprovalXML.ChildNodes[1].ChildNodes[0]);
+
+                int intIncident = fd.IncidentNumber;
+                string summary = "";
+                string strError = "";
+                ult_obj.CompleteStep(fd.UserLogin, ref intIncident, fd.StepName, summary, "", false, 9, MOApprovalXML.InnerXml, true, out strError);
+                error = strError;
+            }
+            else {
+                error = msgMO;
             }
 
-            WSeGastosPharma.eGastos_Pharma ult_obj = new WSeGastosPharma.eGastos_Pharma();
-
-            XmlNode XmlNodeCustom = (MOApprovalXML.ChildNodes[1].ChildNodes[0]);
-
-            int intIncident = fd.IncidentNumber;
-            string summary = "";
-            string strError = "";
-            ult_obj.CompleteStep(fd.UserLogin, ref intIncident, fd.StepName, summary, "", false, 9, MOApprovalXML.InnerXml, true, out strError);
-            error = strError;
+            
             return 0;
         }
 
@@ -2248,7 +2266,7 @@ namespace eGastosWS
         }
 
         private ExpenseAccountClient expAccClient = new ExpenseAccountClient();
-        private string generaExpenseAcc(eGastosEntity.Ultimus.UltRequest ultReq, eGastosEntity.Ultimus.UltExpenseAccount ultExpAcc, eGastosEntity.Ultimus.UltExpenseAccountDetail[] ultExpAccDetLst, eGastosEntity.Ultimus.UltPAClient[] ultPACliLst)
+        private string generaExpenseAcc(eGastosEntity.Ultimus.UltRequest ultReq, eGastosEntity.Ultimus.UltExpenseAccount ultExpAcc, eGastosEntity.Ultimus.UltExpenseAccountDetail[] ultExpAccDetLst, eGastosEntity.Ultimus.UltPAClient[] ultPACliLst, bool update, int ultNumber)
         {
 
             expAccClient.initiateVariables(ultReq.requestDate, ultReq.companyName, ultReq.companyCode, ultReq.CeCoCode, ultReq.CeCoMiniCode,
@@ -2274,12 +2292,19 @@ namespace eGastosWS
                     expAccClient.createPAClient(ultPACli.idExpenseAccountDetail, ultPACli.code, ultPACli.name);
                 }
             }
-            return expAccClient.validateAndSaveRequest(0);
+            if (!update)
+            {
+                return expAccClient.validateAndSaveRequest(0);
+            }
+            else {
+                return expAccClient.updateRequest(ultNumber).ToString();
+            }
+
             //return expAccClient.getUltExpenseFlowVariables();
 
         }
         private MissionOrderClient misOrdClient = new MissionOrderClient();
-        private string generaMissionOrder(eGastosEntity.Ultimus.UltRequest ultReq, eGastosEntity.Ultimus.UltMissionOrder ultMisOrd, eGastosEntity.Ultimus.UltItinerary[] ultItiLst, eGastosEntity.Ultimus.UltHotel[] ultHotLst)
+        private string generaMissionOrder(eGastosEntity.Ultimus.UltRequest ultReq, eGastosEntity.Ultimus.UltMissionOrder ultMisOrd, eGastosEntity.Ultimus.UltItinerary[] ultItiLst, eGastosEntity.Ultimus.UltHotel[] ultHotLst, bool update, int ultNumber)
         {
 
             misOrdClient.initiateVariables(ultReq.requestDate, ultReq.companyName, ultReq.companyCode, ultReq.CeCoCode, ultReq.arrival,
@@ -2304,7 +2329,14 @@ namespace eGastosWS
                         ultHot.observations, ultHot.checkInDate, ultHot.checkoutDate);
                 }
             }
-            return misOrdClient.validateAndSaveRequest();
+            if (!update)
+            {
+                return misOrdClient.validateAndSaveRequest();
+            }
+            else {
+                return misOrdClient.updateRequest(ultNumber).ToString();
+            }
+            
         }
 
 
