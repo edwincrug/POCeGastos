@@ -916,13 +916,16 @@ namespace eGastosWS.ExpenseAccountServiceReference {
         private bool chargedField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private bool creditCardField;
+        private bool debitCardField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<int> idExpenseAccountField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int idRequestField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool isCFDIField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string nationalManagerLoginField;
@@ -932,6 +935,9 @@ namespace eGastosWS.ExpenseAccountServiceReference {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private bool overdueField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool strikeField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private double totalMealField;
@@ -966,14 +972,14 @@ namespace eGastosWS.ExpenseAccountServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public bool creditCard {
+        public bool debitCard {
             get {
-                return this.creditCardField;
+                return this.debitCardField;
             }
             set {
-                if ((this.creditCardField.Equals(value) != true)) {
-                    this.creditCardField = value;
-                    this.RaisePropertyChanged("creditCard");
+                if ((this.debitCardField.Equals(value) != true)) {
+                    this.debitCardField = value;
+                    this.RaisePropertyChanged("debitCard");
                 }
             }
         }
@@ -1000,6 +1006,19 @@ namespace eGastosWS.ExpenseAccountServiceReference {
                 if ((this.idRequestField.Equals(value) != true)) {
                     this.idRequestField = value;
                     this.RaisePropertyChanged("idRequest");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool isCFDI {
+            get {
+                return this.isCFDIField;
+            }
+            set {
+                if ((this.isCFDIField.Equals(value) != true)) {
+                    this.isCFDIField = value;
+                    this.RaisePropertyChanged("isCFDI");
                 }
             }
         }
@@ -1039,6 +1058,19 @@ namespace eGastosWS.ExpenseAccountServiceReference {
                 if ((this.overdueField.Equals(value) != true)) {
                     this.overdueField = value;
                     this.RaisePropertyChanged("overdue");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool strike {
+            get {
+                return this.strikeField;
+            }
+            set {
+                if ((this.strikeField.Equals(value) != true)) {
+                    this.strikeField = value;
+                    this.RaisePropertyChanged("strike");
                 }
             }
         }
@@ -1117,6 +1149,15 @@ namespace eGastosWS.ExpenseAccountServiceReference {
         private double amountField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double amountCFDIField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double amountExtractField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool conciliatedField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private double discountField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -1138,7 +1179,16 @@ namespace eGastosWS.ExpenseAccountServiceReference {
         private int idExpenseAccountDetailField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int idExtractField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int idXmlField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string invoiceNumberField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double ivaCFDIField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int numberOfDinersField;
@@ -1154,6 +1204,9 @@ namespace eGastosWS.ExpenseAccountServiceReference {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private bool statusField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool strikeField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private double totalField;
@@ -1229,6 +1282,45 @@ namespace eGastosWS.ExpenseAccountServiceReference {
                 if ((this.amountField.Equals(value) != true)) {
                     this.amountField = value;
                     this.RaisePropertyChanged("amount");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double amountCFDI {
+            get {
+                return this.amountCFDIField;
+            }
+            set {
+                if ((this.amountCFDIField.Equals(value) != true)) {
+                    this.amountCFDIField = value;
+                    this.RaisePropertyChanged("amountCFDI");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double amountExtract {
+            get {
+                return this.amountExtractField;
+            }
+            set {
+                if ((this.amountExtractField.Equals(value) != true)) {
+                    this.amountExtractField = value;
+                    this.RaisePropertyChanged("amountExtract");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool conciliated {
+            get {
+                return this.conciliatedField;
+            }
+            set {
+                if ((this.conciliatedField.Equals(value) != true)) {
+                    this.conciliatedField = value;
+                    this.RaisePropertyChanged("conciliated");
                 }
             }
         }
@@ -1325,6 +1417,32 @@ namespace eGastosWS.ExpenseAccountServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public int idExtract {
+            get {
+                return this.idExtractField;
+            }
+            set {
+                if ((this.idExtractField.Equals(value) != true)) {
+                    this.idExtractField = value;
+                    this.RaisePropertyChanged("idExtract");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int idXml {
+            get {
+                return this.idXmlField;
+            }
+            set {
+                if ((this.idXmlField.Equals(value) != true)) {
+                    this.idXmlField = value;
+                    this.RaisePropertyChanged("idXml");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public string invoiceNumber {
             get {
                 return this.invoiceNumberField;
@@ -1333,6 +1451,19 @@ namespace eGastosWS.ExpenseAccountServiceReference {
                 if ((object.ReferenceEquals(this.invoiceNumberField, value) != true)) {
                     this.invoiceNumberField = value;
                     this.RaisePropertyChanged("invoiceNumber");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double ivaCFDI {
+            get {
+                return this.ivaCFDIField;
+            }
+            set {
+                if ((this.ivaCFDIField.Equals(value) != true)) {
+                    this.ivaCFDIField = value;
+                    this.RaisePropertyChanged("ivaCFDI");
                 }
             }
         }
@@ -1398,6 +1529,19 @@ namespace eGastosWS.ExpenseAccountServiceReference {
                 if ((this.statusField.Equals(value) != true)) {
                     this.statusField = value;
                     this.RaisePropertyChanged("status");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool strike {
+            get {
+                return this.strikeField;
+            }
+            set {
+                if ((this.strikeField.Equals(value) != true)) {
+                    this.strikeField = value;
+                    this.RaisePropertyChanged("strike");
                 }
             }
         }
@@ -1534,13 +1678,39 @@ namespace eGastosWS.ExpenseAccountServiceReference {
                     bool salesForce, 
                     string nationalManagerLogin, 
                     string nationalManagerName, 
-                    bool creditCard);
+                    bool debitCard, 
+                    bool strike, 
+                    bool isCFDI);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IExpenseAccount/createExpenseAccountDetail", ReplyAction="http://tempuri.org/IExpenseAccount/createExpenseAccountDetailResponse")]
-        void createExpenseAccountDetail(int idExpenseAccountDetail, System.DateTime expenseDate, int idAccount, string accountName, double amount, string invoiceNumber, string place, int numberOfDiners, double IVA, bool healthProfessional, bool hasPAClient, double total, int observationId, string observationName);
+        void createExpenseAccountDetail(
+                    int idExpenseAccountDetail, 
+                    System.DateTime expenseDate, 
+                    int idAccount, 
+                    string accountName, 
+                    double amount, 
+                    string invoiceNumber, 
+                    string place, 
+                    int numberOfDiners, 
+                    double IVA, 
+                    bool healthProfessional, 
+                    bool hasPAClient, 
+                    double total, 
+                    int observationId, 
+                    string observationName, 
+                    int idXml, 
+                    double amountCFDI, 
+                    double ivaCFDI, 
+                    int idExtract, 
+                    double amountExtract, 
+                    bool conciliated, 
+                    bool strike);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IExpenseAccount/createPAClient", ReplyAction="http://tempuri.org/IExpenseAccount/createPAClientResponse")]
         void createPAClient(int idExpenseAccountDetail, string code, string name);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IExpenseAccount/createResponsible", ReplyAction="http://tempuri.org/IExpenseAccount/createResponsibleResponse")]
+        void createResponsible(string responsibleMail, double gasLimit);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IExpenseAccount/validateAndSaveRequest", ReplyAction="http://tempuri.org/IExpenseAccount/validateAndSaveRequestResponse")]
         string validateAndSaveRequest(int attachCount);
@@ -1618,16 +1788,43 @@ namespace eGastosWS.ExpenseAccountServiceReference {
                     bool salesForce, 
                     string nationalManagerLogin, 
                     string nationalManagerName, 
-                    bool creditCard) {
-            base.Channel.initiateVariables(requestDate, companyName, companyCode, CeCoCode, CeCoMiniCode, CeCoMiniName, isMiniEvent, arrival, departureDate, returnDate, PEPElementId, PEPElementName, currencyId, currencyName, initiatorLogin, initiatorName, responsibleLogin, responsibleName, responsibleEmployeeNum, responsibleUserName, pasteur, areaId, areaText, salesForce, nationalManagerLogin, nationalManagerName, creditCard);
+                    bool debitCard, 
+                    bool strike, 
+                    bool isCFDI) {
+            base.Channel.initiateVariables(requestDate, companyName, companyCode, CeCoCode, CeCoMiniCode, CeCoMiniName, isMiniEvent, arrival, departureDate, returnDate, PEPElementId, PEPElementName, currencyId, currencyName, initiatorLogin, initiatorName, responsibleLogin, responsibleName, responsibleEmployeeNum, responsibleUserName, pasteur, areaId, areaText, salesForce, nationalManagerLogin, nationalManagerName, debitCard, strike, isCFDI);
         }
         
-        public void createExpenseAccountDetail(int idExpenseAccountDetail, System.DateTime expenseDate, int idAccount, string accountName, double amount, string invoiceNumber, string place, int numberOfDiners, double IVA, bool healthProfessional, bool hasPAClient, double total, int observationId, string observationName) {
-            base.Channel.createExpenseAccountDetail(idExpenseAccountDetail, expenseDate, idAccount, accountName, amount, invoiceNumber, place, numberOfDiners, IVA, healthProfessional, hasPAClient, total, observationId, observationName);
+        public void createExpenseAccountDetail(
+                    int idExpenseAccountDetail, 
+                    System.DateTime expenseDate, 
+                    int idAccount, 
+                    string accountName, 
+                    double amount, 
+                    string invoiceNumber, 
+                    string place, 
+                    int numberOfDiners, 
+                    double IVA, 
+                    bool healthProfessional, 
+                    bool hasPAClient, 
+                    double total, 
+                    int observationId, 
+                    string observationName, 
+                    int idXml, 
+                    double amountCFDI, 
+                    double ivaCFDI, 
+                    int idExtract, 
+                    double amountExtract, 
+                    bool conciliated, 
+                    bool strike) {
+            base.Channel.createExpenseAccountDetail(idExpenseAccountDetail, expenseDate, idAccount, accountName, amount, invoiceNumber, place, numberOfDiners, IVA, healthProfessional, hasPAClient, total, observationId, observationName, idXml, amountCFDI, ivaCFDI, idExtract, amountExtract, conciliated, strike);
         }
         
         public void createPAClient(int idExpenseAccountDetail, string code, string name) {
             base.Channel.createPAClient(idExpenseAccountDetail, code, name);
+        }
+        
+        public void createResponsible(string responsibleMail, double gasLimit) {
+            base.Channel.createResponsible(responsibleMail, gasLimit);
         }
         
         public string validateAndSaveRequest(int attachCount) {

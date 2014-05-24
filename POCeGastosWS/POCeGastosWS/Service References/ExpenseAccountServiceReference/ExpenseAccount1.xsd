@@ -65,12 +65,14 @@
   <xs:complexType name="UltExpenseAccount">
     <xs:sequence>
       <xs:element minOccurs="0" name="charged" type="xs:boolean" />
-      <xs:element minOccurs="0" name="creditCard" type="xs:boolean" />
+      <xs:element minOccurs="0" name="debitCard" type="xs:boolean" />
       <xs:element minOccurs="0" name="idExpenseAccount" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="idRequest" type="xs:int" />
+      <xs:element minOccurs="0" name="isCFDI" type="xs:boolean" />
       <xs:element minOccurs="0" name="nationalManagerLogin" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="nationalManagerName" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="overdue" type="xs:boolean" />
+      <xs:element minOccurs="0" name="strike" type="xs:boolean" />
       <xs:element minOccurs="0" name="totalMeal" type="xs:double" />
       <xs:element minOccurs="0" name="totalMiniEvent" type="xs:double" />
       <xs:element minOccurs="0" name="totalNationalMeal" type="xs:double" />
@@ -90,6 +92,9 @@
       <xs:element minOccurs="0" name="IVATypeName" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="accountName" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="amount" type="xs:double" />
+      <xs:element minOccurs="0" name="amountCFDI" type="xs:double" />
+      <xs:element minOccurs="0" name="amountExtract" type="xs:double" />
+      <xs:element minOccurs="0" name="conciliated" type="xs:boolean" />
       <xs:element minOccurs="0" name="discount" type="xs:double" />
       <xs:element minOccurs="0" name="expenseDate" type="xs:dateTime" />
       <xs:element minOccurs="0" name="hasPAClient" type="xs:boolean" />
@@ -97,12 +102,16 @@
       <xs:element minOccurs="0" name="idAccount" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="idExpenseAccount" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="idExpenseAccountDetail" type="xs:int" />
+      <xs:element minOccurs="0" name="idExtract" type="xs:int" />
+      <xs:element minOccurs="0" name="idXml" type="xs:int" />
       <xs:element minOccurs="0" name="invoiceNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ivaCFDI" type="xs:double" />
       <xs:element minOccurs="0" name="numberOfDiners" type="xs:int" />
       <xs:element minOccurs="0" name="observationId" type="xs:int" />
       <xs:element minOccurs="0" name="observationName" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="place" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="status" type="xs:boolean" />
+      <xs:element minOccurs="0" name="strike" type="xs:boolean" />
       <xs:element minOccurs="0" name="total" type="xs:double" />
     </xs:sequence>
   </xs:complexType>

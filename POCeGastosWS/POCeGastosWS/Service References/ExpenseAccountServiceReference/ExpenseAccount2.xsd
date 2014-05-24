@@ -30,7 +30,9 @@
         <xs:element minOccurs="0" name="salesForce" type="xs:boolean" />
         <xs:element minOccurs="0" name="nationalManagerLogin" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="nationalManagerName" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="creditCard" type="xs:boolean" />
+        <xs:element minOccurs="0" name="debitCard" type="xs:boolean" />
+        <xs:element minOccurs="0" name="strike" type="xs:boolean" />
+        <xs:element minOccurs="0" name="isCFDI" type="xs:boolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -56,6 +58,13 @@
         <xs:element minOccurs="0" name="total" type="xs:double" />
         <xs:element minOccurs="0" name="observationId" type="xs:int" />
         <xs:element minOccurs="0" name="observationName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="idXml" type="xs:int" />
+        <xs:element minOccurs="0" name="amountCFDI" type="xs:double" />
+        <xs:element minOccurs="0" name="ivaCFDI" type="xs:double" />
+        <xs:element minOccurs="0" name="idExtract" type="xs:int" />
+        <xs:element minOccurs="0" name="amountExtract" type="xs:double" />
+        <xs:element minOccurs="0" name="conciliated" type="xs:boolean" />
+        <xs:element minOccurs="0" name="strike" type="xs:boolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -74,6 +83,19 @@
     </xs:complexType>
   </xs:element>
   <xs:element name="createPAClientResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="createResponsible">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="responsibleMail" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="gasLimit" type="xs:double" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="createResponsibleResponse">
     <xs:complexType>
       <xs:sequence />
     </xs:complexType>

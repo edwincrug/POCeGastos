@@ -23,5 +23,9 @@ namespace eGastosEntity.Ultimus
         public int statusAgencySend { get; set; }
         public string travelId { get; set; }
         public string travelName { get; set; }
+        public bool exceededAdvance { get; set; }
+        public int missionOrderType { get; set; }
+        public string missionOrderTypeText { get; set; }
+        public bool advanceAndDebitCard { get; set; }
     }
 }

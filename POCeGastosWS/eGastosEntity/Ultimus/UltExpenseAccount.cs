@@ -17,5 +17,7 @@ namespace eGastosEntity.Ultimus
         public double totalMeal { get; set; }
         public double totalMiniEvent { get; set; }
         public double totalNationalMeal { get; set; }
+        public bool isCFDI { get; set; }
+        public bool strike { get; set; }
     }
 }

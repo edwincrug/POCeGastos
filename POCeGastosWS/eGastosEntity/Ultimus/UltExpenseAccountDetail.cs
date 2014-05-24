@@ -26,5 +26,12 @@ namespace eGastosEntity.Ultimus
         public string place { get; set; }
         public bool status { get; set; }
         public double total { get; set; }
+        public int idXml { get; set; }
+        public double amountCFDI { get; set; }
+        public double ivaCFDI { get; set; }
+        public int idExtract { get; set; }
+        public double amountExtract { get; set; }
+        public bool conciliated { get; set; }
+        public bool strike { get; set; }
     }
 }
