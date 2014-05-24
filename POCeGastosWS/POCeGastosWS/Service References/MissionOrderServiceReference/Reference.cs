@@ -912,6 +912,8 @@ namespace eGastosWS.MissionOrderServiceReference {
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
+        private bool advanceAndDebitCardk__BackingFieldField;
+        
         private bool advanceApplyk__BackingFieldField;
         
         private double advancek__BackingFieldField;
@@ -919,6 +921,8 @@ namespace eGastosWS.MissionOrderServiceReference {
         private string commentk__BackingFieldField;
         
         private int countAgencyWaitk__BackingFieldField;
+        
+        private bool exceededAdvancek__BackingFieldField;
         
         private bool hotelk__BackingFieldField;
         
@@ -931,6 +935,10 @@ namespace eGastosWS.MissionOrderServiceReference {
         private int idRequestk__BackingFieldField;
         
         private bool itineraryk__BackingFieldField;
+        
+        private string missionOrderTypeTextk__BackingFieldField;
+        
+        private int missionOrderTypek__BackingFieldField;
         
         private double nationalCurrencyk__BackingFieldField;
         
@@ -951,6 +959,19 @@ namespace eGastosWS.MissionOrderServiceReference {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<advanceAndDebitCard>k__BackingField", IsRequired=true)]
+        public bool advanceAndDebitCardk__BackingField {
+            get {
+                return this.advanceAndDebitCardk__BackingFieldField;
+            }
+            set {
+                if ((this.advanceAndDebitCardk__BackingFieldField.Equals(value) != true)) {
+                    this.advanceAndDebitCardk__BackingFieldField = value;
+                    this.RaisePropertyChanged("advanceAndDebitCardk__BackingField");
+                }
             }
         }
         
@@ -1002,6 +1023,19 @@ namespace eGastosWS.MissionOrderServiceReference {
                 if ((this.countAgencyWaitk__BackingFieldField.Equals(value) != true)) {
                     this.countAgencyWaitk__BackingFieldField = value;
                     this.RaisePropertyChanged("countAgencyWaitk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<exceededAdvance>k__BackingField", IsRequired=true)]
+        public bool exceededAdvancek__BackingField {
+            get {
+                return this.exceededAdvancek__BackingFieldField;
+            }
+            set {
+                if ((this.exceededAdvancek__BackingFieldField.Equals(value) != true)) {
+                    this.exceededAdvancek__BackingFieldField = value;
+                    this.RaisePropertyChanged("exceededAdvancek__BackingField");
                 }
             }
         }
@@ -1080,6 +1114,32 @@ namespace eGastosWS.MissionOrderServiceReference {
                 if ((this.itineraryk__BackingFieldField.Equals(value) != true)) {
                     this.itineraryk__BackingFieldField = value;
                     this.RaisePropertyChanged("itineraryk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<missionOrderTypeText>k__BackingField", IsRequired=true)]
+        public string missionOrderTypeTextk__BackingField {
+            get {
+                return this.missionOrderTypeTextk__BackingFieldField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.missionOrderTypeTextk__BackingFieldField, value) != true)) {
+                    this.missionOrderTypeTextk__BackingFieldField = value;
+                    this.RaisePropertyChanged("missionOrderTypeTextk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<missionOrderType>k__BackingField", IsRequired=true)]
+        public int missionOrderTypek__BackingField {
+            get {
+                return this.missionOrderTypek__BackingFieldField;
+            }
+            set {
+                if ((this.missionOrderTypek__BackingFieldField.Equals(value) != true)) {
+                    this.missionOrderTypek__BackingFieldField = value;
+                    this.RaisePropertyChanged("missionOrderTypek__BackingField");
                 }
             }
         }
@@ -1878,7 +1938,11 @@ namespace eGastosWS.MissionOrderServiceReference {
                     string travelName, 
                     string objective, 
                     double advance, 
-                    string comment);
+                    string comment, 
+                    bool exeededAdvance, 
+                    int missionOrderType, 
+                    string missionOrderTypeText, 
+                    bool advanceAndDebitCard);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMissionOrder/createItinerary", ReplyAction="http://tempuri.org/IMissionOrder/createItineraryResponse")]
         void createItinerary(int idItinerary, int idLedgerAccount, string nameLedgerAccount, string departureHour, string returnHour, string observations, int travelType, string nameTravelType, string departureCountry, string departureCity, string arrivalCountry, string arrivalCity, System.DateTime departureDate, System.DateTime arrivalDate);
@@ -1961,8 +2025,12 @@ namespace eGastosWS.MissionOrderServiceReference {
                     string travelName, 
                     string objective, 
                     double advance, 
-                    string comment) {
-            base.Channel.initiateVariables(requestDate, companyName, companyCode, CeCoCode, arrival, departureDate, returnDate, PEPElementId, PEPElementName, currencyId, currencyName, initiatorLogin, initiatorName, responsibleLogin, responsibleName, responsibleEmployeeNum, responsibleUserName, pasteur, areaId, areaText, salesForce, travelId, travelName, objective, advance, comment);
+                    string comment, 
+                    bool exeededAdvance, 
+                    int missionOrderType, 
+                    string missionOrderTypeText, 
+                    bool advanceAndDebitCard) {
+            base.Channel.initiateVariables(requestDate, companyName, companyCode, CeCoCode, arrival, departureDate, returnDate, PEPElementId, PEPElementName, currencyId, currencyName, initiatorLogin, initiatorName, responsibleLogin, responsibleName, responsibleEmployeeNum, responsibleUserName, pasteur, areaId, areaText, salesForce, travelId, travelName, objective, advance, comment, exeededAdvance, missionOrderType, missionOrderTypeText, advanceAndDebitCard);
         }
         
         public void createItinerary(int idItinerary, int idLedgerAccount, string nameLedgerAccount, string departureHour, string returnHour, string observations, int travelType, string nameTravelType, string departureCountry, string departureCity, string arrivalCountry, string arrivalCity, System.DateTime departureDate, System.DateTime arrivalDate) {

@@ -1,15 +1,14 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Web.Services;
-using eGastosEntity.Ultimus;
 using System.Xml;
-using System.Text;
-using eGastosWS.WSeGastosPasteur;
+using eGastosEntity.Ultimus;
 using eGastosWS.ExpenseAccountServiceReference;
 using eGastosWS.MissionOrderServiceReference;
-using System.Globalization;
-using System.Threading;
 using eGastosWS.util;
+using eGastosWS.WSeGastosPasteur;
+using eGastosWS.WSeGastosPharma;
+using System.Text;
 
 
 namespace eGastosWS
@@ -31,11 +30,15 @@ namespace eGastosWS
         public WSeGastosPharma.SchemaFile[] PharmaSchemaFile;
         public Entity.FilterData FilterData = new Entity.FilterData();
         public Entity.MasterEntity MasterEntity = new Entity.MasterEntity();
+        private WSeGastosPharma.eGastos_Pharma ult_objPharma = null; // Incluir
+        private WSeGastosPasteur.eGastos_Pasteur ult_objPasteur = null; // Incluir
         public string msgError = "";
         #endregion
         private Mapeo mapeo = new Mapeo();
         private eGastosWS.Debug.Generate ge = new eGastosWS.Debug.Generate();
         private Entity.FilterData fd = new Entity.FilterData();
+        private int intUltRequestType; // incluir
+        private XmlNode XMLNodeUltExpenseAccount = null, XMLNodeUltExpenseFlowVariables = null, XMLNodeUltRequest = null; // Incluir
 
         [WebMethod]
         public int ExpensesAccountRequest(Entity.MasterEntity me, Entity.FilterData fd, out string error)
@@ -53,6 +56,11 @@ namespace eGastosWS
                     eGastosEntity.Ultimus.UltExpenseAccountDetail>(expAccClient.getUltExpenseAccountDetailList());
                 me.UltPAClient = mapeo.MapperDataList<eGastosWS.ExpenseAccountServiceReference.UltPAClient,
                     eGastosEntity.Ultimus.UltPAClient>(expAccClient.getUltPAClientList());
+
+                // DEBUG
+                //string error = "";
+                //Entity.MasterEntity me = new eGastosWS.Entity.MasterEntity();
+                //me = ge.me1(ref fd);
 
                 int nIncidente = 0;
                 if (me.UltRequest.pasteur)
@@ -76,7 +84,6 @@ namespace eGastosWS
         {
             //// DEBUG
             //string error = "";
-            //int nIncidente = 0;
             //Entity.MasterEntity me = new eGastosWS.Entity.MasterEntity();
             //me = ge.me1(ref fd);
             String msgMO = generaMissionOrder(me.UltRequest, me.UltMissionOrder, me.UltItinerary, me.UltHotel, false, 0);
@@ -106,39 +113,33 @@ namespace eGastosWS
                 return nIncidente;
             }
             error = msgMO;
-            return 0;            
+            return 0;
         }
 
         [WebMethod]
         public Entity.MasterEntity LoadMissionOrderApproval(Entity.FilterData fd)
         //public Entity.MasterEntity LoadMissionOrderApproval()
-        {
-            //DEBUG
-            //Entity.FilterData fd = new Entity.FilterData();
-            //fd.ProcessName = "eGastos Pharma";
-            //fd.StepName = "Confirma Cotizacion";
-            //fd.UserLogin = "adultimus.local/marcio.nakamura";
-            //fd.IncidentNumber = 10;
-            //fd.isPasteur = false;
+        { 
+            // DEBUG
+            //string error = "";
+            //Entity.MasterEntity me = new eGastosWS.Entity.MasterEntity();
+            //me = ge.me1(ref fd);
 
             string xmlstr = getUltimusXML(fd);
-
             //------------------------------------------------------------------
-
             populateEntity(fd, ref MasterEntity, xmlstr);
-
-
             return MasterEntity;
         }
 
         [WebMethod]
-        //public int SendMissionOrderApproval(Entity.MasterEntity me, Entity.FilterData fd, out string error)
-        public int SendMissionOrderApproval()
+        public int SendMissionOrderApproval(Entity.MasterEntity me, Entity.FilterData fd, out string error)
+        //public int SendMissionOrderApproval()
         {
-            ////DEBUG
-            Entity.FilterData fd = new Entity.FilterData();
-            Entity.MasterEntity me = new eGastosWS.Entity.MasterEntity();
-            me = ge.me1(ref fd);
+            //DEBUG
+            //Entity.FilterData fd = new Entity.FilterData();
+            //Entity.MasterEntity me = new eGastosWS.Entity.MasterEntity();
+            //string error = null;
+            //me = ge.me1(ref fd);
             //// EndDebug
             ////------------------------------------------------------------------
             //Comentario
@@ -148,101 +149,109 @@ namespace eGastosWS
             {
                 string xmlstr = getUltimusXML(fd);
 
-                XmlDataDocument MOApprovalXML = new System.Xml.XmlDataDocument();
-                XmlDocument oXmlDoc = new XmlDocument();
-                MOApprovalXML.LoadXml(xmlstr.Replace("\"", "'"));
+            XmlDataDocument MOApprovalXML = new System.Xml.XmlDataDocument();
+            XmlDocument oXmlDoc = new XmlDocument();
+            MOApprovalXML.LoadXml(xmlstr.Replace("\"", "'"));
 
-                string ProcessVersion = MOApprovalXML.ChildNodes.Item(1).Attributes["xmlns"].Value;
-                int n = ProcessVersion.LastIndexOf("/");
-                string ProcessVersionNumber = ProcessVersion.Substring(0, n).ToString() + "/Types";
+            string ProcessVersion = MOApprovalXML.ChildNodes.Item(1).Attributes["xmlns"].Value;
+            int n = ProcessVersion.LastIndexOf("/");
+            string ProcessVersionNumber = ProcessVersion.Substring(0, n).ToString() + "/Types";
 
-                XmlNode XMLNodeGlobal = (MOApprovalXML.ChildNodes[1].ChildNodes[0]);
-                XmlNode XMLNodeUltApprove = null;
-                int nodeCont = XMLNodeGlobal.ChildNodes.Count;
-                int nodeCountAH = 0, nodeAHLastIndex = 0, nodeAHFirstIndex = 0;
+            XmlNode XMLNodeGlobal = (MOApprovalXML.ChildNodes[1].ChildNodes[0]);
+            XmlNode XMLNodeUltApprove = null;
+            int nodeCont = XMLNodeGlobal.ChildNodes.Count;
+            int nodeCountAH = 0, nodeAHLastIndex = 0, nodeAHFirstIndex = 0;
 
-                string nodeName = "";
-                XmlNode node = null;
+            string nodeName = "";
+            XmlNode node = null;
 
-                for (int h = 0; h < nodeCont; h++)
+            for (int h = 0; h < nodeCont; h++)
+            {
+                nodeName = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[h].Name;
+                if (nodeName == "UltApprovalHistory")
                 {
-                    nodeName = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[h].Name;
-                    if (nodeName == "UltApprovalHistory")
-                    {
-                        if (nodeAHFirstIndex == 0)
-                            nodeAHFirstIndex = h;
+                    if (nodeAHFirstIndex == 0)
+                        nodeAHFirstIndex = h;
 
-                        nodeCountAH++;
-                        nodeAHLastIndex = h;
-                    }
+                    nodeCountAH++;
+                    nodeAHLastIndex = h;
                 }
-
-                XmlElement xmlUltApprovalHistory = MOApprovalXML.CreateElement("UltApprovalHistory", ProcessVersionNumber);
-                xmlUltApprovalHistory.InnerXml = "<stepName xmlns=\"http://processSchema.eGastos/\"></stepName><approverName xmlns=\"http://processSchema.eGastos/\"></approverName><approverLogin xmlns=\"http://processSchema.eGastos/\"></approverLogin><userEmail xmlns=\"http://processSchema.eGastos/\"></userEmail><approveDate xmlns=\"http://processSchema.eGastos/\"></approveDate><comments xmlns=\"http://processSchema.eGastos/\"></comments><approveStatus xmlns=\"http://processSchema.eGastos/\"></approveStatus>";
-                MOApprovalXML.ChildNodes[1].ChildNodes[0].InsertAfter(xmlUltApprovalHistory, MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[nodeAHLastIndex]);
-                nodeCont = XMLNodeGlobal.ChildNodes.Count;//Counter Update
-                nodeCountAH++;
-                int a = 0;
-
-                for (int i = nodeAHFirstIndex; (i < nodeCountAH + 1) && (a < me.UltApprovalHistory.Length); i++)
-                {
-                    node = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
-
-                    node.ChildNodes[0].InnerText = me.UltApprovalHistory[a].stepName;
-                    node.ChildNodes[1].InnerText = me.UltApprovalHistory[a].approverName;
-                    node.ChildNodes[2].InnerText = me.UltApprovalHistory[a].approverLogin;
-                    node.ChildNodes[3].InnerText = me.UltApprovalHistory[a].userEmail;
-                    node.ChildNodes[4].InnerText = ToXMLDateFormat(me.UltApprovalHistory[a].approveDate);
-                    node.ChildNodes[5].InnerText = me.UltApprovalHistory[a].comments;
-                    node.ChildNodes[6].InnerText = me.UltApprovalHistory[a].approveStatus;
-                    a++;
-                }
-
-                for (int i = 0; i < nodeCont; i++)
-                {
-                    nodeName = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i].Name;
-                    node = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
-
-                    if (nodeName == "UltApprove")
-                    {
-                        XMLNodeUltApprove = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
-                        node.ChildNodes[0].InnerText = me.UltApprove.approved.ToString().ToLower();
-                        node.ChildNodes[1].InnerText = me.UltApprove.approverName;
-                        node.ChildNodes[2].InnerText = me.UltApprove.approverLogin;
-                        node.ChildNodes[3].InnerText = me.UltApprove.approverEmail;
-                    }
-                }
-
-                WSeGastosPharma.eGastos_Pharma ult_obj = new WSeGastosPharma.eGastos_Pharma();
-
-                XmlNode XmlNodeCustom = (MOApprovalXML.ChildNodes[1].ChildNodes[0]);
-
-                int intIncident = fd.IncidentNumber;
-                string summary = "";
-                string strError = "";
-                ult_obj.CompleteStep(fd.UserLogin, ref intIncident, fd.StepName, summary, "", false, 9, MOApprovalXML.InnerXml, true, out strError);
-                //error = strError;
             }
+
+            XmlElement xmlUltApprovalHistory = MOApprovalXML.CreateElement("UltApprovalHistory", ProcessVersionNumber);
+            xmlUltApprovalHistory.InnerXml = "<stepName xmlns=\"http://processSchema.eGastos/\"></stepName><approverName xmlns=\"http://processSchema.eGastos/\"></approverName><approverLogin xmlns=\"http://processSchema.eGastos/\"></approverLogin><userEmail xmlns=\"http://processSchema.eGastos/\"></userEmail><approveDate xmlns=\"http://processSchema.eGastos/\"></approveDate><comments xmlns=\"http://processSchema.eGastos/\"></comments><approveStatus xmlns=\"http://processSchema.eGastos/\"></approveStatus>";
+            MOApprovalXML.ChildNodes[1].ChildNodes[0].InsertAfter(xmlUltApprovalHistory, MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[nodeAHLastIndex]);
+            nodeCont = XMLNodeGlobal.ChildNodes.Count;//Counter Update
+            nodeCountAH++;
+            int a = 0;
+
+            for (int i = nodeAHFirstIndex; (i < (nodeCountAH + nodeAHLastIndex) + 1) && (a < me.UltApprovalHistory.Length); i++)
+            {
+                node = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
+
+                node.ChildNodes[0].InnerText = me.UltApprovalHistory[a].stepName;
+                node.ChildNodes[1].InnerText = me.UltApprovalHistory[a].approverName;
+                node.ChildNodes[2].InnerText = me.UltApprovalHistory[a].approverLogin;
+                node.ChildNodes[3].InnerText = me.UltApprovalHistory[a].userEmail;
+                node.ChildNodes[4].InnerText = ToXMLDateFormat(me.UltApprovalHistory[a].approveDate);
+                node.ChildNodes[5].InnerText = me.UltApprovalHistory[a].comments;
+                node.ChildNodes[6].InnerText = me.UltApprovalHistory[a].approveStatus;
+                a++;
+            }
+
+            for (int i = 0; i < nodeCont; i++)
+            {
+                nodeName = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i].Name;
+                node = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
+
+                if (nodeName == "UltApprove")
+                {
+                    XMLNodeUltApprove = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
+                    node.ChildNodes[0].InnerText = me.UltApprove.approved.ToString().ToLower();
+                    node.ChildNodes[1].InnerText = me.UltApprove.approverName;
+                    node.ChildNodes[2].InnerText = me.UltApprove.approverLogin;
+                    node.ChildNodes[3].InnerText = me.UltApprove.approverEmail;
+                }
+            }
+
+            XmlNode XmlNodeCustom = (MOApprovalXML.ChildNodes[1].ChildNodes[0]);
+
+            int intIncident = fd.IncidentNumber;
+            string summary = me.UltExpenseFlowVariables.summaryText;
+            string strError = "";
+
+            if (fd.isPasteur)
+            {
+                ult_objPasteur = new eGastos_Pasteur();
+                ult_objPasteur.CompleteStep(fd.UserLogin, ref intIncident, fd.StepName, summary, "", false, 9, MOApprovalXML.InnerXml, true, out strError);
+            }
+            else
+            {
+                ult_objPharma = new eGastos_Pharma();
+                ult_objPharma.CompleteStep(fd.UserLogin, ref intIncident, fd.StepName, summary, "", false, 9, MOApprovalXML.InnerXml, true, out strError);
+			}
+            error = strError;
+            return 0;
+	}
             else {
-                //error = msgMO;
+                error = msgMO;
+				return 0;
             }
             
-            return 0;
         }
 
         [WebMethod]
         public Entity.MasterEntity LoadExpensesAccountApproval(Entity.FilterData fd)
-        //public Entity.MasterEntity LoadExpensesAccountApproval()
         {
-            ////DEBUG
-            //Entity.FilterData fd = new Entity.FilterData();
-            //fd.ProcessName = "eGastos Pharma";
-            //fd.StepName = "Confirma Cotizacion";
-            //fd.UserLogin = "adultimus.local/marcio.nakamura";
-            //fd.IncidentNumber = 10;
-            //fd.isPasteur = false;
-            //// /DEBUG
+            string xmlstr = getUltimusXML(fd);
+            //------------------------------------------------------------------
+            populateEntity(fd, ref MasterEntity, xmlstr);
+            return MasterEntity;
+        }
 
+        [WebMethod]
+        public Entity.MasterEntity LoadReviewData(Entity.FilterData fd)
+        {
             string xmlstr = getUltimusXML(fd);
             //------------------------------------------------------------------
             populateEntity(fd, ref MasterEntity, xmlstr);
@@ -264,87 +273,97 @@ namespace eGastosWS
             {
                 string xmlstr = getUltimusXML(fd);
 
-                XmlDataDocument MOApprovalXML = new System.Xml.XmlDataDocument();
-                XmlDocument oXmlDoc = new XmlDocument();
-                MOApprovalXML.LoadXml(xmlstr.Replace("\"", "'"));
+            XmlDataDocument MOApprovalXML = new System.Xml.XmlDataDocument();
+            XmlDocument oXmlDoc = new XmlDocument();
+            MOApprovalXML.LoadXml(xmlstr.Replace("\"", "'"));
 
-                string ProcessVersion = MOApprovalXML.ChildNodes.Item(1).Attributes["xmlns"].Value;
-                int n = ProcessVersion.LastIndexOf("/");
-                string ProcessVersionNumber = ProcessVersion.Substring(0, n).ToString() + "/Types";
+            string ProcessVersion = MOApprovalXML.ChildNodes.Item(1).Attributes["xmlns"].Value;
+            int n = ProcessVersion.LastIndexOf("/");
+            string ProcessVersionNumber = ProcessVersion.Substring(0, n).ToString() + "/Types";
 
-                XmlNode XMLNodeGlobal = (MOApprovalXML.ChildNodes[1].ChildNodes[0]);
-                XmlNode XMLNodeUltApprove = null;
-                int nodeCont = XMLNodeGlobal.ChildNodes.Count;
-                int nodeCountAH = 0, nodeAHLastIndex = 0, nodeAHFirstIndex = 0;
+            XmlNode XMLNodeGlobal = (MOApprovalXML.ChildNodes[1].ChildNodes[0]);
+            XmlNode XMLNodeUltApprove = null;
+            int nodeCont = XMLNodeGlobal.ChildNodes.Count;
+            int nodeCountAH = 0, nodeAHLastIndex = 0, nodeAHFirstIndex = 0;
 
-                string nodeName = "";
-                XmlNode node = null;
+            string nodeName = "";
+            XmlNode node = null;
 
-                for (int h = 0; h < nodeCont; h++)
+            for (int h = 0; h < nodeCont; h++)
+            {
+                nodeName = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[h].Name;
+                if (nodeName == "UltApprovalHistory")
                 {
-                    nodeName = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[h].Name;
-                    if (nodeName == "UltApprovalHistory")
-                    {
-                        if (nodeAHFirstIndex == 0)
-                            nodeAHFirstIndex = h;
+                    if (nodeAHFirstIndex == 0)
+                        nodeAHFirstIndex = h;
 
-                        nodeCountAH++;
-                        nodeAHLastIndex = h;
-                    }
+                    nodeCountAH++;
+                    nodeAHLastIndex = h;
                 }
-
-                XmlElement xmlUltApprovalHistory = MOApprovalXML.CreateElement("UltApprovalHistory", ProcessVersionNumber);
-                xmlUltApprovalHistory.InnerXml = "<stepName xmlns=\"http://processSchema.eGastos/\"></stepName><approverName xmlns=\"http://processSchema.eGastos/\"></approverName><approverLogin xmlns=\"http://processSchema.eGastos/\"></approverLogin><userEmail xmlns=\"http://processSchema.eGastos/\"></userEmail><approveDate xmlns=\"http://processSchema.eGastos/\"></approveDate><comments xmlns=\"http://processSchema.eGastos/\"></comments><approveStatus xmlns=\"http://processSchema.eGastos/\"></approveStatus>";
-                MOApprovalXML.ChildNodes[1].ChildNodes[0].InsertAfter(xmlUltApprovalHistory, MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[nodeAHLastIndex]);
-                nodeCont = XMLNodeGlobal.ChildNodes.Count;
-                nodeCountAH++;
-                int a = 0;
-
-                for (int i = nodeAHFirstIndex; (i < nodeCountAH + 1) && (a < me.UltApprovalHistory.Length); i++)
-                {
-                    node = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
-
-                    node.ChildNodes[0].InnerText = me.UltApprovalHistory[a].stepName;
-                    node.ChildNodes[1].InnerText = me.UltApprovalHistory[a].approverName;
-                    node.ChildNodes[2].InnerText = me.UltApprovalHistory[a].approverLogin;
-                    node.ChildNodes[3].InnerText = me.UltApprovalHistory[a].userEmail;
-                    node.ChildNodes[4].InnerText = ToXMLDateFormat(me.UltApprovalHistory[a].approveDate);
-                    node.ChildNodes[5].InnerText = me.UltApprovalHistory[a].comments;
-                    node.ChildNodes[6].InnerText = me.UltApprovalHistory[a].approveStatus;
-                    a++;
-                }
-
-                for (int i = 0; i < nodeCont; i++)
-                {
-                    nodeName = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i].Name;
-                    node = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
-
-                    if (nodeName == "UltApprove")
-                    {
-                        XMLNodeUltApprove = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
-                        node.ChildNodes[0].InnerText = me.UltApprove.approved.ToString().ToLower();
-                        node.ChildNodes[1].InnerText = me.UltApprove.approverName;
-                        node.ChildNodes[2].InnerText = me.UltApprove.approverLogin;
-                        node.ChildNodes[3].InnerText = me.UltApprove.approverEmail;
-                    }
-                }
-
-                WSeGastosPharma.eGastos_Pharma ult_obj = new WSeGastosPharma.eGastos_Pharma();
-
-                XmlNode XmlNodeCustom = (MOApprovalXML.ChildNodes[1].ChildNodes[0]);
-
-                int intIncident = fd.IncidentNumber;
-                string summary = "";
-                string strError = "";
-                ult_obj.CompleteStep(fd.UserLogin, ref intIncident, fd.StepName, summary, "", false, 9, MOApprovalXML.InnerXml, true, out strError);
-                error = strError;
             }
+
+            XmlElement xmlUltApprovalHistory = MOApprovalXML.CreateElement("UltApprovalHistory", ProcessVersionNumber);
+            xmlUltApprovalHistory.InnerXml = "<stepName xmlns=\"http://processSchema.eGastos/\"></stepName><approverName xmlns=\"http://processSchema.eGastos/\"></approverName><approverLogin xmlns=\"http://processSchema.eGastos/\"></approverLogin><userEmail xmlns=\"http://processSchema.eGastos/\"></userEmail><approveDate xmlns=\"http://processSchema.eGastos/\"></approveDate><comments xmlns=\"http://processSchema.eGastos/\"></comments><approveStatus xmlns=\"http://processSchema.eGastos/\"></approveStatus>";
+            MOApprovalXML.ChildNodes[1].ChildNodes[0].InsertAfter(xmlUltApprovalHistory, MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[nodeAHLastIndex]);
+            nodeCont = XMLNodeGlobal.ChildNodes.Count;
+            nodeCountAH++;
+            int a = 0;
+
+            for (int i = nodeAHFirstIndex; (i < nodeCountAH + 1) && (a < me.UltApprovalHistory.Length); i++)
+            {
+                node = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
+
+                node.ChildNodes[0].InnerText = me.UltApprovalHistory[a].stepName;
+                node.ChildNodes[1].InnerText = me.UltApprovalHistory[a].approverName;
+                node.ChildNodes[2].InnerText = me.UltApprovalHistory[a].approverLogin;
+                node.ChildNodes[3].InnerText = me.UltApprovalHistory[a].userEmail;
+                node.ChildNodes[4].InnerText = ToXMLDateFormat(me.UltApprovalHistory[a].approveDate);
+                node.ChildNodes[5].InnerText = me.UltApprovalHistory[a].comments;
+                node.ChildNodes[6].InnerText = me.UltApprovalHistory[a].approveStatus;
+                a++;
+            }
+
+            for (int i = 0; i < nodeCont; i++)
+            {
+                nodeName = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i].Name;
+                node = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
+
+                if (nodeName == "UltApprove")
+                {
+                    XMLNodeUltApprove = MOApprovalXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
+                    node.ChildNodes[0].InnerText = me.UltApprove.approved.ToString().ToLower();
+                    node.ChildNodes[1].InnerText = me.UltApprove.approverName;
+                    node.ChildNodes[2].InnerText = me.UltApprove.approverLogin;
+                    node.ChildNodes[3].InnerText = me.UltApprove.approverEmail;
+                }
+            }
+
+            XmlNode XmlNodeCustom = (MOApprovalXML.ChildNodes[1].ChildNodes[0]);
+
+            int intIncident = fd.IncidentNumber;
+            string summary = "";
+            string strError = "";
+
+            if (fd.isPasteur)
+            {
+                ult_objPasteur = new eGastos_Pasteur();
+                ult_objPasteur.CompleteStep(fd.UserLogin, ref intIncident, fd.StepName, summary, "", false, 9, MOApprovalXML.InnerXml, true, out strError);
+            }
+            else
+            {
+                ult_objPharma = new eGastos_Pharma();
+                ult_objPharma.CompleteStep(fd.UserLogin, ref intIncident, fd.StepName, summary, "", false, 9, MOApprovalXML.InnerXml, true, out strError);
+            }
+            error = strError;
+            return 0;
+			}
             else {
                 error = msgMO;
+				return 0;
             }
 
             
-            return 0;
+            
         }
 
         private string getUltimusXML(Entity.FilterData fd)
@@ -2273,7 +2292,8 @@ namespace eGastosWS
                 ultReq.CeCoMiniName, ultReq.isMiniEvent, ultReq.arrival, ultReq.departureDate, ultReq.requestDate.ToString(), ultReq.PEPElementId,
                 ultReq.PEPElementName, ultReq.currencyId, ultReq.currencyName, ultReq.initiatorLogin, ultReq.initiatorName, ultReq.responsibleLogin,
                 ultReq.responsibleName, ultReq.responsibleEmployeeNum, ultReq.responsibleUserName, ultReq.pasteur, ultReq.areaId,
-                ultReq.areaText, (bool)ultReq.salesForce, ultExpAcc.nationalManagerLogin, ultExpAcc.nationalManagerName, ultExpAcc.creditCard);
+                ultReq.areaText, (bool)ultReq.salesForce, ultExpAcc.nationalManagerLogin, ultExpAcc.nationalManagerName, ultExpAcc.creditCard
+                , ultExpAcc.strike, ultExpAcc.isCFDI);
             if (ultExpAccDetLst != null)
             {
                 foreach (eGastosEntity.Ultimus.UltExpenseAccountDetail ultExpAccDet in ultExpAccDetLst)
@@ -2281,7 +2301,8 @@ namespace eGastosWS
                     expAccClient.createExpenseAccountDetail(ultExpAccDet.idExpenseAccountDetail, ultExpAccDet.expenseDate, (int)ultExpAccDet.idAccount,
                     ultExpAccDet.accountName, ultExpAccDet.amount, ultExpAccDet.invoiceNumber, ultExpAccDet.place, ultExpAccDet.numberOfDiners,
                     ultExpAccDet.IVA, ultExpAccDet.healthProfessional, ultExpAccDet.hasPAClient, ultExpAccDet.total, ultExpAccDet.observationId,
-                    ultExpAccDet.observationName);
+                    ultExpAccDet.observationName, ultExpAccDet.idXml, ultExpAccDet.amountCFDI, ultExpAccDet.ivaCFDI, ultExpAccDet.idExtract,
+                    ultExpAccDet.amountExtract, ultExpAccDet.conciliated, ultExpAccDet.strike);
                 }
 
             }
@@ -2311,7 +2332,8 @@ namespace eGastosWS
                 ultReq.departureDate, ultReq.returnDate, ultReq.PEPElementId, ultReq.PEPElementName, ultReq.currencyId, ultReq.currencyName,
                 ultReq.initiatorLogin, ultReq.initiatorName, ultReq.responsibleLogin, ultReq.responsibleName, ultReq.responsibleEmployeeNum,
                 ultReq.responsibleUserName, ultReq.pasteur, ultReq.areaId, ultReq.areaText, (bool)ultReq.salesForce, ultMisOrd.travelId,
-                ultMisOrd.travelName, ultMisOrd.objective, ultMisOrd.advance, ultMisOrd.comment);
+                ultMisOrd.travelName, ultMisOrd.objective, ultMisOrd.advance, ultMisOrd.comment, ultMisOrd.exceededAdvance, ultMisOrd.missionOrderType,
+                ultMisOrd.missionOrderTypeText, ultMisOrd.advanceAndDebitCard);
             if (ultItiLst != null)
             {
                 foreach (eGastosEntity.Ultimus.UltItinerary ultIti in ultItiLst)
@@ -2338,7 +2360,478 @@ namespace eGastosWS
             }
             
         }
+          
 
+        [WebMethod]
+        public int SendReviewData()
+        // public int SendReviewData(Entity.MasterEntity me, Entity.FilterData fd, out string error)
+        {
+            //DEBUG ------------------------------------------------------------
+            Entity.FilterData fd = new Entity.FilterData();
+            Entity.MasterEntity me = new eGastosWS.Entity.MasterEntity();
+            string error;
+            me = ge.me1(ref fd);
+            //------------------------------------------------------------------            
+
+            string xmlstr = getUltimusXML(fd);
+
+            XmlDataDocument EAReviewXML = new System.Xml.XmlDataDocument();
+            XmlDocument oXmlDoc = new XmlDocument();
+            EAReviewXML.LoadXml(xmlstr.Replace("\"", "'"));
+
+            string ProcessVersion = EAReviewXML.ChildNodes.Item(1).Attributes["xmlns"].Value;
+            int n = ProcessVersion.LastIndexOf("/");
+            string ProcessVersionNumber = ProcessVersion.Substring(0, n).ToString() + "/Types";
+
+            XmlNode XMLNodeGlobal = (EAReviewXML.ChildNodes[1].ChildNodes[0]);
+            XmlNode XMLNodeUltApprove = null;
+            int nodeCont = XMLNodeGlobal.ChildNodes.Count;
+            int nodeCountAH = 0, nodeAHLastIndex = 0, nodeAHFirstIndex = 0; // UltApprovalHistory
+            int nodeCountEAD = 0, nodeEADLastIndex = 0, nodeEADFirstIndex = 0; // UltExpenseAccountDetail
+            int nodeCountPAC = 0, nodePACLastIndex = 0, nodePACFirstIndex = 0; // UltPAClient
+
+            string nodeName = "";
+            XmlNode node = null;
+
+            for (int h = 0; h < nodeCont; h++)
+            {
+                nodeName = EAReviewXML.ChildNodes[1].ChildNodes[0].ChildNodes[h].Name;
+                if (nodeName == "UltApprovalHistory")
+                {
+                    if (nodeAHFirstIndex == 0)
+                        nodeAHFirstIndex = h;
+
+                    nodeCountAH++;
+                    nodeAHLastIndex = h;
+                }
+                if (nodeName == "UltExpenseAccountDetail")
+                {
+                    if (nodeEADFirstIndex == 0)
+                        nodeEADFirstIndex = h;
+
+                    nodeCountEAD++;
+                    nodeEADLastIndex = h;
+                }
+                if (nodeName == "UltPAClient")
+                {
+                    if (nodePACFirstIndex == 0)
+                        nodePACFirstIndex = h;
+
+                    nodeCountPAC++;
+                    nodePACLastIndex = h;
+                }
+            }
+
+            #region UltApprovalHistory
+            XmlElement xmlUltApprovalHistory = EAReviewXML.CreateElement("UltApprovalHistory", ProcessVersionNumber);
+            xmlUltApprovalHistory.InnerXml = "<stepName xmlns=\"http://processSchema.eGastos/\"></stepName><approverName xmlns=\"http://processSchema.eGastos/\"></approverName><approverLogin xmlns=\"http://processSchema.eGastos/\"></approverLogin><userEmail xmlns=\"http://processSchema.eGastos/\"></userEmail><approveDate xmlns=\"http://processSchema.eGastos/\"></approveDate><comments xmlns=\"http://processSchema.eGastos/\"></comments><approveStatus xmlns=\"http://processSchema.eGastos/\"></approveStatus>";
+            EAReviewXML.ChildNodes[1].ChildNodes[0].InsertAfter(xmlUltApprovalHistory, EAReviewXML.ChildNodes[1].ChildNodes[0].ChildNodes[nodeAHLastIndex]);
+            nodeCont = XMLNodeGlobal.ChildNodes.Count;
+            nodeCountAH++;
+            int a = 0;
+
+            for (int i = nodeAHFirstIndex; (i < (nodeCountAH + nodeAHLastIndex) + 1) && (a < me.UltApprovalHistory.Length); i++)
+            {
+                node = EAReviewXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
+                node.ChildNodes[0].InnerText = me.UltApprovalHistory[a].stepName;
+                node.ChildNodes[1].InnerText = me.UltApprovalHistory[a].approverName;
+                node.ChildNodes[2].InnerText = me.UltApprovalHistory[a].approverLogin;
+                node.ChildNodes[3].InnerText = me.UltApprovalHistory[a].userEmail;
+                node.ChildNodes[4].InnerText = ToXMLDateFormat(me.UltApprovalHistory[a].approveDate);
+                node.ChildNodes[5].InnerText = me.UltApprovalHistory[a].comments;
+                node.ChildNodes[6].InnerText = me.UltApprovalHistory[a].approveStatus;
+                a++;
+            }
+            #endregion
+
+            #region IF Account Expenses
+            if (me.UltRequest.type >= 3) // Account Expenses
+            {
+                XmlElement xmlUltExpenseAccountDetail = EAReviewXML.CreateElement("UltExpenseAccountDetail", ProcessVersionNumber);
+                xmlUltExpenseAccountDetail.InnerXml = "<idExpenseAccountDetail xmlns=\"http://processSchema.eGastos/\"></idExpenseAccountDetail><idExpenseAccount xmlns=\"http://processSchema.eGastos/\"></idExpenseAccount><expenseDate xmlns=\"http://processSchema.eGastos/\"></expenseDate><idAccount xmlns=\"http://processSchema.eGastos/\"></idAccount><amount xmlns=\"http://processSchema.eGastos/\"></amount><invoiceNumber xmlns=\"http://processSchema.eGastos/\"></invoiceNumber><place xmlns=\"http://processSchema.eGastos/\"></place><numberOfDiners xmlns=\"http://processSchema.eGastos/\"></numberOfDiners><IVA xmlns=\"http://processSchema.eGastos/\"></IVA><healthProfessional xmlns=\"http://processSchema.eGastos/\"></healthProfessional><discount xmlns=\"http://processSchema.eGastos/\"></discount><hasPAClient xmlns=\"http://processSchema.eGastos/\"></hasPAClient><IVATypeId xmlns=\"http://processSchema.eGastos/\"></IVATypeId><IVATypeName xmlns=\"http://processSchema.eGastos/\"></IVATypeName><total xmlns=\"http://processSchema.eGastos/\"></total><observationId xmlns=\"http://processSchema.eGastos/\"></observationId><observationName xmlns=\"http://processSchema.eGastos/\"></observationName><status xmlns=\"http://processSchema.eGastos/\"></status>";
+                EAReviewXML.ChildNodes[1].ChildNodes[0].InsertAfter(xmlUltExpenseAccountDetail, EAReviewXML.ChildNodes[1].ChildNodes[0].ChildNodes[nodeEADLastIndex]);
+                nodeCont = XMLNodeGlobal.ChildNodes.Count;
+                nodeCountEAD++;
+                int ead = 0;
+
+                for (int i = nodeEADFirstIndex; (i < nodeCountEAD + 1) && (ead < me.UltExpenseAccountDetail.Length); i++)
+                {
+                    node = EAReviewXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
+                    node.ChildNodes[0].InnerText = me.UltExpenseAccountDetail[ead].idExpenseAccountDetail.ToString();
+                    node.ChildNodes[1].InnerText = me.UltExpenseAccountDetail[ead].idExpenseAccount.ToString();
+                    node.ChildNodes[2].InnerText = ToXMLDateFormat(me.UltExpenseAccountDetail[ead].expenseDate);
+                    node.ChildNodes[3].InnerText = me.UltExpenseAccountDetail[ead].idAccount.ToString();
+                    node.ChildNodes[4].InnerText = me.UltExpenseAccountDetail[ead].accountName;
+                    node.ChildNodes[5].InnerText = me.UltExpenseAccountDetail[ead].amount.ToString();
+                    node.ChildNodes[6].InnerText = me.UltExpenseAccountDetail[ead].invoiceNumber;
+                    node.ChildNodes[7].InnerText = me.UltExpenseAccountDetail[ead].place;
+                    node.ChildNodes[8].InnerText = me.UltExpenseAccountDetail[ead].numberOfDiners.ToString();
+                    node.ChildNodes[9].InnerText = me.UltExpenseAccountDetail[ead].IVA.ToString();
+                    node.ChildNodes[10].InnerText = me.UltExpenseAccountDetail[ead].healthProfessional.ToString().ToLower();
+                    node.ChildNodes[11].InnerText = me.UltExpenseAccountDetail[ead].discount.ToString();
+                    node.ChildNodes[12].InnerText = me.UltExpenseAccountDetail[ead].hasPAClient.ToString().ToLower();
+                    node.ChildNodes[13].InnerText = me.UltExpenseAccountDetail[ead].IVATypeId;
+                    node.ChildNodes[14].InnerText = me.UltExpenseAccountDetail[ead].IVATypeName;
+                    node.ChildNodes[15].InnerText = me.UltExpenseAccountDetail[ead].total.ToString();
+                    node.ChildNodes[16].InnerText = me.UltExpenseAccountDetail[ead].observationId.ToString();
+                    node.ChildNodes[17].InnerText = me.UltExpenseAccountDetail[ead].observationName;
+                    node.ChildNodes[18].InnerText = me.UltExpenseAccountDetail[ead].status.ToString().ToLower();
+                    ead++;
+                }
+
+                XmlElement xmlUltPAClient = EAReviewXML.CreateElement("UltPAClient", ProcessVersionNumber);
+                xmlUltPAClient.InnerXml = "";
+                EAReviewXML.ChildNodes[1].ChildNodes[0].InsertAfter(xmlUltPAClient, EAReviewXML.ChildNodes[1].ChildNodes[0].ChildNodes[nodePACLastIndex]);
+                nodeCont = XMLNodeGlobal.ChildNodes.Count;
+                nodeCountPAC++;
+                int pac = 0;
+
+                for (int i = nodePACFirstIndex; (i < nodeCountPAC + 1) && (pac < me.UltPAClient.Length); i++)
+                {
+                    node = EAReviewXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
+                    node.ChildNodes[0].InnerText = me.UltPAClient[pac].idExpenseAccountDetail.ToString();
+                    node.ChildNodes[0].InnerText = me.UltPAClient[pac].code;
+                    node.ChildNodes[0].InnerText = me.UltPAClient[pac].name;
+                }
+            }
+            #endregion
+
+            for (int i = 0; i < nodeCont; i++)
+            {
+                nodeName = EAReviewXML.ChildNodes[1].ChildNodes[0].ChildNodes[i].Name;
+                node = EAReviewXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
+
+                #region UltApprove
+                if (nodeName == "UltApprove")
+                {
+                    XMLNodeUltApprove = EAReviewXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
+                    node.ChildNodes[0].InnerText = me.UltApprove.approved.ToString().ToLower();
+                    node.ChildNodes[1].InnerText = me.UltApprove.approverName;
+                    node.ChildNodes[2].InnerText = me.UltApprove.approverLogin;
+                    node.ChildNodes[3].InnerText = me.UltApprove.approverEmail;
+                }
+                #endregion
+
+                #region UltExpenseAccount
+                if (nodeName == "UltExpenseAccount" && me.UltRequest.type >= 3)
+                {
+                    XMLNodeUltExpenseAccount = EAReviewXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
+                    node.ChildNodes[0].InnerText = me.UltExpenseAccount.idExpenseAccount.ToString();
+                    node.ChildNodes[1].InnerText = me.UltExpenseAccount.nationalManagerLogin;
+                    node.ChildNodes[2].InnerText = me.UltExpenseAccount.nationalManagerName;
+                    node.ChildNodes[3].InnerText = me.UltExpenseAccount.creditCard.ToString().ToLower();
+                    node.ChildNodes[4].InnerText = me.UltExpenseAccount.totalMiniEvent.ToString();
+                    node.ChildNodes[5].InnerText = me.UltExpenseAccount.totalMeal.ToString();
+                    node.ChildNodes[6].InnerText = me.UltExpenseAccount.totalNationalMeal.ToString();
+                    node.ChildNodes[7].InnerText = me.UltExpenseAccount.overdue.ToString().ToLower();
+                    node.ChildNodes[8].InnerText = me.UltExpenseAccount.charged.ToString().ToLower();
+                }
+                #endregion
+
+                #region UltExpenseFlowVariables
+                if (nodeName == "UltExpenseFlowVariables" && me.UltRequest.type >= 3)
+                {
+                    XMLNodeUltExpenseFlowVariables = EAReviewXML.ChildNodes[1].ChildNodes[0].ChildNodes[i];
+                    for (int efv = 0; efv < XMLNodeUltExpenseFlowVariables.ChildNodes.Count; efv++)
+                    {
+
+                        if (node.ChildNodes[efv].Name == "activeDirAreaGastos")
+                        {
+                            if (me.UltExpenseFlowVariables.activeDirAreaGastos != null)
+                                node.ChildNodes[efv].InnerText = me.UltExpenseFlowVariables.activeDirAreaGastos.ToString().ToLower();
+                        }
+                        if (node.ChildNodes[efv].Name == "activeDirFinanzasGastos")
+                        {
+                            if (me.UltExpenseFlowVariables.activeDirFinanzasGastos != null)
+                                node.ChildNodes[efv].InnerText = me.UltExpenseFlowVariables.activeDirFinanzasGastos.ToString().ToLower();
+                        }
+                        if (node.ChildNodes[efv].Name == "activeDirGralGastos")
+                        {
+                            if (me.UltExpenseFlowVariables.activeDirGralGastos != null)
+                                node.ChildNodes[efv].InnerText = me.UltExpenseFlowVariables.activeDirGralGastos.ToString().ToLower();
+                        }
+                        if (node.ChildNodes[efv].Name == "activeManager")
+                        {
+                            if (me.UltExpenseFlowVariables.activeManager != null)
+                                node.ChildNodes[efv].InnerText = me.UltExpenseFlowVariables.activeManager.ToString().ToLower();
+                        }
+                        if (node.ChildNodes[efv].Name == "jobFunctionAutorizador1")
+                        {
+                            if (me.UltExpenseFlowVariables.jobFunctionAutorizador1 != null)
+                                node.ChildNodes[efv].InnerText = me.UltExpenseFlowVariables.jobFunctionAutorizador1;
+                        }
+                        if (node.ChildNodes[efv].Name == "jobFunctionAutorizador2")
+                        {
+                            if (me.UltExpenseFlowVariables.jobFunctionAutorizador2 != null)
+                                node.ChildNodes[efv].InnerText = me.UltExpenseFlowVariables.jobFunctionAutorizador2;
+                        }
+                        if (node.ChildNodes[efv].Name == "jobFunctionAutorizador3")
+                        {
+                            if (me.UltExpenseFlowVariables.jobFunctionAutorizador3 != null)
+                                node.ChildNodes[efv].InnerText = me.UltExpenseFlowVariables.jobFunctionAutorizador3;
+                        }
+                        if (node.ChildNodes[efv].Name == "jobFunctionAutorizador4")
+                        {
+                            if (me.UltExpenseFlowVariables.jobFunctionAutorizador4 != null)
+                                node.ChildNodes[efv].InnerText = me.UltExpenseFlowVariables.jobFunctionAutorizador4;
+                        }
+                        if (node.ChildNodes[efv].Name == "jobFunctionController1")
+                        {
+                            if (me.UltExpenseFlowVariables.jobFunctionController1 != null)
+                                node.ChildNodes[efv].InnerText = me.UltExpenseFlowVariables.jobFunctionController1;
+                        }
+                        if (node.ChildNodes[efv].Name == "jobFunctionController2")
+                        {
+                            if (me.UltExpenseFlowVariables.jobFunctionController2 != null)
+                                node.ChildNodes[efv].InnerText = me.UltExpenseFlowVariables.jobFunctionController2;
+                        }
+                        if (node.ChildNodes[efv].Name == "jobFunctionControlling")
+                        {
+                            if (me.UltExpenseFlowVariables.jobFunctionControlling != null)
+                                node.ChildNodes[efv].InnerText = me.UltExpenseFlowVariables.jobFunctionControlling;
+                        }
+                        if (node.ChildNodes[efv].Name == "jobFunctionDirAreaGastos")
+                        {
+                            if (me.UltExpenseFlowVariables.jobFunctionDirAreaGastos != null)
+                                node.ChildNodes[efv].InnerText = me.UltExpenseFlowVariables.jobFunctionDirAreaGastos;
+                        }
+                        if (node.ChildNodes[efv].Name == "jobFunctionFinanzasGastos")
+                        {
+                            if (me.UltExpenseFlowVariables.jobFunctionFinanzasGastos != null)
+                                node.ChildNodes[efv].InnerText = me.UltExpenseFlowVariables.jobFunctionFinanzasGastos;
+                        }
+                        if (node.ChildNodes[efv].Name == "jobFunctionNationalManager")
+                        {
+                            if (me.UltExpenseFlowVariables.jobFunctionNationalManager != null)
+                                node.ChildNodes[efv].InnerText = me.UltExpenseFlowVariables.jobFunctionNationalManager;
+                        }
+                        if (node.ChildNodes[efv].Name == "jobFunctionObservador")
+                        {
+                            if (me.UltExpenseFlowVariables.jobFunctionObservador != null)
+                                node.ChildNodes[efv].InnerText = me.UltExpenseFlowVariables.jobFunctionObservador;
+                        }
+                        if (node.ChildNodes[efv].Name == "jobFunctionResponsible")
+                        {
+                            if (me.UltExpenseFlowVariables.jobFunctionResponsible != null)
+                                node.ChildNodes[efv].InnerText = me.UltExpenseFlowVariables.jobFunctionResponsible;
+                        }
+                        if (node.ChildNodes[efv].Name == "summaryText")
+                        {
+                            if (me.UltExpenseFlowVariables.summaryText != null)
+                                node.ChildNodes[efv].InnerText = me.UltExpenseFlowVariables.summaryText;
+                        }
+                    }
+                }
+                #endregion
+
+                #region UltRequest
+                if (nodeName == "UltRequest" && me.UltRequest.type >= 3)
+                {
+                    XMLNodeUltRequest = EAReviewXML.ChildNodes[1].ChildNodes[0].ChildNodes[i]; //35
+
+                    for (int r = 0; r < XMLNodeUltRequest.ChildNodes.Count; r++)
+                    {
+                        if (node.ChildNodes[r].Name == "areaId")
+                        {
+                            if (me.UltRequest.areaId != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.areaId.ToString();
+                        }
+                        if (node.ChildNodes[r].Name == "areaText")
+                        {
+                            if (me.UltRequest.areaText != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.areaText;
+                        }
+                        if (node.ChildNodes[r].Name == "arrival")
+                        {
+                            if (me.UltRequest.arrival != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.arrival;
+                        }
+                        if (node.ChildNodes[r].Name == "CeCoCode")
+                        {
+                            if (me.UltRequest.CeCoCode != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.CeCoCode.ToString();
+                        }
+                        if (node.ChildNodes[r].Name == "CeCoMiniCode")
+                        {
+                            if (me.UltRequest.CeCoMiniCode != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.CeCoMiniCode.ToString();
+                        }
+                        if (node.ChildNodes[r].Name == "CeCoMiniName")
+                        {
+                            if (me.UltRequest.CeCoMiniName != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.CeCoMiniName;
+                        }
+                        if (node.ChildNodes[r].Name == "CeCoName")
+                        {
+                            if (me.UltRequest.CeCoName != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.CeCoName;
+                        }
+                        if (node.ChildNodes[r].Name == "companyCode")
+                        {
+                            if (me.UltRequest.companyCode != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.companyCode.ToString();
+                        }
+                        if (node.ChildNodes[r].Name == "companyName")
+                        {
+                            if (me.UltRequest.companyName != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.companyName;
+                        }
+                        if (node.ChildNodes[r].Name == "currencyId")
+                        {
+                            if (me.UltRequest.currencyId != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.currencyId;
+                        }
+                        if (node.ChildNodes[r].Name == "currencyName")
+                        {
+                            if (me.UltRequest.currencyName != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.currencyName;
+                        }
+                        if (node.ChildNodes[r].Name == "departureDate")
+                        {
+                            if (me.UltRequest.departureDate != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.departureDate;
+                        }
+                        if (node.ChildNodes[r].Name == "exchangeRate")
+                        {
+                            if (me.UltRequest.exchangeRate != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.exchangeRate.ToString();
+                        }
+                        if (node.ChildNodes[r].Name == "idRequest")
+                        {
+                            if (me.UltRequest.idRequest != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.idRequest.ToString();
+                        }
+                        if (node.ChildNodes[r].Name == "initiatorLogin")
+                        {
+                            if (me.UltRequest.initiatorLogin != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.initiatorLogin;
+                        }
+                        if (node.ChildNodes[r].Name == "initiatorName")
+                        {
+                            if (me.UltRequest.initiatorName != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.initiatorName;
+                        }
+                        if (node.ChildNodes[r].Name == "isMiniEvent")
+                        {
+                            if (me.UltRequest.isMiniEvent != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.isMiniEvent.ToString().ToLower();
+                        }
+                        if (node.ChildNodes[r].Name == "PAClientId")
+                        {
+                            if (me.UltRequest.PAClientId != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.PAClientId;
+                        }
+                        if (node.ChildNodes[r].Name == "PAClientName")
+                        {
+                            if (me.UltRequest.PAClientName != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.PAClientName;
+                        }
+                        if (node.ChildNodes[r].Name == "pasteur")
+                        {
+                            if (me.UltRequest.pasteur != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.pasteur.ToString().ToLower();
+                        }
+                        if (node.ChildNodes[r].Name == "PEPElementId")
+                        {
+                            if (me.UltRequest.PEPElementId != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.PEPElementId;
+                        }
+                        if (node.ChildNodes[r].Name == "PEPElementName")
+                        {
+                            if (me.UltRequest.PEPElementName != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.PEPElementName;
+                        }
+                        if (node.ChildNodes[r].Name == "requestDate")
+                        {
+                            if (me.UltRequest.requestDate != null)
+                                node.ChildNodes[r].InnerText = ToXMLDateFormat(me.UltRequest.requestDate);
+                        }
+                        if (node.ChildNodes[r].Name == "responsibleEmployeeNum")
+                        {
+                            if (me.UltRequest.responsibleEmployeeNum != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.responsibleEmployeeNum;
+                        }
+                        if (node.ChildNodes[r].Name == "responsibleLogin")
+                        {
+                            if (me.UltRequest.responsibleLogin != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.responsibleLogin;
+                        }
+                        if (node.ChildNodes[r].Name == "responsibleName")
+                        {
+                            if (me.UltRequest.responsibleName != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.responsibleName;
+                        }
+                        if (node.ChildNodes[r].Name == "responsiblePayMethod")
+                        {
+                            if (me.UltRequest.responsiblePayMethod != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.responsiblePayMethod;
+                        }
+                        if (node.ChildNodes[r].Name == "responsibleUserName")
+                        {
+                            if (me.UltRequest.responsibleUserName != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.responsibleUserName;
+                        }
+                        if (node.ChildNodes[r].Name == "returnDate")
+                        {
+                            if (me.UltRequest.returnDate != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.returnDate;
+                        }
+                        if (node.ChildNodes[r].Name == "salesForce")
+                        {
+                            if (me.UltRequest.salesForce != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.salesForce.ToString().ToLower();
+                        }
+                        if (node.ChildNodes[r].Name == "status")
+                        {
+                            if (me.UltRequest.status != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.status.ToString();
+                        }
+                        if (node.ChildNodes[r].Name == "statusName")
+                        {
+                            if (me.UltRequest.statusName != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.statusName;
+                        }
+                        if (node.ChildNodes[r].Name == "type")
+                        {
+                            if (me.UltRequest.type != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.type.ToString();
+                        }
+                        if (node.ChildNodes[r].Name == "typeName")
+                        {
+                            if (me.UltRequest.typeName != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.typeName;
+                        }
+                        if (node.ChildNodes[r].Name == "ultimusNumber")
+                        {
+                            if (me.UltRequest.ultimusNumber != null)
+                                node.ChildNodes[r].InnerText = me.UltRequest.ultimusNumber.ToString();
+                        }
+                    }
+                }
+                #endregion
+
+            }
+
+            XmlNode XmlNodeCustom = (EAReviewXML.ChildNodes[1].ChildNodes[0]);
+
+            int intIncident = fd.IncidentNumber;
+            string summary = "";
+            string strError = "";
+
+            if (fd.isPasteur)
+            {
+                ult_objPasteur = new eGastos_Pasteur();
+                ult_objPasteur.CompleteStep(fd.UserLogin, ref intIncident, fd.StepName, summary, "", false, 9, EAReviewXML.InnerXml, true, out strError);
+            }
+            else
+            {
+                ult_objPharma = new eGastos_Pharma();
+                ult_objPharma.CompleteStep(fd.UserLogin, ref intIncident, fd.StepName, summary, "", false, 9, EAReviewXML.InnerXml, true, out strError);
+            }
+
+            error = strError;
+            return 0;
+        }
 
     }
 }

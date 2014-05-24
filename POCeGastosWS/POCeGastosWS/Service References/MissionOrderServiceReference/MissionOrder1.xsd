@@ -30,6 +30,10 @@
         <xs:element minOccurs="0" name="objective" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="advance" type="xs:double" />
         <xs:element minOccurs="0" name="comment" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="exeededAdvance" type="xs:boolean" />
+        <xs:element minOccurs="0" name="missionOrderType" type="xs:int" />
+        <xs:element minOccurs="0" name="missionOrderTypeText" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="advanceAndDebitCard" type="xs:boolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

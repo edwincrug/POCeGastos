@@ -220,6 +220,44 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IExpenseAccount_createResponsible_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IExpenseAccount_createResponsible_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
   <wsp:Policy wsu:Id="WSHttpBinding_IExpenseAccount_validateAndSaveRequest_Input_policy">
     <wsp:ExactlyOne>
       <wsp:All>
@@ -511,6 +549,12 @@
   <wsdl:message name="IExpenseAccount_createPAClient_OutputMessage">
     <wsdl:part name="parameters" element="tns:createPAClientResponse" />
   </wsdl:message>
+  <wsdl:message name="IExpenseAccount_createResponsible_InputMessage">
+    <wsdl:part name="parameters" element="tns:createResponsible" />
+  </wsdl:message>
+  <wsdl:message name="IExpenseAccount_createResponsible_OutputMessage">
+    <wsdl:part name="parameters" element="tns:createResponsibleResponse" />
+  </wsdl:message>
   <wsdl:message name="IExpenseAccount_validateAndSaveRequest_InputMessage">
     <wsdl:part name="parameters" element="tns:validateAndSaveRequest" />
   </wsdl:message>
@@ -565,6 +609,10 @@
     <wsdl:operation name="createPAClient">
       <wsdl:input wsaw:Action="http://tempuri.org/IExpenseAccount/createPAClient" message="tns:IExpenseAccount_createPAClient_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IExpenseAccount/createPAClientResponse" message="tns:IExpenseAccount_createPAClient_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="createResponsible">
+      <wsdl:input wsaw:Action="http://tempuri.org/IExpenseAccount/createResponsible" message="tns:IExpenseAccount_createResponsible_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IExpenseAccount/createResponsibleResponse" message="tns:IExpenseAccount_createResponsible_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="validateAndSaveRequest">
       <wsdl:input wsaw:Action="http://tempuri.org/IExpenseAccount/validateAndSaveRequest" message="tns:IExpenseAccount_validateAndSaveRequest_InputMessage" />
@@ -628,6 +676,17 @@
       </wsdl:input>
       <wsdl:output>
         <wsp:PolicyReference URI="#WSHttpBinding_IExpenseAccount_createPAClient_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createResponsible">
+      <soap12:operation soapAction="http://tempuri.org/IExpenseAccount/createResponsible" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IExpenseAccount_createResponsible_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IExpenseAccount_createResponsible_output_policy" />
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>

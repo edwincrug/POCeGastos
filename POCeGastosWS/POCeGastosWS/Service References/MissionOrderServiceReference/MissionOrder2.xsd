@@ -64,16 +64,20 @@
   <xs:element name="UltRequest" nillable="true" type="tns:UltRequest" />
   <xs:complexType name="UltMissionOrder">
     <xs:sequence>
+      <xs:element name="_x003C_advanceAndDebitCard_x003E_k__BackingField" type="xs:boolean" />
       <xs:element name="_x003C_advanceApply_x003E_k__BackingField" type="xs:boolean" />
       <xs:element name="_x003C_advance_x003E_k__BackingField" type="xs:double" />
       <xs:element name="_x003C_comment_x003E_k__BackingField" nillable="true" type="xs:string" />
       <xs:element name="_x003C_countAgencyWait_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_exceededAdvance_x003E_k__BackingField" type="xs:boolean" />
       <xs:element name="_x003C_hotel_x003E_k__BackingField" type="xs:boolean" />
       <xs:element name="_x003C_idAgencyLog_x003E_k__BackingField" type="xs:int" />
       <xs:element name="_x003C_idAgencyResponse_x003E_k__BackingField" type="xs:int" />
       <xs:element name="_x003C_idMissionOrder_x003E_k__BackingField" type="xs:int" />
       <xs:element name="_x003C_idRequest_x003E_k__BackingField" type="xs:int" />
       <xs:element name="_x003C_itinerary_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_missionOrderTypeText_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_missionOrderType_x003E_k__BackingField" type="xs:int" />
       <xs:element name="_x003C_nationalCurrency_x003E_k__BackingField" type="xs:double" />
       <xs:element name="_x003C_objective_x003E_k__BackingField" nillable="true" type="xs:string" />
       <xs:element name="_x003C_statusAgencyProcess_x003E_k__BackingField" type="xs:int" />
