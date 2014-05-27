@@ -307,6 +307,9 @@ namespace eGastosWS.CFDIService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICFDI/searchInvoices", ReplyAction="http://tempuri.org/ICFDI/searchInvoicesResponse")]
         System.Collections.Generic.List<eGastosWS.CFDIService.Xml> searchInvoices(string responsibleMail, int idRequest, System.Nullable<System.DateTime> dateFrom, System.Nullable<System.DateTime> dateTo, System.Nullable<double> amountFrom, System.Nullable<double> amountTo);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICFDI/getPDFPath", ReplyAction="http://tempuri.org/ICFDI/getPDFPathResponse")]
+        string getPDFPath(int idXml);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
@@ -346,6 +349,10 @@ namespace eGastosWS.CFDIService {
         
         public System.Collections.Generic.List<eGastosWS.CFDIService.Xml> searchInvoices(string responsibleMail, int idRequest, System.Nullable<System.DateTime> dateFrom, System.Nullable<System.DateTime> dateTo, System.Nullable<double> amountFrom, System.Nullable<double> amountTo) {
             return base.Channel.searchInvoices(responsibleMail, idRequest, dateFrom, dateTo, amountFrom, amountTo);
+        }
+        
+        public string getPDFPath(int idXml) {
+            return base.Channel.getPDFPath(idXml);
         }
     }
 }

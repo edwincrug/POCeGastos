@@ -2914,5 +2914,12 @@ namespace eGastosWS
                 }
             }
         }
+
+        [WebMethod]
+        public string getPDFPath(int idXML)
+        {
+            CFDIClient cc = new CFDIClient();
+            return cc.getPDFPath(idXML);
+        }
     }
 }

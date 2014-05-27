@@ -220,6 +220,44 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_ICFDI_getPDFPath_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_ICFDI_getPDFPath_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import schemaLocation="http://saosultdev02.pharma.aventis.com/WCFGastos/Expense/CFDI.svc?xsd=xsd0" namespace="http://tempuri.org/" />
@@ -245,6 +283,12 @@
   <wsdl:message name="ICFDI_searchInvoices_OutputMessage">
     <wsdl:part name="parameters" element="tns:searchInvoicesResponse" />
   </wsdl:message>
+  <wsdl:message name="ICFDI_getPDFPath_InputMessage">
+    <wsdl:part name="parameters" element="tns:getPDFPath" />
+  </wsdl:message>
+  <wsdl:message name="ICFDI_getPDFPath_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getPDFPathResponse" />
+  </wsdl:message>
   <wsdl:portType name="ICFDI">
     <wsdl:operation name="selectExtract">
       <wsdl:input wsaw:Action="http://tempuri.org/ICFDI/selectExtract" message="tns:ICFDI_selectExtract_InputMessage" />
@@ -257,6 +301,10 @@
     <wsdl:operation name="searchInvoices">
       <wsdl:input wsaw:Action="http://tempuri.org/ICFDI/searchInvoices" message="tns:ICFDI_searchInvoices_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ICFDI/searchInvoicesResponse" message="tns:ICFDI_searchInvoices_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getPDFPath">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICFDI/getPDFPath" message="tns:ICFDI_getPDFPath_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICFDI/getPDFPathResponse" message="tns:ICFDI_getPDFPath_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WSHttpBinding_ICFDI" type="tns:ICFDI">
@@ -292,6 +340,17 @@
       </wsdl:input>
       <wsdl:output>
         <wsp:PolicyReference URI="#WSHttpBinding_ICFDI_searchInvoices_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPDFPath">
+      <soap12:operation soapAction="http://tempuri.org/ICFDI/getPDFPath" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_ICFDI_getPDFPath_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_ICFDI_getPDFPath_output_policy" />
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
