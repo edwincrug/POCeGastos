@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Entities.Expense" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Entities.Expense" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfExtract">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Extract" nillable="true" type="tns:Extract" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfExtract" nillable="true" type="tns:ArrayOfExtract" />
+  <xs:complexType name="Extract">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="amount" type="xs:double" />
+      <xs:element minOccurs="0" name="city" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="commerce" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="currency" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="idExtract" type="xs:int" />
+      <xs:element minOccurs="0" name="operationDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="transaction" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Extract" nillable="true" type="tns:Extract" />
+  <xs:complexType name="ArrayOfXml">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Xml" nillable="true" type="tns:Xml" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfXml" nillable="true" type="tns:ArrayOfXml" />
+  <xs:complexType name="Xml">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Direccion" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Fecha" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Invoice" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Iva" type="xs:double" />
+      <xs:element minOccurs="0" name="NombreEmisor" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Subtotal" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Xml" nillable="true" type="tns:Xml" />
+</xs:schema>

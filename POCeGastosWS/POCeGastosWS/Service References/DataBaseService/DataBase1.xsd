@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://saosultdev02.pharma.aventis.com/WCFGastos/Expense/DataBase.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Entities.Expense" />
+  <xs:import schemaLocation="http://saosultdev02.pharma.aventis.com/WCFGastos/Expense/DataBase.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Entities.Chatty" />
+  <xs:import schemaLocation="http://saosultdev02.pharma.aventis.com/WCFGastos/Expense/DataBase.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/Entities.Ultimus" />
+  <xs:element name="selectAccountCatalog">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userType" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="selectAccountCatalogResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Entities.Expense" minOccurs="0" name="selectAccountCatalogResult" nillable="true" type="q1:ArrayOfAccount" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="selectAccount">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idAccount" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="selectAccountResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Entities.Expense" minOccurs="0" name="selectAccountResult" nillable="true" type="q2:Account" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="selectCatalog">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idOwner" type="xs:int" />
+        <xs:element minOccurs="0" name="flag" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="selectCatalogResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Entities.Chatty" minOccurs="0" name="selectCatalogResult" nillable="true" type="q3:ArrayOfCatalogC" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="selectExpenseAccountByUser">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idExpenseAccount" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="responsibleLogin" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="selectExpenseAccountByUserResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Entities.Chatty" minOccurs="0" name="selectExpenseAccountByUserResult" nillable="true" type="q4:ArrayOfUltExpenseAccountDetailC" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="selectLedgerAccountCatalog">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idClasification" type="xs:int" />
+        <xs:element minOccurs="0" name="travel" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="selectLedgerAccountCatalogResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Entities.Expense" minOccurs="0" name="selectLedgerAccountCatalogResult" nillable="true" type="q5:ArrayOfLedgerAccount" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="selectParameter">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idParameter" type="xs:int" />
+        <xs:element minOccurs="0" name="idType" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="selectParameterResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/Entities.Expense" minOccurs="0" name="selectParameterResult" nillable="true" type="q6:Parameter" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="selectSAPResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/Entities.Ultimus" minOccurs="0" name="iUltSAPResponse" nillable="true" type="q7:UltSAPResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="selectSAPResponseResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/Entities.Ultimus" minOccurs="0" name="selectSAPResponseResult" nillable="true" type="q8:ArrayOfUltSAPResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="insertSAPResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/Entities.Ultimus" minOccurs="0" name="iUltSAPResponse" nillable="true" type="q9:UltSAPResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="insertSAPResponseResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="insertSAPResponseResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="insertRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/Entities.Chatty" minOccurs="0" name="iRequest" nillable="true" type="q10:UltRequestC" />
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/Entities.Chatty" minOccurs="0" name="iMissionOrder" nillable="true" type="q11:UltMissionOrderC" />
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/Entities.Chatty" minOccurs="0" name="iItineraryList" nillable="true" type="q12:ArrayOfUltItineraryC" />
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/Entities.Chatty" minOccurs="0" name="iHotelList" nillable="true" type="q13:ArrayOfUltHotelC" />
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/Entities.Chatty" minOccurs="0" name="iExpenseAccount" nillable="true" type="q14:UltExpenseAccountC" />
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/Entities.Chatty" minOccurs="0" name="iExpenseAccountDetailList" nillable="true" type="q15:ArrayOfUltExpenseAccountDetailC" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="insertRequestResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="insertRequestResult" type="xs:boolean" />
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/Entities.Chatty" minOccurs="0" name="iRequest" nillable="true" type="q16:UltRequestC" />
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/Entities.Chatty" minOccurs="0" name="iMissionOrder" nillable="true" type="q17:UltMissionOrderC" />
+        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/Entities.Chatty" minOccurs="0" name="iItineraryList" nillable="true" type="q18:ArrayOfUltItineraryC" />
+        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/Entities.Chatty" minOccurs="0" name="iHotelList" nillable="true" type="q19:ArrayOfUltHotelC" />
+        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/Entities.Chatty" minOccurs="0" name="iExpenseAccount" nillable="true" type="q20:UltExpenseAccountC" />
+        <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/Entities.Chatty" minOccurs="0" name="iExpenseAccountDetailList" nillable="true" type="q21:ArrayOfUltExpenseAccountDetailC" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="updateAdvanceRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/Entities.Chatty" minOccurs="0" name="iRequest" nillable="true" type="q22:UltRequestC" />
+        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/Entities.Chatty" minOccurs="0" name="iMissionOrder" nillable="true" type="q23:UltMissionOrderC" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="updateAdvanceRequestResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="updateAdvanceRequestResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="updateExpenseAccountRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/Entities.Chatty" minOccurs="0" name="iRequest" nillable="true" type="q24:UltRequestC" />
+        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/Entities.Chatty" minOccurs="0" name="iUltExpenseAccount" nillable="true" type="q25:UltExpenseAccountC" />
+        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/Entities.Chatty" minOccurs="0" name="iUltExpenseAccountDetailList" nillable="true" type="q26:ArrayOfUltExpenseAccountDetailC" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="updateExpenseAccountRequestResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="updateExpenseAccountRequestResult" type="xs:boolean" />
+        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/Entities.Chatty" minOccurs="0" name="iUltExpenseAccountDetailList" nillable="true" type="q27:ArrayOfUltExpenseAccountDetailC" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="updateRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/Entities.Chatty" minOccurs="0" name="iRequest" nillable="true" type="q28:UltRequestC" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="updateRequestResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="updateRequestResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="updateConfirmMissionOrder">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/Entities.Chatty" minOccurs="0" name="iMissionOrder" nillable="true" type="q29:UltMissionOrderC" />
+        <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/Entities.Ultimus" minOccurs="0" name="iUltItineraryOptionsList" nillable="true" type="q30:ArrayOfUltItineraryOptions" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="updateConfirmMissionOrderResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="updateConfirmMissionOrderResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="updateCancelMissionOrder">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q31="http://schemas.datacontract.org/2004/07/Entities.Chatty" minOccurs="0" name="iRequest" nillable="true" type="q31:UltRequestC" />
+        <xs:element xmlns:q32="http://schemas.datacontract.org/2004/07/Entities.Chatty" minOccurs="0" name="iMissionOrder" nillable="true" type="q32:UltMissionOrderC" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="updateCancelMissionOrderResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="updateCancelMissionOrderResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="selectCatalogAll">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="selectCatalogAllResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q33="http://schemas.datacontract.org/2004/07/Entities.Chatty" minOccurs="0" name="selectCatalogAllResult" nillable="true" type="q33:ArrayOfCatalogC" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="selectDebitCard">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="responsibleEmployeeNumber" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="selectDebitCardResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q34="http://schemas.datacontract.org/2004/07/Entities.Expense" minOccurs="0" name="selectDebitCardResult" nillable="true" type="q34:DebitCard" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

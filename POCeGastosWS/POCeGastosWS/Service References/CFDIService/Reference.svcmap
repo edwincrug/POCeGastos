@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="a5143530-7681-4c8c-9990-4044fced90fa" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.Generic.List`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://saosultdev02.pharma.aventis.com/WCFGastos/Expense/CFDI.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="CFDI.disco" MetadataType="Disco" ID="e7be774d-2bf5-4e4d-a191-355afba21bfd" SourceId="1" SourceUrl="http://saosultdev02.pharma.aventis.com/WCFGastos/Expense/CFDI.svc?disco" />
+    <MetadataFile FileName="CFDI.wsdl" MetadataType="Wsdl" ID="e0c9713a-9a01-4fb7-b5e0-204f170354c3" SourceId="1" SourceUrl="http://saosultdev02.pharma.aventis.com/WCFGastos/Expense/CFDI.svc?wsdl" />
+    <MetadataFile FileName="CFDI.xsd" MetadataType="Schema" ID="1fdc48f8-9852-469f-badb-016e4ee72dc9" SourceId="1" SourceUrl="http://saosultdev02.pharma.aventis.com/WCFGastos/Expense/CFDI.svc?xsd=xsd1" />
+    <MetadataFile FileName="CFDI1.xsd" MetadataType="Schema" ID="909cdff2-6506-4925-ba76-8e51cc7b626a" SourceId="1" SourceUrl="http://saosultdev02.pharma.aventis.com/WCFGastos/Expense/CFDI.svc?xsd=xsd0" />
+    <MetadataFile FileName="CFDI2.xsd" MetadataType="Schema" ID="c4ce206a-c354-4eba-8ddc-e617dd89f3b5" SourceId="1" SourceUrl="http://saosultdev02.pharma.aventis.com/WCFGastos/Expense/CFDI.svc?xsd=xsd2" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

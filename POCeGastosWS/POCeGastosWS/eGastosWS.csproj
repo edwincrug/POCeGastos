@@ -80,6 +80,58 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Service References\CFDIService\CFDI.wsdl" />
+    <None Include="Service References\CFDIService\CFDI.xsd" />
+    <None Include="Service References\CFDIService\CFDI1.xsd" />
+    <None Include="Service References\CFDIService\CFDI2.xsd" />
+    <None Include="Service References\CFDIService\eGastosWS.CFDIService.Extract.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\CFDIService\eGastosWS.CFDIService.Xml.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DataBaseService\DataBase.wsdl" />
+    <None Include="Service References\DataBaseService\DataBase.xsd" />
+    <None Include="Service References\DataBaseService\DataBase1.xsd" />
+    <None Include="Service References\DataBaseService\DataBase2.xsd" />
+    <None Include="Service References\DataBaseService\DataBase3.xsd" />
+    <None Include="Service References\DataBaseService\DataBase4.xsd" />
+    <None Include="Service References\DataBaseService\eGastosWS.DataBaseService.Account.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DataBaseService\eGastosWS.DataBaseService.CatalogC.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DataBaseService\eGastosWS.DataBaseService.DebitCard.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DataBaseService\eGastosWS.DataBaseService.LedgerAccount.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DataBaseService\eGastosWS.DataBaseService.Parameter.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DataBaseService\eGastosWS.DataBaseService.UltExpenseAccountC.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DataBaseService\eGastosWS.DataBaseService.UltExpenseAccountDetailC.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DataBaseService\eGastosWS.DataBaseService.UltHotelC.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DataBaseService\eGastosWS.DataBaseService.UltItineraryC.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DataBaseService\eGastosWS.DataBaseService.UltMissionOrderC.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DataBaseService\eGastosWS.DataBaseService.UltRequestC.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DataBaseService\eGastosWS.DataBaseService.UltSAPResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\ExpenseAccountServiceReference\eGastosWS.ExpenseAccountServiceReference.UltExpenseAccount.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -162,6 +214,18 @@
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <Content Include="Pharma XML\Pharma send XML.xml" />
+    <None Include="Service References\DataBaseService\DataBase.disco" />
+    <None Include="Service References\DataBaseService\configuration.svcinfo" />
+    <None Include="Service References\DataBaseService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\CFDIService\CFDI.disco" />
+    <None Include="Service References\CFDIService\configuration.svcinfo" />
+    <None Include="Service References\CFDIService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="TextFile1.txt" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -179,6 +243,16 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\CFDIService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\DataBaseService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Service References\ExpenseAccountServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -233,6 +307,8 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadataStorage Include="Service References\CFDIService\" />
+    <WCFMetadataStorage Include="Service References\DataBaseService\" />
     <WCFMetadataStorage Include="Service References\ExpenseAccountServiceReference\" />
     <WCFMetadataStorage Include="Service References\MissionOrderServiceReference\" />
   </ItemGroup>
