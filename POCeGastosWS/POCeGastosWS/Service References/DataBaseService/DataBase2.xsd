@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Entities.Expense" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Entities.Expense" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfAccount">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Account" nillable="true" type="tns:Account" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAccount" nillable="true" type="tns:ArrayOfAccount" />
+  <xs:complexType name="Account">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="adm" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="code" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="dirArea" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="dirFinanzas" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="dirGeneral" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="idAccount" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="meal" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="miniEvent" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="professional" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="sales" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="status" nillable="true" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Account" nillable="true" type="tns:Account" />
+  <xs:complexType name="ArrayOfLedgerAccount">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="LedgerAccount" nillable="true" type="tns:LedgerAccount" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfLedgerAccount" nillable="true" type="tns:ArrayOfLedgerAccount" />
+  <xs:complexType name="LedgerAccount">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ClasificacionDesc" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="code" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="idClasification" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="idLedgerAccount" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="idStatus" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="miniEventCeco" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="status" type="xs:boolean" />
+      <xs:element minOccurs="0" name="transportation" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="travel" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="travelDesc" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="LedgerAccount" nillable="true" type="tns:LedgerAccount" />
+  <xs:complexType name="Parameter">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="idParameter" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="idType" type="xs:int" />
+      <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="value" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Parameter" nillable="true" type="tns:Parameter" />
+  <xs:complexType name="DebitCard">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="cardNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="creditLimit" type="xs:double" />
+      <xs:element minOccurs="0" name="gasLimit" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DebitCard" nillable="true" type="tns:DebitCard" />
+</xs:schema>

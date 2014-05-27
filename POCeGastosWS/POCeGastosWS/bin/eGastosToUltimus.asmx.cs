@@ -9,6 +9,9 @@ using eGastosWS.util;
 using eGastosWS.WSeGastosPasteur;
 using eGastosWS.WSeGastosPharma;
 using System.Text;
+using eGastosWS.DataBaseService;
+using eGastosWS.CFDIService;
+using System.Collections.Generic;
 
 
 namespace eGastosWS
@@ -607,11 +610,11 @@ namespace eGastosWS
             #region// ---- UltItineraryOptions ---- //
             int countUltItineraryOptions = ObjXML.GetElementsByTagName("UltItineraryOptions").Count;
             XmlNode[] NodeUltItineraryOptions = new XmlNode[countUltItineraryOptions];
-            me.UltItineraryOptions = new UltItineraryOptions[countUltItineraryOptions];
+            me.UltItineraryOptions = new eGastosEntity.Ultimus.UltItineraryOptions[countUltItineraryOptions];
             for (int _i = 0; _i < countUltItineraryOptions; _i++)
             {
                 NodeUltItineraryOptions[_i] = ObjXML.GetElementsByTagName("UltItineraryOptions")[_i];
-                me.UltItineraryOptions[_i] = new UltItineraryOptions();
+                me.UltItineraryOptions[_i] = new eGastosEntity.Ultimus.UltItineraryOptions();
                 if (NodeUltItineraryOptions[_i]["confirmed"] != null)
                     me.UltItineraryOptions[_i].confirmed = XmlConvert.ToBoolean(NodeUltItineraryOptions[_i]["confirmed"].InnerText.ToString());
                 if (NodeUltItineraryOptions[_i]["idItineraryOption"] != null)
@@ -678,11 +681,11 @@ namespace eGastosWS
             #region// ---- UltSAPResponse ---- //
             int countUltSAPResponse = ObjXML.GetElementsByTagName("UltSAPResponse ").Count;
             XmlNode[] NodeUltSAPResponse = new XmlNode[countUltSAPResponse];
-            me.UltSAPResponse = new UltSAPResponse[countUltSAPResponse];
+            me.UltSAPResponse = new eGastosEntity.Ultimus.UltSAPResponse[countUltSAPResponse];
             for (int _i = 0; _i < countUltSAPResponse; _i++)
             {
                 NodeUltSAPResponse[_i] = ObjXML.GetElementsByTagName("UltSAPResponse ")[_i];
-                me.UltSAPResponse[_i] = new UltSAPResponse();
+                me.UltSAPResponse[_i] = new eGastosEntity.Ultimus.UltSAPResponse();
                 if (NodeUltSAPResponse[_i]["company"] != null)
                     me.UltSAPResponse[_i].company = XmlConvert.ToInt32(NodeUltSAPResponse[_i]["company"].InnerText.ToString());
                 if (NodeUltSAPResponse[_i]["docNumber"] != null)
@@ -1199,7 +1202,7 @@ namespace eGastosWS
                     #region  <UltItineraryOptions>
                     if (me.UltItineraryOptions != null)
                     {
-                        foreach (UltItineraryOptions obj in me.UltItineraryOptions)
+                        foreach (eGastosEntity.Ultimus.UltItineraryOptions obj in me.UltItineraryOptions)
                         {
                             LarXML.Append("    <UltItineraryOptions xmlns='" + ProcessVersionNumber + "'>");
                             LarXML.Append("      <idItineraryOption xmlns='http://processSchema.eGastos/'>" + obj.idItineraryOption + "</idItineraryOption>");
@@ -1320,7 +1323,7 @@ namespace eGastosWS
                     #region <UltSAPResponse>
                     if (me.UltSAPResponse != null)
                     {
-                        foreach (UltSAPResponse obj in me.UltSAPResponse)
+                        foreach (eGastosEntity.Ultimus.UltSAPResponse obj in me.UltSAPResponse)
                         {
                             LarXML.Append("    <UltSAPResponse xmlns='" + ProcessVersionNumber + "'>");
                             LarXML.Append("      <idResponse xmlns='http://processSchema.eGastos/'>" + obj.idResponse + "</idResponse>");
@@ -1922,7 +1925,7 @@ namespace eGastosWS
 
                     if (me.UltItineraryOptions != null)
                     {
-                        foreach (UltItineraryOptions obj in me.UltItineraryOptions)
+                        foreach (eGastosEntity.Ultimus.UltItineraryOptions obj in me.UltItineraryOptions)
                         {
                             LarXML.Append("    <UltItineraryOptions xmlns='" + ProcessVersionNumber + "'>");
                             LarXML.Append("      <idItineraryOption xmlns='http://processSchema.eGastos/'>" + obj.idItineraryOption + "</idItineraryOption>");
@@ -2197,7 +2200,7 @@ namespace eGastosWS
 
                     if (me.UltSAPResponse != null)
                     {
-                        foreach (UltSAPResponse obj in me.UltSAPResponse)
+                        foreach (eGastosEntity.Ultimus.UltSAPResponse obj in me.UltSAPResponse)
                         {
                             LarXML.Append("    <UltSAPResponse xmlns='" + ProcessVersionNumber + "'>");
                             LarXML.Append("      <idResponse xmlns='http://processSchema.eGastos/'>" + obj.idResponse + "</idResponse>");
@@ -2833,5 +2836,83 @@ namespace eGastosWS
             return 0;
         }
 
+        [WebMethod]
+        public DebitCard selectDebitCard(string responsibleEmployeeNumber)
+        {
+            DataBaseClient dbc = new DataBaseClient();
+            return dbc.selectDebitCard(responsibleEmployeeNumber);
+        }
+
+        [WebMethod]
+        public List<Extract> selectExtract(string responsibleEmployeeNumber, string dateFrom, string dateTo, string amountFrom, string amountTo, int idRequest)
+        {
+
+            CFDIClient cc = new CFDIClient();
+            if (!string.IsNullOrEmpty(dateFrom) && !string.IsNullOrEmpty(dateTo))
+            {
+                if (!string.IsNullOrEmpty(amountFrom) && !string.IsNullOrEmpty(amountTo))
+                {
+                    return cc.selectExtract(1, responsibleEmployeeNumber, DateTime.ParseExact(dateFrom, "dd/MM/yyyy", null),
+                    DateTime.ParseExact(dateTo, "dd/MM/yyyy", null), Convert.ToDouble(amountFrom), Convert.ToDouble(amountTo), idRequest);
+                }
+                else {
+                    return cc.selectExtract(1, responsibleEmployeeNumber, DateTime.ParseExact(dateFrom, "dd/MM/yyyy", null),
+                    DateTime.ParseExact(dateTo, "dd/MM/yyyy", null), null, null, idRequest);
+                }
+                
+            }
+            else {
+                if (!string.IsNullOrEmpty(amountFrom) && !string.IsNullOrEmpty(amountTo))
+                {
+                    return cc.selectExtract(1, responsibleEmployeeNumber, null, null, Convert.ToDouble(amountFrom), 
+                    Convert.ToDouble(amountTo), idRequest);
+                }
+                else
+                {
+                    return cc.selectExtract(1, responsibleEmployeeNumber, null, null, null, null, idRequest);
+                }
+            }
+            
+        }
+
+        [WebMethod]
+        public List<Extract> selectDetail(int idExtract)
+        {
+            CFDIClient cc = new CFDIClient();
+            return cc.selectDetail(idExtract);
+        }
+
+        [WebMethod]
+        public List<Xml> searchInvoices(string responsibleMail, int idRequest,string dateFrom, string dateTo, string amountFrom, string amountTo)
+        {
+            CFDIClient cc = new CFDIClient();
+            //return cc.searchInvoices(responsibleMail, idRequest, 
+            if (!string.IsNullOrEmpty(dateFrom) && !string.IsNullOrEmpty(dateTo))
+            {
+                if (!string.IsNullOrEmpty(amountFrom) && !string.IsNullOrEmpty(amountTo))
+                {
+                    return cc.searchInvoices(responsibleMail, idRequest, DateTime.ParseExact(dateFrom, "dd/MM/yyyy", null),
+                    DateTime.ParseExact(dateTo, "dd/MM/yyyy", null), Convert.ToDouble(amountFrom), Convert.ToDouble(amountTo));
+                }
+                else
+                {
+                    return cc.searchInvoices(responsibleMail, idRequest, DateTime.ParseExact(dateFrom, "dd/MM/yyyy", null),
+                    DateTime.ParseExact(dateTo, "dd/MM/yyyy", null), null, null);
+                }
+
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(amountFrom) && !string.IsNullOrEmpty(amountTo))
+                {
+                    return cc.searchInvoices(responsibleMail, idRequest, null, null, Convert.ToDouble(amountFrom),
+                    Convert.ToDouble(amountTo));
+                }
+                else
+                {
+                    return cc.searchInvoices(responsibleMail, idRequest, null, null, null, null);
+                }
+            }
+        }
     }
 }
