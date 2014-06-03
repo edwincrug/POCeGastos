@@ -26,7 +26,7 @@ namespace eGastosWS.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://trustultimus.trust.com.br/PLWebServices/eGastos_Pasteur.asmx")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://saosultdev02.pharma.aventis.com/PLWebservices/eGastos_Pasteur_BC.asmx")]
         public string eGastosWS_WSeGastosPasteur_eGastos_Pasteur {
             get {
                 return ((string)(this["eGastosWS_WSeGastosPasteur_eGastos_Pasteur"]));
@@ -36,7 +36,7 @@ namespace eGastosWS.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://trustultimus.trust.com.br/PLWebservices/eGastos_Pharma.asmx")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://saosultdev02.pharma.aventis.com/PLWebservices/eGastos_Pharma_BC.asmx")]
         public string eGastosWS_WSeGastosPharma_eGastos_Pharma {
             get {
                 return ((string)(this["eGastosWS_WSeGastosPharma_eGastos_Pharma"]));

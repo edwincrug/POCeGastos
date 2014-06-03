@@ -11,6 +11,7 @@ namespace eGastosWS.Entity
         public UltExpenseAccountDetail[] UltExpenseAccountDetail { get; set; }
         public UltExpenseFlowVariables UltExpenseFlowVariables { get; set; }
         public UltFlobotVariables UltFlobotVariables { get; set; }
+        public UltGetThere UltGetThere { get; set; }
         public UltHotel[] UltHotel { get; set; }
         public UltItinerary[] UltItinerary { get; set; }
         public UltItineraryOptions[] UltItineraryOptions { get; set; }

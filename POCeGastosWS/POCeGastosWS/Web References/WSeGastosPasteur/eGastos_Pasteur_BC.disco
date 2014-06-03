@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
+  <contractRef ref="http://saosultdev02.pharma.aventis.com/PLWebservices/eGastos_Pasteur_BC.asmx?wsdl" docRef="http://saosultdev02.pharma.aventis.com/PLWebservices/eGastos_Pasteur_BC.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <soap address="http://saosultdev02.pharma.aventis.com/PLWebservices/eGastos_Pasteur_BC.asmx" xmlns:q1="http://www.ultimus.com/eGastos_Pasteur_BC" binding="q1:eGastos_Pasteur_BCSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <soap address="http://saosultdev02.pharma.aventis.com/PLWebservices/eGastos_Pasteur_BC.asmx" xmlns:q2="http://www.ultimus.com/eGastos_Pasteur_BC" binding="q2:eGastos_Pasteur_BCSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+</discovery>

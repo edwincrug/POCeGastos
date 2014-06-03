@@ -1,0 +1,21 @@
+<publishData>
+  <publishTarget publishUrl="D:\Publish\POCeGastos\">
+    <file relUrl="bin/eGastosToUltimus.asmx.cs" publishTime="06/03/2014 09:57:02" />
+    <file relUrl="Pasteur XML/Pasteur_comValores.xml" publishTime="05/26/2014 15:56:16" />
+    <file relUrl="eGastosToUltimus.asmx" publishTime="05/26/2014 15:56:16" />
+    <file relUrl="Web.config" publishTime="06/03/2014 10:00:08" />
+    <file relUrl="bin/AutoMapper.dll" publishTime="05/26/2014 15:56:16" />
+    <file relUrl="Pharma XML/eGastosPharma Original.xml" publishTime="05/26/2014 15:56:16" />
+    <file relUrl="Pharma XML/SendExpenseAccount.xml" publishTime="05/29/2014 14:04:14" />
+    <file relUrl="Pharma XML/Pharma send XML.xml" publishTime="05/26/2014 15:56:16" />
+    <file relUrl="TextFile1.txt" publishTime="05/26/2014 15:56:16" />
+    <file relUrl="bin/eGastosToUltimus.asmx" publishTime="05/26/2014 15:56:16" />
+    <file relUrl="Pharma XML/SendMissionOrder.xml" publishTime="05/29/2014 14:03:44" />
+    <file relUrl="bin/eGastosWS.dll" publishTime="06/03/2014 10:02:42" />
+    <file relUrl="bin/eGastosWS.pdb" publishTime="06/03/2014 10:02:42" />
+    <file relUrl="Pharma XML/pharmaDebug.xml" publishTime="05/29/2014 11:36:38" />
+    <file relUrl="bin/eGastosEntity.pdb" publishTime="06/03/2014 10:02:42" />
+    <file relUrl="bin/eGastosEntity.dll" publishTime="06/03/2014 10:02:42" />
+    <file relUrl="Pharma XML/eGastos Pharma BC Original.xml" publishTime="06/02/2014 22:19:17" />
+  </publishTarget>
+</publishData>

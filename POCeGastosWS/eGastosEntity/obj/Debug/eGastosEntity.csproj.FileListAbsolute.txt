@@ -8,3 +8,8 @@ C:\Users\E0206163\Documents\GitHub\POCeGastos\POCeGastosWS\eGastosEntity\bin\Deb
 C:\Users\E0206163\Documents\GitHub\POCeGastos\POCeGastosWS\eGastosEntity\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\E0206163\Documents\GitHub\POCeGastos\POCeGastosWS\eGastosEntity\obj\Debug\eGastosEntity.dll
 C:\Users\E0206163\Documents\GitHub\POCeGastos\POCeGastosWS\eGastosEntity\obj\Debug\eGastosEntity.pdb
+C:\Users\Marcio Nakamura\Documents\GitHub\POCeGastos\POCeGastosWS\eGastosEntity\bin\Debug\eGastosEntity.dll
+C:\Users\Marcio Nakamura\Documents\GitHub\POCeGastos\POCeGastosWS\eGastosEntity\bin\Debug\eGastosEntity.pdb
+C:\Users\Marcio Nakamura\Documents\GitHub\POCeGastos\POCeGastosWS\eGastosEntity\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Marcio Nakamura\Documents\GitHub\POCeGastos\POCeGastosWS\eGastosEntity\obj\Debug\eGastosEntity.dll
+C:\Users\Marcio Nakamura\Documents\GitHub\POCeGastos\POCeGastosWS\eGastosEntity\obj\Debug\eGastosEntity.pdb

@@ -11,9 +11,9 @@ namespace eGastosWS.Debug
             MasterEntity me = new MasterEntity();
             //
             //---------------------------------------------------------
-            fd.UserLogin = "pharma.aventis.com/MEX-GGARCIA2";
+            fd.UserLogin = "adultimus.local/marcio.nakamura";
             fd.isPasteur = false;
-            fd.StepName = "Confirma Cotizacion";
+            fd.StepName = "Begin";
             fd.ProcessName = "";
             fd.IncidentNumber = 20;
             fd.ErrorMessage = "";
@@ -25,7 +25,7 @@ namespace eGastosWS.Debug
             me.UltRequest.areaText = "Area TRext";
             me.UltRequest.arrival = "Mexico";
             me.UltRequest.CeCoCode = 4110700;
-            me.UltRequest.CeCoMiniCode = 0;
+            me.UltRequest.CeCoMiniCode = 9;
             me.UltRequest.CeCoMiniName = "Ceco um";
             me.UltRequest.companyCode = 2238;
             me.UltRequest.companyName = "Sanofi Aventis de México";
@@ -41,8 +41,8 @@ namespace eGastosWS.Debug
             me.UltRequest.PAClientId = "0000093109";
             me.UltRequest.PAClientName = "CAMPOS TUN BENJAMIN";
             me.UltRequest.pasteur = fd.isPasteur;
-            me.UltRequest.PEPElementId = "";
-            me.UltRequest.PEPElementName = "";
+            me.UltRequest.PEPElementId = "PEP012312313";
+            me.UltRequest.PEPElementName = "PEP name";
             me.UltRequest.requestDate = DateTime.Now;
             me.UltRequest.responsibleEmployeeNum = "00093109";
             me.UltRequest.responsibleLogin = "pharma.aventis.com/MEX-BCAMPOS";
@@ -53,7 +53,7 @@ namespace eGastosWS.Debug
             me.UltRequest.salesForce = false;
             me.UltRequest.status = 1;
             me.UltRequest.statusName = "PorAutorizar";
-            me.UltRequest.type = 4; // <3 = MissionOrder
+            me.UltRequest.type = 2; // <3 = MissionOrder
             me.UltRequest.typeName = "Cuenta de Gastos";
             me.UltRequest.ultimusNumber = 0;
             #endregion
@@ -67,7 +67,7 @@ namespace eGastosWS.Debug
             #endregion
 
             #region UltApprovalHistory
-            me.UltApprovalHistory = new eGastosEntity.Ultimus.UltApprovalHistory[2];
+            me.UltApprovalHistory = new eGastosEntity.Ultimus.UltApprovalHistory[1];
             me.UltApprovalHistory[0] = new eGastosEntity.Ultimus.UltApprovalHistory();
             me.UltApprovalHistory[0].approveDate = DateTime.Now.AddDays(-15);
             me.UltApprovalHistory[0].approverLogin = "pharma.aventis.com/e0193822";
@@ -77,14 +77,14 @@ namespace eGastosWS.Debug
             me.UltApprovalHistory[0].stepName = "Begin";
             me.UltApprovalHistory[0].userEmail = "marcio.nakamura@sanofi.com";
 
-            me.UltApprovalHistory[1] = new eGastosEntity.Ultimus.UltApprovalHistory();
-            me.UltApprovalHistory[1].approveDate = DateTime.Now.AddDays(-10);
-            me.UltApprovalHistory[1].approverLogin = "pharma.aventis.com/e0000001";
-            me.UltApprovalHistory[1].approverName = "Marcio Nakamura 01";
-            me.UltApprovalHistory[1].approveStatus = "Aprobado 01";
-            me.UltApprovalHistory[1].comments = "Aprovado com pouco sucesso 01";
-            me.UltApprovalHistory[1].stepName = "Passo 01";
-            me.UltApprovalHistory[1].userEmail = "marcio.nakamura@sanofi.com01";
+            //me.UltApprovalHistory[1] = new eGastosEntity.Ultimus.UltApprovalHistory();
+            //me.UltApprovalHistory[1].approveDate = DateTime.Now.AddDays(-10);
+            //me.UltApprovalHistory[1].approverLogin = "pharma.aventis.com/e0000001";
+            //me.UltApprovalHistory[1].approverName = "Marcio Nakamura 01";
+            //me.UltApprovalHistory[1].approveStatus = "Aprobado 01";
+            //me.UltApprovalHistory[1].comments = "Aprovado com pouco sucesso 01";
+            //me.UltApprovalHistory[1].stepName = "Passo 01";
+            //me.UltApprovalHistory[1].userEmail = "marcio.nakamura@sanofi.com01";
 
             //me.UltApprovalHistory[2] = new eGastosEntity.Ultimus.UltApprovalHistory();
             //me.UltApprovalHistory[2].approveDate = DateTime.Now.AddDays(20);
@@ -117,7 +117,7 @@ namespace eGastosWS.Debug
             #region me.UltExpenseAccount
             me.UltExpenseAccount = new eGastosEntity.Ultimus.UltExpenseAccount();
             me.UltExpenseAccount.charged = true;
-            me.UltExpenseAccount.creditCard = true;
+            me.UltExpenseAccount.debitCard = true;
             me.UltExpenseAccount.idExpenseAccount = 123;
             me.UltExpenseAccount.idRequest = 234;
             me.UltExpenseAccount.nationalManagerLogin = "National Manager Login";
@@ -125,7 +125,9 @@ namespace eGastosWS.Debug
             me.UltExpenseAccount.overdue = true;
             me.UltExpenseAccount.totalMeal = 234.56;
             me.UltExpenseAccount.totalMiniEvent = 345.67;
-            me.UltExpenseAccount.totalNationalMeal = 456.78;
+            me.UltExpenseAccount.totalNationalMeal = 456.89;
+            me.UltExpenseAccount.strike = true;
+            me.UltExpenseAccount.isCFDI = true;
             #endregion
 
             #region me.UltExpenseAccountDetail
@@ -176,7 +178,7 @@ namespace eGastosWS.Debug
             #region me.UltExpenseFlowVariables
             me.UltExpenseFlowVariables = new eGastosEntity.Ultimus.UltExpenseFlowVariables();
             me.UltExpenseFlowVariables.activeDirAreaGastos = false;
-            me.UltExpenseFlowVariables.activeDirFinanzasGastos =false;
+            me.UltExpenseFlowVariables.activeDirFinanzasGastos = false;
             me.UltExpenseFlowVariables.activeDirGralGastos = false;
             me.UltExpenseFlowVariables.activeManager = true;
             me.UltExpenseFlowVariables.jobFunctionAutorizador1 = "JF:org=Business Organization, dept=AR_LATAM, jf=VICEPRESIDENT_LATAM";
@@ -236,7 +238,7 @@ namespace eGastosWS.Debug
             me.UltHotel[1].idConsecutive = 14;
             me.UltHotel[1].idHotel = 12;
             me.UltHotel[1].idLegerAccount = 455;
-            me.UltHotel[1].idMissionOrder = 561;
+            me.UltHotel[1].idMissionOrder = 57;
             me.UltHotel[1].idRated = 743;
             me.UltHotel[1].IVA = 772.45;
             me.UltHotel[1].lineStatus = 53;
@@ -250,6 +252,7 @@ namespace eGastosWS.Debug
             me.UltHotel[1].status = true;
             me.UltHotel[1].telephone = "+55(11)3759-6934";
             #endregion
+
             #region me.UltItinerary
             me.UltItinerary = new eGastosEntity.Ultimus.UltItinerary[2];
             me.UltItinerary[0] = new eGastosEntity.Ultimus.UltItinerary();
@@ -281,7 +284,7 @@ namespace eGastosWS.Debug
             me.UltItinerary[1].departureDate = DateTime.Now.AddDays(31);
             me.UltItinerary[1].departureHour = "22:32";
             me.UltItinerary[1].idConsecutive = 2;
-            me.UltItinerary[1].idItinerary = 1;
+            me.UltItinerary[1].idItinerary = 2;
             me.UltItinerary[1].idLedgerAccount = 3;
             me.UltItinerary[1].idMissionOrder = 4;
             me.UltItinerary[1].nameLedgerAccount = "2 Name Ledger Account";
@@ -291,6 +294,8 @@ namespace eGastosWS.Debug
             me.UltItinerary[1].status = true;
             me.UltItinerary[1].travelType = 4;
             #endregion
+
+
             #region me.UltItineraryOptions
             me.UltItineraryOptions = new eGastosEntity.Ultimus.UltItineraryOptions[1];
             me.UltItineraryOptions[0] = new eGastosEntity.Ultimus.UltItineraryOptions();
@@ -303,6 +308,7 @@ namespace eGastosWS.Debug
             me.UltItineraryOptions[0].observations = "Observacao";
             me.UltItineraryOptions[0].quoteRate = 123.45;
             #endregion
+
             #region me.UltItineraryOptionsDetail
             me.UltItineraryOptionsDetail = new eGastosEntity.Ultimus.UltItineraryOptionsDetail[2];
             me.UltItineraryOptionsDetail[0] = new eGastosEntity.Ultimus.UltItineraryOptionsDetail();
@@ -323,7 +329,7 @@ namespace eGastosWS.Debug
             me.UltItineraryOptionsDetail[1].departure = "Aeroporto Internacional de São Paulo";
             me.UltItineraryOptionsDetail[1].departureDate = DateTime.Now.AddDays(12);
             me.UltItineraryOptionsDetail[1].idItineraryOption = 234;
-            me.UltItineraryOptionsDetail[1].idItineraryOptionsDetail = 1;
+            me.UltItineraryOptionsDetail[1].idItineraryOptionsDetail = 2;
             me.UltItineraryOptionsDetail[1].idMissionOrder = 2;
             me.UltItineraryOptionsDetail[1].lapseTime = 54.21;
             #endregion
@@ -358,19 +364,24 @@ namespace eGastosWS.Debug
             me.UltMissionOrder.statusAgencySend = 1;
             me.UltMissionOrder.travelId = "123";
             me.UltMissionOrder.travelName = "A negocios";
+            me.UltMissionOrder.advanceAndDebitCard = true; //new
+            me.UltMissionOrder.exceededAdvance = true; //new
+            me.UltMissionOrder.missionOrderType = 23; // new
+            me.UltMissionOrder.missionOrderTypeText = "Vinte e Tres"; // new
+
             #endregion
 
             #region me.UltPAClient
             me.UltPAClient = new eGastosEntity.Ultimus.UltPAClient[2];
             me.UltPAClient[0] = new eGastosEntity.Ultimus.UltPAClient();
-            me.UltPAClient[0].code = "01234";
+            me.UltPAClient[0].code = "00001";
             me.UltPAClient[0].idExpenseAccountDetail = 1234;
             me.UltPAClient[0].name = "um dois tres quatro";
 
             me.UltPAClient[1] = new eGastosEntity.Ultimus.UltPAClient();
-            me.UltPAClient[1].code = "01234";
-            me.UltPAClient[1].idExpenseAccountDetail = 1234;
-            me.UltPAClient[1].name = "um dois tres quatro";
+            me.UltPAClient[1].code = "00002";
+            me.UltPAClient[1].idExpenseAccountDetail = 2345;
+            me.UltPAClient[1].name = "dois tres quatro cinco";
             #endregion
 
             #region me.UltRequester
@@ -398,7 +409,21 @@ namespace eGastosWS.Debug
             me.UltSAPResponse[0].idResponse = 3;
             me.UltSAPResponse[0].type = "Tipo do Responsavel";
             me.UltSAPResponse[0].year = 2014;
-            #endregion                     
+            #endregion
+
+            #region me.UltGetThere
+            me.UltGetThere = new eGastosEntity.Ultimus.UltGetThere();
+            me.UltGetThere.idGetThere =1;
+            me.UltGetThere.idMissionOrder = 2;
+            me.UltGetThere.conceptId = 3;
+            me.UltGetThere.conceptText = "Texto concept";
+            me.UltGetThere.lowCost = true;
+            me.UltGetThere.justification = "Justificativa";
+            me.UltGetThere.cheapestRate = "Cheapes Rate";
+            me.UltGetThere.outPolitic = true;
+            me.UltGetThere.outPoliticMessage = "Esta fora da politica";
+            #endregion
+
 
             return me;
         }

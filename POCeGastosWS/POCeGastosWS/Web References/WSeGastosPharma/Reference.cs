@@ -23,11 +23,11 @@ namespace eGastosWS.WSeGastosPharma {
     
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.5420")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.5483")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Web.Services.WebServiceBindingAttribute(Name="eGastos_PharmaSoap", Namespace="http://www.ultimus.com/eGastos_Pharma")]
-    public partial class eGastos_Pharma : System.Web.Services.Protocols.SoapHttpClientProtocol {
+    [System.Web.Services.WebServiceBindingAttribute(Name="eGastos_Pharma_BCSoap", Namespace="http://www.ultimus.com/eGastos_Pharma_BC")]
+    public partial class eGastos_Pharma_BC : System.Web.Services.Protocols.SoapHttpClientProtocol {
         
         private System.Threading.SendOrPostCallback GetLaunchInformationOperationCompleted;
         
@@ -46,7 +46,7 @@ namespace eGastosWS.WSeGastosPharma {
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
-        public eGastos_Pharma() {
+        public eGastos_Pharma_BC() {
             this.Url = global::eGastosWS.Properties.Settings.Default.eGastosWS_WSeGastosPharma_eGastos_Pharma;
             if ((this.IsLocalFileSystemWebService(this.Url) == true)) {
                 this.UseDefaultCredentials = true;
@@ -103,7 +103,7 @@ namespace eGastosWS.WSeGastosPharma {
         public event ReturnStepCompletedEventHandler ReturnStepCompleted;
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.ultimus.com/eGastos_Pharma/GetLaunchInformation", RequestNamespace="http://www.ultimus.com/eGastos_Pharma", ResponseNamespace="http://www.ultimus.com/eGastos_Pharma", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.ultimus.com/eGastos_Pharma_BC/GetLaunchInformation", RequestNamespace="http://www.ultimus.com/eGastos_Pharma_BC", ResponseNamespace="http://www.ultimus.com/eGastos_Pharma_BC", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool GetLaunchInformation(string strUserName, out SchemaFile[] BeginSchema, out string strDefaultXML, out string strError) {
             object[] results = this.Invoke("GetLaunchInformation", new object[] {
                         strUserName});
@@ -135,7 +135,7 @@ namespace eGastosWS.WSeGastosPharma {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.ultimus.com/eGastos_Pharma/LaunchIncident", RequestNamespace="http://www.ultimus.com/eGastos_Pharma", ResponseNamespace="http://www.ultimus.com/eGastos_Pharma", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.ultimus.com/eGastos_Pharma_BC/LaunchIncident", RequestNamespace="http://www.ultimus.com/eGastos_Pharma_BC", ResponseNamespace="http://www.ultimus.com/eGastos_Pharma_BC", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool LaunchIncident(string strUserName, string strSummary, string strMemo, bool bDisableAbort, int nPriority, string strXML, bool bValidateXML, out int nIncidentNo, out string strError) {
             object[] results = this.Invoke("LaunchIncident", new object[] {
                         strUserName,
@@ -178,7 +178,7 @@ namespace eGastosWS.WSeGastosPharma {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.ultimus.com/eGastos_Pharma/GetActiveTasks", RequestNamespace="http://www.ultimus.com/eGastos_Pharma", ResponseNamespace="http://www.ultimus.com/eGastos_Pharma", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.ultimus.com/eGastos_Pharma_BC/GetActiveTasks", RequestNamespace="http://www.ultimus.com/eGastos_Pharma_BC", ResponseNamespace="http://www.ultimus.com/eGastos_Pharma_BC", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool GetActiveTasks(string strUserName, out CTaskInfo[] taskList, out string strError) {
             object[] results = this.Invoke("GetActiveTasks", new object[] {
                         strUserName});
@@ -209,7 +209,7 @@ namespace eGastosWS.WSeGastosPharma {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.ultimus.com/eGastos_Pharma/AbortIncident", RequestNamespace="http://www.ultimus.com/eGastos_Pharma", ResponseNamespace="http://www.ultimus.com/eGastos_Pharma", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.ultimus.com/eGastos_Pharma_BC/AbortIncident", RequestNamespace="http://www.ultimus.com/eGastos_Pharma_BC", ResponseNamespace="http://www.ultimus.com/eGastos_Pharma_BC", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool AbortIncident(string strUserName, int nIncidentNumber, string strSummary, out string strError) {
             object[] results = this.Invoke("AbortIncident", new object[] {
                         strUserName,
@@ -243,7 +243,7 @@ namespace eGastosWS.WSeGastosPharma {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.ultimus.com/eGastos_Pharma/GetTaskInformation", RequestNamespace="http://www.ultimus.com/eGastos_Pharma", ResponseNamespace="http://www.ultimus.com/eGastos_Pharma", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.ultimus.com/eGastos_Pharma_BC/GetTaskInformation", RequestNamespace="http://www.ultimus.com/eGastos_Pharma_BC", ResponseNamespace="http://www.ultimus.com/eGastos_Pharma_BC", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool GetTaskInformation(string strUserName, int nIncidentNumber, string strStepName, out SchemaFile[] TaskSchema, out string strTaskXML, out string strError) {
             object[] results = this.Invoke("GetTaskInformation", new object[] {
                         strUserName,
@@ -279,7 +279,7 @@ namespace eGastosWS.WSeGastosPharma {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.ultimus.com/eGastos_Pharma/CompleteStep", RequestNamespace="http://www.ultimus.com/eGastos_Pharma", ResponseNamespace="http://www.ultimus.com/eGastos_Pharma", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.ultimus.com/eGastos_Pharma_BC/CompleteStep", RequestNamespace="http://www.ultimus.com/eGastos_Pharma_BC", ResponseNamespace="http://www.ultimus.com/eGastos_Pharma_BC", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool CompleteStep(string strUserName, ref int nIncidentNumber, string strStepName, string strSummary, string strMemo, bool bDisableAbort, int nPriority, string strXML, bool bValidateXML, out string strError) {
             object[] results = this.Invoke("CompleteStep", new object[] {
                         strUserName,
@@ -326,7 +326,7 @@ namespace eGastosWS.WSeGastosPharma {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.ultimus.com/eGastos_Pharma/ReturnStep", RequestNamespace="http://www.ultimus.com/eGastos_Pharma", ResponseNamespace="http://www.ultimus.com/eGastos_Pharma", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.ultimus.com/eGastos_Pharma_BC/ReturnStep", RequestNamespace="http://www.ultimus.com/eGastos_Pharma_BC", ResponseNamespace="http://www.ultimus.com/eGastos_Pharma_BC", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool ReturnStep(string strUserName, ref int nIncidentNumber, string strStepName, string strSummary, string strMemo, bool bDisableAbort, int nPriority, string strXML, bool bValidateXML, out string strError) {
             object[] results = this.Invoke("ReturnStep", new object[] {
                         strUserName,
@@ -396,7 +396,7 @@ namespace eGastosWS.WSeGastosPharma {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ultimus.com/eGastos_Pharma")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ultimus.com/eGastos_Pharma_BC")]
     public partial class SchemaFile {
         
         private string schemaFileNameField;
@@ -429,7 +429,7 @@ namespace eGastosWS.WSeGastosPharma {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ultimus.com/eGastos_Pharma")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ultimus.com/eGastos_Pharma_BC")]
     public partial class CTaskInfo {
         
         private string m_strStepLabelField;
@@ -470,11 +470,11 @@ namespace eGastosWS.WSeGastosPharma {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.5420")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.5483")]
     public delegate void GetLaunchInformationCompletedEventHandler(object sender, GetLaunchInformationCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.5420")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.5483")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetLaunchInformationCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -520,11 +520,11 @@ namespace eGastosWS.WSeGastosPharma {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.5420")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.5483")]
     public delegate void LaunchIncidentCompletedEventHandler(object sender, LaunchIncidentCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.5420")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.5483")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class LaunchIncidentCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -562,11 +562,11 @@ namespace eGastosWS.WSeGastosPharma {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.5420")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.5483")]
     public delegate void GetActiveTasksCompletedEventHandler(object sender, GetActiveTasksCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.5420")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.5483")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetActiveTasksCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -604,11 +604,11 @@ namespace eGastosWS.WSeGastosPharma {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.5420")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.5483")]
     public delegate void AbortIncidentCompletedEventHandler(object sender, AbortIncidentCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.5420")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.5483")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class AbortIncidentCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -638,11 +638,11 @@ namespace eGastosWS.WSeGastosPharma {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.5420")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.5483")]
     public delegate void GetTaskInformationCompletedEventHandler(object sender, GetTaskInformationCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.5420")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.5483")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetTaskInformationCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -688,11 +688,11 @@ namespace eGastosWS.WSeGastosPharma {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.5420")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.5483")]
     public delegate void CompleteStepCompletedEventHandler(object sender, CompleteStepCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.5420")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.5483")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class CompleteStepCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -730,11 +730,11 @@ namespace eGastosWS.WSeGastosPharma {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.5420")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.5483")]
     public delegate void ReturnStepCompletedEventHandler(object sender, ReturnStepCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.5420")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.5483")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class ReturnStepCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {

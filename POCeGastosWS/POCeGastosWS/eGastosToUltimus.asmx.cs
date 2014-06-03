@@ -13,7 +13,7 @@ using System.Text;
 
 namespace eGastosWS
 {
-    
+
     /// <summary>
     /// Summary description for eGastosToUltimus
     /// comentario de Marcio Nakamura
@@ -30,19 +30,19 @@ namespace eGastosWS
         public WSeGastosPharma.SchemaFile[] PharmaSchemaFile;
         public Entity.FilterData FilterData = new Entity.FilterData();
         public Entity.MasterEntity MasterEntity = new Entity.MasterEntity();
-        private WSeGastosPharma.eGastos_Pharma ult_objPharma = null; // Incluir
-        private WSeGastosPasteur.eGastos_Pasteur ult_objPasteur = null; // Incluir
+        private WSeGastosPharma.eGastos_Pharma_BC ult_objPharma = null; // Incluir
+        private WSeGastosPasteur.eGastos_Pasteur_BC ult_objPasteur = null; // Incluir
         public string msgError = "";
         #endregion
         private Mapeo mapeo = new Mapeo();
         private eGastosWS.Debug.Generate ge = new eGastosWS.Debug.Generate();
         private Entity.FilterData fd = new Entity.FilterData();
-        private int intUltRequestType; // incluir
         private XmlNode XMLNodeUltExpenseAccount = null, XMLNodeUltExpenseFlowVariables = null, XMLNodeUltRequest = null; // Incluir
 
         [WebMethod]
         public int ExpensesAccountRequest(Entity.MasterEntity me, Entity.FilterData fd, out string error)
         {
+             //Descomentar para publicar - Marcio Nakamura
             String msgMO = generaExpenseAcc(me.UltRequest, me.UltExpenseAccount, me.UltExpenseAccountDetail, me.UltPAClient, false, 0);
             if (string.IsNullOrEmpty(msgMO))
             {
@@ -57,22 +57,24 @@ namespace eGastosWS
                 me.UltPAClient = mapeo.MapperDataList<eGastosWS.ExpenseAccountServiceReference.UltPAClient,
                     eGastosEntity.Ultimus.UltPAClient>(expAccClient.getUltPAClientList());
 
-                // DEBUG
-                //string error = "";
-                //Entity.MasterEntity me = new eGastosWS.Entity.MasterEntity();
-                //me = ge.me1(ref fd);
+            // DEBUG
+            //string error = "";
+            //Entity.MasterEntity me = new eGastosWS.Entity.MasterEntity();
+            //me = ge.me1(ref fd);
 
-                int nIncidente = 0;
-                if (me.UltRequest.pasteur)
-                {
-                    incidentGeneratePasteur(me, fd, out msgError, out nIncidente, false);
-                }
-                else
-                {
-                    incidentGeneratePharma(me, fd, out msgError, out nIncidente, false);
-                }
-                error = msgError;
-                return nIncidente;
+            int nIncidente = 0;
+            if (me.UltRequest.pasteur)
+            {
+                incidentGeneratePasteur(me, fd, out msgError, out nIncidente, false);
+            }
+            else
+            {
+                incidentGeneratePharma(me, fd, out msgError, out nIncidente, false);
+            }
+            error = msgError;
+            return nIncidente;
+
+             //Descomentar para publicar - Marcio Nakamura
             }
             error = msgMO;
             return 0;
@@ -86,40 +88,45 @@ namespace eGastosWS
             //string error = "";
             //Entity.MasterEntity me = new eGastosWS.Entity.MasterEntity();
             //me = ge.me1(ref fd);
-            String msgMO = generaMissionOrder(me.UltRequest, me.UltMissionOrder, me.UltItinerary, me.UltHotel, false, 0);
-            if (string.IsNullOrEmpty(msgMO))
+
+            // Descomentar para publicar - Marcio Nakamura
+            //String msgMO = generaMissionOrder(me.UltRequest, me.UltMissionOrder, me.UltItinerary, me.UltHotel, false, 0);
+            //if (string.IsNullOrEmpty(msgMO))
+            //{
+            //    me.UltExpenseFlowVariables = mapeo.MapperData<eGastosWS.MissionOrderServiceReference.UltExpenseFlowVariables,
+            //        eGastosEntity.Ultimus.UltExpenseFlowVariables>(misOrdClient.getUltExpenseFlowVariables());
+            //    me.UltRequest = mapeo.MapperData<eGastosWS.MissionOrderServiceReference.UltRequest,
+            //        eGastosEntity.Ultimus.UltRequest>(misOrdClient.getUltRequest());
+            //    me.UltMissionOrder = mapeo.MapperData<eGastosWS.MissionOrderServiceReference.UltMissionOrder,
+            //        eGastosEntity.Ultimus.UltMissionOrder>(misOrdClient.getUltMissionOrder());
+
+            //    me.UltItinerary = mapeo.MapperDataList<eGastosWS.MissionOrderServiceReference.UltItinerary,
+            //        eGastosEntity.Ultimus.UltItinerary>(misOrdClient.getUltItineraryList());
+            //    me.UltHotel = mapeo.MapperDataList<eGastosWS.MissionOrderServiceReference.UltHotel,
+            //        eGastosEntity.Ultimus.UltHotel>(misOrdClient.getUltHotelList());
+
+            int nIncidente = 0;
+            if (me.UltRequest.pasteur)
             {
-                me.UltExpenseFlowVariables = mapeo.MapperData<eGastosWS.MissionOrderServiceReference.UltExpenseFlowVariables,
-                    eGastosEntity.Ultimus.UltExpenseFlowVariables>(misOrdClient.getUltExpenseFlowVariables());
-                me.UltRequest = mapeo.MapperData<eGastosWS.MissionOrderServiceReference.UltRequest,
-                    eGastosEntity.Ultimus.UltRequest>(misOrdClient.getUltRequest());
-                me.UltMissionOrder = mapeo.MapperData<eGastosWS.MissionOrderServiceReference.UltMissionOrder,
-                    eGastosEntity.Ultimus.UltMissionOrder>(misOrdClient.getUltMissionOrder());
-               
-                me.UltItinerary = mapeo.MapperDataList<eGastosWS.MissionOrderServiceReference.UltItinerary,
-                    eGastosEntity.Ultimus.UltItinerary>(misOrdClient.getUltItineraryList());
-                me.UltHotel = mapeo.MapperDataList<eGastosWS.MissionOrderServiceReference.UltHotel,
-                    eGastosEntity.Ultimus.UltHotel>(misOrdClient.getUltHotelList());
-                int nIncidente = 0;
-                if (me.UltRequest.pasteur)
-                {
-                    incidentGeneratePasteur(me, fd, out msgError, out nIncidente, false);
-                }
-                else
-                {
-                    incidentGeneratePharma(me, fd, out msgError, out nIncidente, false);
-                }
-                error = msgError;
-                return nIncidente;
+                incidentGeneratePasteur(me, fd, out msgError, out nIncidente, false);
             }
-            error = msgMO;
-            return 0;
+            else
+            {
+                incidentGeneratePharma(me, fd, out msgError, out nIncidente, false);
+            }
+            error = msgError;
+            return nIncidente;
+
+            // Descomentar para publicar - Marcio Nakamura
+            //}
+            //error = msgMO;
+            //return 0;
         }
 
         [WebMethod]
         public Entity.MasterEntity LoadMissionOrderApproval(Entity.FilterData fd)
         //public Entity.MasterEntity LoadMissionOrderApproval()
-        { 
+        {
             // DEBUG
             //string error = "";
             //Entity.MasterEntity me = new eGastosWS.Entity.MasterEntity();
@@ -144,10 +151,12 @@ namespace eGastosWS
             ////------------------------------------------------------------------
             //Comentario
 
-            String msgMO = generaMissionOrder(me.UltRequest, me.UltMissionOrder, me.UltItinerary, me.UltHotel, true, fd.IncidentNumber);
-            if (msgMO.ToLower() == "true")
-            {
-                string xmlstr = getUltimusXML(fd);
+
+            // Descomentar para publicar - Marcio Nakamura
+            //String msgMO = generaMissionOrder(me.UltRequest, me.UltMissionOrder, me.UltItinerary, me.UltHotel, true, fd.IncidentNumber);
+            //if (msgMO.ToLower() == "true")
+            //{
+            string xmlstr = getUltimusXML(fd);
 
             XmlDataDocument MOApprovalXML = new System.Xml.XmlDataDocument();
             XmlDocument oXmlDoc = new XmlDocument();
@@ -222,22 +231,24 @@ namespace eGastosWS
 
             if (fd.isPasteur)
             {
-                ult_objPasteur = new eGastos_Pasteur();
+                ult_objPasteur = new eGastos_Pasteur_BC();
                 ult_objPasteur.CompleteStep(fd.UserLogin, ref intIncident, fd.StepName, summary, "", false, 9, MOApprovalXML.InnerXml, true, out strError);
             }
             else
             {
-                ult_objPharma = new eGastos_Pharma();
+                ult_objPharma = new eGastos_Pharma_BC();
                 ult_objPharma.CompleteStep(fd.UserLogin, ref intIncident, fd.StepName, summary, "", false, 9, MOApprovalXML.InnerXml, true, out strError);
-			}
+            }
             error = strError;
             return 0;
-	}
-            else {
-                error = msgMO;
-				return 0;
-            }
-            
+
+            // Descomentar para publicar - Marcio Nakamura
+            //}
+            //        else {
+            //            error = msgMO;
+            //            return 0;
+            //        }
+
         }
 
         [WebMethod]
@@ -268,10 +279,11 @@ namespace eGastosWS
             //// EndDebug
             ////------------------------------------------------------------------
 
-            String msgMO = generaExpenseAcc(me.UltRequest, me.UltExpenseAccount, me.UltExpenseAccountDetail, me.UltPAClient, true, fd.IncidentNumber);
-            if (msgMO.ToLower() == "true")
-            {
-                string xmlstr = getUltimusXML(fd);
+            // Descomentar para publicar - Marcio Nakamura
+            //String msgMO = generaExpenseAcc(me.UltRequest, me.UltExpenseAccount, me.UltExpenseAccountDetail, me.UltPAClient, true, fd.IncidentNumber);
+            //if (msgMO.ToLower() == "true")
+            //{
+            string xmlstr = getUltimusXML(fd);
 
             XmlDataDocument MOApprovalXML = new System.Xml.XmlDataDocument();
             XmlDocument oXmlDoc = new XmlDocument();
@@ -346,24 +358,26 @@ namespace eGastosWS
 
             if (fd.isPasteur)
             {
-                ult_objPasteur = new eGastos_Pasteur();
+                ult_objPasteur = new eGastos_Pasteur_BC();
                 ult_objPasteur.CompleteStep(fd.UserLogin, ref intIncident, fd.StepName, summary, "", false, 9, MOApprovalXML.InnerXml, true, out strError);
             }
             else
             {
-                ult_objPharma = new eGastos_Pharma();
+                ult_objPharma = new eGastos_Pharma_BC();
                 ult_objPharma.CompleteStep(fd.UserLogin, ref intIncident, fd.StepName, summary, "", false, 9, MOApprovalXML.InnerXml, true, out strError);
             }
             error = strError;
             return 0;
-			}
-            else {
-                error = msgMO;
-				return 0;
-            }
 
-            
-            
+            // Descomentar para publicar - Marcio Nakamura
+            //}
+            //else {
+            //    error = msgMO;
+            //    return 0;
+            //}
+
+
+
         }
 
         private string getUltimusXML(Entity.FilterData fd)
@@ -372,12 +386,12 @@ namespace eGastosWS
 
             if (fd.isPasteur)// Call Pasteur XML schema
             {
-                WSeGastosPasteur.eGastos_Pasteur wsPasteur = new WSeGastosPasteur.eGastos_Pasteur();
+                WSeGastosPasteur.eGastos_Pasteur_BC wsPasteur = new WSeGastosPasteur.eGastos_Pasteur_BC();
                 wsPasteur.GetTaskInformation(fd.UserLogin, fd.IncidentNumber, fd.StepName, out PasteurSchemaFile, out XMLSchemaData, out msgError);
             }
             else //Call Pharma XML Schema
             {
-                WSeGastosPharma.eGastos_Pharma wsPHarma = new WSeGastosPharma.eGastos_Pharma();
+                WSeGastosPharma.eGastos_Pharma_BC wsPHarma = new WSeGastosPharma.eGastos_Pharma_BC();
                 wsPHarma.GetTaskInformation(fd.UserLogin, fd.IncidentNumber, fd.StepName, out PharmaSchemaFile, out XMLSchemaData, out msgError);
             }
             return XMLSchemaData;
@@ -720,7 +734,7 @@ namespace eGastosWS
                     if (NodeUltExpenseAccount["charged"] != null)
                         me.UltExpenseAccount.charged = XmlConvert.ToBoolean(NodeUltExpenseAccount["charged"].InnerText.ToString());
                     if (NodeUltExpenseAccount["creditCard"] != null)
-                        me.UltExpenseAccount.creditCard = XmlConvert.ToBoolean(NodeUltExpenseAccount["creditCard"].InnerText.ToString());
+                        me.UltExpenseAccount.debitCard = XmlConvert.ToBoolean(NodeUltExpenseAccount["creditCard"].InnerText.ToString());
                     if (NodeUltExpenseAccount["idExpenseAccount"] != null)
                         me.UltExpenseAccount.idExpenseAccount = XmlConvert.ToInt32(NodeUltExpenseAccount["idExpenseAccount"].InnerText.ToString());
                     if (NodeUltExpenseAccount["idRequest"] != null)
@@ -943,16 +957,33 @@ namespace eGastosWS
 
             return "";
         }
-
         private int incidentGeneratePasteur(Entity.MasterEntity me, Entity.FilterData fd, out string msgError, out int nIncident, bool isApprove)
         {
-            WSeGastosPasteur.eGastos_Pasteur ult_obj = new eGastos_Pasteur();
+            WSeGastosPasteur.eGastos_Pasteur_BC ult_obj = new eGastos_Pasteur_BC();
             WSeGastosPasteur.SchemaFile[] schemas;
 
+
+            // REQUEST  DATA (rd)           
             string strHoraAtual = ToXMLDateFormat(DateTime.Now);
-            string summary = "O.M. para + " + me.UltRequester.requesterName;
+            string xmlStepSchemaUltHotel = "<idHotel xmlns='http://processSchema.eGastos/'>0</idHotel><idMissionOrder xmlns='http://processSchema.eGastos/'>0</idMissionOrder><idRated xmlns='http://processSchema.eGastos/'>0</idRated><idConsecutive xmlns='http://processSchema.eGastos/'>0</idConsecutive><idLegerAccount xmlns='http://processSchema.eGastos/'>0</idLegerAccount><nameLegerAccount xmlns='http://processSchema.eGastos/'>asd</nameLegerAccount><country xmlns='http://processSchema.eGastos/'>asd</country><city xmlns='http://processSchema.eGastos/'>asd</city><observations xmlns='http://processSchema.eGastos/'>asd</observations><checkInDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</checkInDate><checkoutDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</checkoutDate><hotelName xmlns='http://processSchema.eGastos/'>asd</hotelName><reservation xmlns='http://processSchema.eGastos/'>asd</reservation><telephone xmlns='http://processSchema.eGastos/'>asd</telephone><address xmlns='http://processSchema.eGastos/'>asd</address><quotedRate xmlns='http://processSchema.eGastos/'>0</quotedRate><realRate xmlns='http://processSchema.eGastos/'>0</realRate><IVA xmlns='http://processSchema.eGastos/'>0</IVA><hotelTax xmlns='http://processSchema.eGastos/'>0</hotelTax><otherTaxes xmlns='http://processSchema.eGastos/'>0</otherTaxes><status xmlns='http://processSchema.eGastos/'>true</status><lineStatus xmlns='http://processSchema.eGastos/'>0</lineStatus><lineStatusName xmlns='http://processSchema.eGastos/'>asd</lineStatusName>";
+            string xmlStepSchemaUltApprovalHistory = "<stepName xmlns='http://processSchema.eGastos/'></stepName><approverName xmlns='http://processSchema.eGastos/'></approverName><approverLogin xmlns='http://processSchema.eGastos/'></approverLogin><userEmail xmlns='http://processSchema.eGastos/'></userEmail><approveDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</approveDate><comments xmlns='http://processSchema.eGastos/'></comments><approveStatus xmlns='http://processSchema.eGastos/'></approveStatus>";
+            string xmlStepSchemaUltMissionOrder = "<idMissionOrder xmlns='http://processSchema.eGastos/'>0</idMissionOrder><idRequest xmlns='http://processSchema.eGastos/'>0</idRequest><idAgencyResponse xmlns='http://processSchema.eGastos/'>0</idAgencyResponse><statusAgencyProcess xmlns='http://processSchema.eGastos/'>0</statusAgencyProcess><statusAgencySend xmlns='http://processSchema.eGastos/'>0</statusAgencySend><countAgencyWait xmlns='http://processSchema.eGastos/'>0</countAgencyWait><idAgencyLog xmlns='http://processSchema.eGastos/'>0</idAgencyLog><travelId xmlns='http://processSchema.eGastos/'></travelId><travelName xmlns='http://processSchema.eGastos/'></travelName><objective xmlns='http://processSchema.eGastos/'></objective><advance xmlns='http://processSchema.eGastos/'>0</advance><nationalCurrency xmlns='http://processSchema.eGastos/'>0</nationalCurrency><advanceApply xmlns='http://processSchema.eGastos/'>false</advanceApply><itinerary xmlns='http://processSchema.eGastos/'>false</itinerary><hotel xmlns='http://processSchema.eGastos/'>false</hotel><comment xmlns='http://processSchema.eGastos/'></comment><exceededAdvance xmlns='http://processSchema.eGastos/'>false</exceededAdvance><missionOrderType xmlns='http://processSchema.eGastos/'>0</missionOrderType><missionOrderTypeText xmlns='http://processSchema.eGastos/'>0</missionOrderTypeText><advanceAndDebitCard xmlns='http://processSchema.eGastos/'>false</advanceAndDebitCard>";
+            string xmlStepSchemaUltGetThere = "<idGetThere xmlns='http://processSchema.eGastos/'>0</idGetThere><idMissionOrder xmlns='http://processSchema.eGastos/'>0</idMissionOrder><conceptId xmlns='http://processSchema.eGastos/'>0</conceptId><conceptText xmlns='http://processSchema.eGastos/'> </conceptText><lowCost xmlns='http://processSchema.eGastos/'>false</lowCost><justification xmlns='http://processSchema.eGastos/'> </justification><cheapestRate xmlns='http://processSchema.eGastos/'> </cheapestRate><outPolitic xmlns='http://processSchema.eGastos/'>false</outPolitic><outPoliticMessage xmlns='http://processSchema.eGastos/'> </outPoliticMessage>";
+            string xmlUltItinerary = "<idItinerary xmlns='http://processSchema.eGastos/'>0</idItinerary><idMissionOrder xmlns='http://processSchema.eGastos/'>0</idMissionOrder><idConsecutive xmlns='http://processSchema.eGastos/'>0</idConsecutive><idLedgerAccount xmlns='http://processSchema.eGastos/'>0</idLedgerAccount><nameLedgerAccount  xmlns='http://processSchema.eGastos/'> </nameLedgerAccount><departureHour  xmlns='http://processSchema.eGastos/'>00:00</departureHour><returnHour  xmlns='http://processSchema.eGastos/'>00:00</returnHour><observations  xmlns='http://processSchema.eGastos/'> </observations><travelType xmlns='http://processSchema.eGastos/'>0</travelType><nameTravelType  xmlns='http://processSchema.eGastos/'> </nameTravelType><departureCountry  xmlns='http://processSchema.eGastos/'> </departureCountry><departureCity  xmlns='http://processSchema.eGastos/'> </departureCity><arrivalCountry  xmlns='http://processSchema.eGastos/'> </arrivalCountry><arrivalCity  xmlns='http://processSchema.eGastos/'> </arrivalCity><departureDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</departureDate><arrivalDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</arrivalDate><status xmlns='http://processSchema.eGastos/'>false</status>";
+            string xmlUltItineraryOptions = "<idItineraryOption xmlns='http://processSchema.eGastos/'>0</idItineraryOption><idMissionOrder xmlns='http://processSchema.eGastos/'>0</idMissionOrder><idRate xmlns='http://processSchema.eGastos/'>0</idRate><quoteRate xmlns='http://processSchema.eGastos/'>0</quoteRate><observations xmlns='http://processSchema.eGastos/'> </observations><confirmed xmlns='http://processSchema.eGastos/'>false</confirmed><lastDayPurchase xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</lastDayPurchase>";
+            string xmlUltItineraryOptionsDetail = "<idItineraryOptionsDetail xmlns='http://processSchema.eGastos/'>0</idItineraryOptionsDetail><idItineraryOption xmlns='http://processSchema.eGastos/'>0</idItineraryOption><idMissionOrder xmlns='http://processSchema.eGastos/'>0</idMissionOrder><airlineFlight xmlns='http://processSchema.eGastos/'> </airlineFlight><departure xmlns='http://processSchema.eGastos/'> </departure><arrival xmlns='http://processSchema.eGastos/'> </arrival><departureDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</departureDate><arrivalDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</arrivalDate><lapseTime xmlns='http://processSchema.eGastos/'>0</lapseTime>";
+            string xmlUltPAClient = "<idExpenseAccountDetail xmlns='http://processSchema.eGastos/'>0</idExpenseAccountDetail><code xmlns='http://processSchema.eGastos/'> </code><name xmlns='http://processSchema.eGastos/'> </name>";
+            string xmlUltExpenseAccountDetail = "<idExpenseAccountDetail xmlns='http://processSchema.eGastos/'>0</idExpenseAccountDetail><idExpenseAccount xmlns='http://processSchema.eGastos/'>0</idExpenseAccount><expenseDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</expenseDate><idAccount xmlns='http://processSchema.eGastos/'>0</idAccount><accountName xmlns='http://processSchema.eGastos/'> </accountName><amount xmlns='http://processSchema.eGastos/'>0</amount><invoiceNumber xmlns='http://processSchema.eGastos/'> </invoiceNumber><place xmlns='http://processSchema.eGastos/'> </place><numberOfDiners xmlns='http://processSchema.eGastos/'>0</numberOfDiners><IVA xmlns='http://processSchema.eGastos/'>0</IVA><healthProfessional xmlns='http://processSchema.eGastos/'>false</healthProfessional><discount xmlns='http://processSchema.eGastos/'>0</discount><hasPAClient xmlns='http://processSchema.eGastos/'>false</hasPAClient><IVATypeId xmlns='http://processSchema.eGastos/'> </IVATypeId><IVATypeName xmlns='http://processSchema.eGastos/'> </IVATypeName><total xmlns='http://processSchema.eGastos/'>0</total><observationId xmlns='http://processSchema.eGastos/'>0</observationId><observationName xmlns='http://processSchema.eGastos/'> </observationName><idXml xmlns='http://processSchema.eGastos/'>0</idXml><amountCFDI xmlns='http://processSchema.eGastos/'>0</amountCFDI><ivaCFDI xmlns='http://processSchema.eGastos/'>0</ivaCFDI><idExtract xmlns='http://processSchema.eGastos/'>0</idExtract><amountExtract xmlns='http://processSchema.eGastos/'>0</amountExtract><conciliated xmlns='http://processSchema.eGastos/'>false</conciliated><strike xmlns='http://processSchema.eGastos/'>false</strike><status xmlns='http://processSchema.eGastos/'>false</status>";
+
+            int nodeCountUI = 0, nodeUILastIndex = 0, nodeUIFirstIndex = 0;
+            int nodeCountUIO = 0, nodeUIOLastIndex = 0, nodeUIOFirstIndex = 0;
+            int nodeCountUIOD = 0, nodeUIODLastIndex = 0, nodeUIODFirstIndex = 0;
+            int nodeCountUPAC = 0, nodeUPACLastIndex = 0, nodeUPACFirstIndex = 0;
+            int nodeCountUEAD = 0, nodeUEADLastIndex = 0, nodeUEADFirstIndex = 0;
+
+            string summary = me.UltExpenseFlowVariables.summaryText;
             string strError = "";
-            string strxml, strxml1;
+            string strxml;
 
             msgError = "";
             XmlDataDocument ObjXML = new System.Xml.XmlDataDocument();
@@ -960,13 +991,11 @@ namespace eGastosWS
             StringBuilder LarXML = new StringBuilder();
             XmlDocument oXmlDoc = new XmlDocument();
 
-            //Variaveis ultimus
             int intIncident = 0;
             bool bolResultado;
 
             try
             {
-
                 if (ult_obj.GetLaunchInformation(fd.UserLogin, out schemas, out strxml, out strError))
                 {
                     ObjXML.LoadXml(strxml.Replace("\"", "'"));
@@ -974,642 +1003,612 @@ namespace eGastosWS
                     int n = ProcessVersion.LastIndexOf("/");
                     string ProcessVersionNumber = ProcessVersion.Substring(0, n).ToString() + "/Types";
 
-                    XmlNode XmlNodeCustom = (ObjXML.ChildNodes[1].ChildNodes[0]);
+                    #region StepSchemaUltApprovalHistory
+                    ObjXML.ChildNodes[1].ChildNodes[1].InnerXml = xmlStepSchemaUltApprovalHistory;
+                    foreach (XmlNode SSUAH in ObjXML.ChildNodes[1].ChildNodes[1])
+                    {
+                        if (SSUAH.Name == "approveDate") { SSUAH.InnerText = ToXMLDateFormat(me.UltApprovalHistory[0].approveDate); }
+                        if (SSUAH.Name == "approverLogin") { SSUAH.InnerText = me.UltApprovalHistory[0].approverLogin; }
+                        if (SSUAH.Name == "approverName") { SSUAH.InnerText = me.UltApprovalHistory[0].approverName; }
+                        if (SSUAH.Name == "approveStatus") { SSUAH.InnerText = me.UltApprovalHistory[0].approveStatus; }
+                        if (SSUAH.Name == "comments") { SSUAH.InnerText = me.UltApprovalHistory[0].comments; }
+                        if (SSUAH.Name == "stepName") { SSUAH.InnerText = me.UltApprovalHistory[0].stepName; }
+                        if (SSUAH.Name == "userEmail") { SSUAH.InnerText = me.UltApprovalHistory[0].userEmail; }
+                    };
+                    #endregion
 
-                    //// XML Original
-                    LarXML.Append("<?xml version='1.0' encoding='utf-16'?> ");
-                    LarXML.Append("<TaskData xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns='" + ProcessVersion + "'>");
-
-                    LarXML.Append("  <Global>");
-
-                    #region <UltConfiguration>
-                    LarXML.Append("    <UltConfiguration xmlns='" + ProcessVersionNumber + "'>");
-                    LarXML.Append("      <serverName xmlns='http://processSchema.eGastos/'>http://saosultuat01.pharma.aventis.com/</serverName>");
-                    LarXML.Append("      <appDirectory xmlns='http://processSchema.eGastos/'>eGastos/Pages/</appDirectory>");
-                    LarXML.Append("      <pageRequest xmlns='http://processSchema.eGastos/'>frmExpenseRequest.aspx</pageRequest>");
-                    LarXML.Append("      <pageApproval xmlns='http://processSchema.eGastos/'>frmExpenseApproval.aspx</pageApproval>");
-                    LarXML.Append("      <pageExpenseAccount xmlns='http://processSchema.eGastos/'>frmExpenseAccount.aspx</pageExpenseAccount>");
-                    LarXML.Append("      <pageConfirmQuote xmlns='http://processSchema.eGastos/'>frmConfirmQuote.aspx</pageConfirmQuote>");
-                    LarXML.Append("      <uRLRequest xmlns='http://processSchema.eGastos/'>http://saosultuat01.pharma.aventis.com/eGastos/Pages/frmExpenseRequest.aspx</uRLRequest>");
-                    LarXML.Append("      <uRLApproval xmlns='http://processSchema.eGastos/'>http://saosultuat01.pharma.aventis.com/eGastos/Pages/frmExpenseApproval.aspx</uRLApproval>");
-                    LarXML.Append("      <uRLExpenseAccount xmlns='http://processSchema.eGastos/'>http://saosultuat01.pharma.aventis.com/eGastos/Pages/frmExpenseAccount.aspx</uRLExpenseAccount>");
-                    LarXML.Append("      <uRLConfirmQuote xmlns='http://processSchema.eGastos/'>http://saosultuat01.pharma.aventis.com/eGastos/Pages/frmConfirmQuote.aspx</uRLConfirmQuote>");
-                    LarXML.Append("    </UltConfiguration>");
-                    #endregion
-                    #region <UltExpenseAccount>
-                    if (me.UltExpenseAccount != null)
+                    #region StepSchemaUltMissionOrder
+                    if ((me.UltMissionOrder != null) && (me.UltRequest.type < 3))
                     {
-                        LarXML.Append("    <UltExpenseAccount xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("      <idExpenseAccount xmlns='http://processSchema.eGastos/'>" + me.UltExpenseAccount.idExpenseAccount + "</idExpenseAccount>");
-                        LarXML.Append("      <nationalManagerLogin xmlns='http://processSchema.eGastos/'>" + me.UltExpenseAccount.nationalManagerLogin + "</nationalManagerLogin>");
-                        LarXML.Append("      <nationalManagerName xmlns='http://processSchema.eGastos/'>" + me.UltExpenseAccount.nationalManagerName + "</nationalManagerName>");
-                        LarXML.Append("      <creditCard xmlns='http://processSchema.eGastos/'>" + me.UltExpenseAccount.creditCard.ToString().ToLower() + "</creditCard>");
-                        LarXML.Append("      <totalMiniEvent xmlns='http://processSchema.eGastos/'>" + me.UltExpenseAccount.totalMiniEvent + "</totalMiniEvent>");
-                        LarXML.Append("      <totalMeal xmlns='http://processSchema.eGastos/'>" + me.UltExpenseAccount.totalMeal + "</totalMeal>");
-                        LarXML.Append("      <totalNationalMeal xmlns='http://processSchema.eGastos/'>" + me.UltExpenseAccount.totalNationalMeal + "</totalNationalMeal>");
-                        LarXML.Append("      <overdue xmlns='http://processSchema.eGastos/'>" + me.UltExpenseAccount.overdue.ToString().ToLower() + "</overdue>");
-                        LarXML.Append("      <charged xmlns='http://processSchema.eGastos/'>" + me.UltExpenseAccount.charged.ToString().ToLower() + "</charged>");
-                        LarXML.Append("    </UltExpenseAccount>");
-                    }
-                    else
-                    {
-                        LarXML.Append("    <UltExpenseAccount xmlns='" + ProcessVersionNumber + "'> ");
-                        LarXML.Append("          <idExpenseAccount xmlns='http://processSchema.eGastos/'>0</idExpenseAccount> ");
-                        LarXML.Append("          <creditCard xmlns='http://processSchema.eGastos/'>false</creditCard> ");
-                        LarXML.Append("          <totalMiniEvent xmlns='http://processSchema.eGastos/'>0</totalMiniEvent> ");
-                        LarXML.Append("          <totalMeal xmlns='http://processSchema.eGastos/'>0</totalMeal> ");
-                        LarXML.Append("          <totalNationalMeal xmlns='http://processSchema.eGastos/'>0</totalNationalMeal> ");
-                        LarXML.Append("          <overdue xmlns='http://processSchema.eGastos/'>false</overdue> ");
-                        LarXML.Append("          <charged xmlns='http://processSchema.eGastos/'>false</charged> ");
-                        LarXML.Append("    </UltExpenseAccount> ");
-                    }
-                    #endregion
-                    #region <UltMissionOrder>
-                    if (me.UltMissionOrder != null)
-                    {
-                        // UltMissionOrder
-                        LarXML.Append("    <UltMissionOrder xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("      <idMissionOrder xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.idMissionOrder + "</idMissionOrder>");
-                        LarXML.Append("      <idRequest xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.idRequest + "</idRequest>");
-                        LarXML.Append("      <idAgencyResponse xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.idAgencyResponse + "</idAgencyResponse>");
-                        LarXML.Append("      <statusAgencyProcess xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.statusAgencyProcess + "</statusAgencyProcess>");
-                        LarXML.Append("      <statusAgencySend xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.statusAgencySend + "</statusAgencySend>");
-                        LarXML.Append("      <countAgencyWait xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.countAgencyWait + "</countAgencyWait>");
-                        LarXML.Append("      <idAgencyLog xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.idAgencyLog + "</idAgencyLog>");
-                        LarXML.Append("      <travelId xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.travelId + "</travelId>");
-                        LarXML.Append("      <travelName xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.travelName + "</travelName>");
-                        LarXML.Append("      <objective xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.objective + "</objective>");
-                        LarXML.Append("      <advance xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.advance + "</advance>");
-                        LarXML.Append("      <nationalCurrency xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.nationalCurrency + "</nationalCurrency>");
-                        LarXML.Append("      <advanceApply xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.advanceApply.ToString().ToLower() + "</advanceApply>");
-                        LarXML.Append("      <itinerary xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.itinerary.ToString().ToLower() + "</itinerary>");
-                        LarXML.Append("      <hotel xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.hotel.ToString().ToLower() + "</hotel>");
-                        if (!string.IsNullOrEmpty(me.UltMissionOrder.comment))
+                        ObjXML.ChildNodes[1].ChildNodes[2].InnerXml = xmlStepSchemaUltMissionOrder;
+                        foreach (XmlNode SSUMO in ObjXML.ChildNodes[1].ChildNodes[2])
                         {
-                            LarXML.Append("      <comment xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.comment + "</comment>");
+                            if (SSUMO.Name == "advance") { SSUMO.InnerText = me.UltMissionOrder.advance.ToString(); }
+                            if (SSUMO.Name == "advanceAndDebitCard") { SSUMO.InnerText = me.UltMissionOrder.advanceAndDebitCard.ToString().ToLower(); }
+                            if (SSUMO.Name == "advanceApply") { SSUMO.InnerText = me.UltMissionOrder.advanceApply.ToString().ToLower(); }
+                            if (SSUMO.Name == "comment") { SSUMO.InnerText = me.UltMissionOrder.comment; }
+                            if (SSUMO.Name == "countAgencyWait") { SSUMO.InnerText = me.UltMissionOrder.countAgencyWait.ToString(); }
+                            if (SSUMO.Name == "exceededAdvance") { SSUMO.InnerText = me.UltMissionOrder.exceededAdvance.ToString().ToLower(); }
+                            if (SSUMO.Name == "hotel") { SSUMO.InnerText = me.UltMissionOrder.hotel.ToString().ToLower(); }
+                            if (SSUMO.Name == "idAgencyLog") { SSUMO.InnerText = me.UltMissionOrder.idAgencyLog.ToString(); }
+                            if (SSUMO.Name == "idAgencyResponse") { SSUMO.InnerText = me.UltMissionOrder.idAgencyResponse.ToString(); }
+                            if (SSUMO.Name == "idMissionOrder") { SSUMO.InnerText = me.UltMissionOrder.idMissionOrder.ToString(); }
+                            if (SSUMO.Name == "idRequest") { SSUMO.InnerText = me.UltMissionOrder.idRequest.ToString(); }
+                            if (SSUMO.Name == "itinerary") { SSUMO.InnerText = me.UltMissionOrder.itinerary.ToString().ToLower(); }
+                            if (SSUMO.Name == "missionOrderType") { SSUMO.InnerText = me.UltMissionOrder.missionOrderType.ToString(); }
+                            if (SSUMO.Name == "missionOrderTypeText") { SSUMO.InnerText = me.UltMissionOrder.missionOrderTypeText; }
+                            if (SSUMO.Name == "nationalCurrency") { SSUMO.InnerText = me.UltMissionOrder.nationalCurrency.ToString(); }
+                            if (SSUMO.Name == "objective") { SSUMO.InnerText = me.UltMissionOrder.objective; }
+                            if (SSUMO.Name == "statusAgencyProcess") { SSUMO.InnerText = me.UltMissionOrder.statusAgencyProcess.ToString(); }
+                            if (SSUMO.Name == "statusAgencySend") { SSUMO.InnerText = me.UltMissionOrder.statusAgencySend.ToString(); }
+                            if (SSUMO.Name == "travelId") { SSUMO.InnerText = me.UltMissionOrder.travelId; }
+                            if (SSUMO.Name == "travelName") { SSUMO.InnerText = me.UltMissionOrder.travelName; }
                         }
-                        LarXML.Append("    </UltMissionOrder>");
-                    }
-                    else
-                    {
-                        LarXML.Append("      <UltMissionOrder xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("      <idMissionOrder xmlns='http://processSchema.eGastos/'>0</idMissionOrder>");
-                        LarXML.Append("      <idRequest xmlns='http://processSchema.eGastos/'>0</idRequest>");
-                        LarXML.Append("      <idAgencyResponse xmlns='http://processSchema.eGastos/'>0</idAgencyResponse>");
-                        LarXML.Append("      <statusAgencyProcess xmlns='http://processSchema.eGastos/'>0</statusAgencyProcess>");
-                        LarXML.Append("      <statusAgencySend xmlns='http://processSchema.eGastos/'>0</statusAgencySend>");
-                        LarXML.Append("      <countAgencyWait xmlns='http://processSchema.eGastos/'>0</countAgencyWait>");
-                        LarXML.Append("      <idAgencyLog xmlns='http://processSchema.eGastos/'>0</idAgencyLog>");
-                        LarXML.Append("      <advance xmlns='http://processSchema.eGastos/'>0</advance>");
-                        LarXML.Append("      <nationalCurrency xmlns='http://processSchema.eGastos/'>0</nationalCurrency>");
-                        LarXML.Append("      <advanceApply xmlns='http://processSchema.eGastos/'>false</advanceApply>");
-                        LarXML.Append("      <itinerary xmlns='http://processSchema.eGastos/'>false</itinerary>");
-                        LarXML.Append("      <hotel xmlns='http://processSchema.eGastos/'>false</hotel>");
-                        LarXML.Append("      </UltMissionOrder>");
-                    }
-                    #endregion
-                    #region <UltResponsible>
-                    if (me.UltResponsible != null)
-                    {
-                        LarXML.Append("    <UltResponsible xmlns='" + ProcessVersionNumber + "' >");
-                        LarXML.Append("      <responsibleName xmlns='http://processSchema.eGastos/'>" + me.UltResponsible.responsibleName + "</responsibleName>");
-                        LarXML.Append("      <responsibleLogin xmlns='http://processSchema.eGastos/'>" + me.UltResponsible.responsibleLogin + "</responsibleLogin>");
-                        LarXML.Append("      <responsibleEmail xmlns='http://processSchema.eGastos/'>" + me.UltResponsible.responsibleEmail + "</responsibleEmail>");
-                        LarXML.Append("    </UltResponsible>");
-                    }
-                    else
-                    {
-                        LarXML.Append("    <UltResponsible xmlns='" + ProcessVersionNumber + "' />");
-                    }
-                    #endregion
-                    #region  <UltRequester>
-                    if (me.UltRequester != null)
-                    {
-                        LarXML.Append("    <UltRequester xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("      <requesterName xmlns='http://processSchema.eGastos/'>" + me.UltRequester.requesterName + "</requesterName>");
-                        LarXML.Append("      <requesterLogin xmlns='http://processSchema.eGastos/'>" + me.UltRequester.requesterLogin + "</requesterLogin>");
-                        LarXML.Append("      <requesterEmail xmlns='http://processSchema.eGastos/'>" + me.UltRequester.requesterEmail + "</requesterEmail>");
-                        LarXML.Append("      <requesterDate xmlns='http://processSchema.eGastos/'>" + ToXMLDateFormat(me.UltRequester.requesterDate) + "</requesterDate>");
-                        LarXML.Append("    </UltRequester>");
-                    }
-                    else
-                    {
-                        LarXML.Append("    <UltRequester xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("    <requesterDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</requesterDate>");
-                        LarXML.Append("    </UltRequester>");
-                    }
-                    #endregion
-                    #region <UltItinerary>
-                    if (me.UltItinerary != null)
-                    {
-
-                        foreach (eGastosEntity.Ultimus.UltItinerary obj in me.UltItinerary)
-                        {
-                            LarXML.Append("    <UltItinerary xmlns='" + ProcessVersionNumber + "'>");
-                            LarXML.Append("      <idItinerary xmlns='http://processSchema.eGastos/'>" + obj.idItinerary + "</idItinerary>");
-                            LarXML.Append("      <idMissionOrder xmlns='http://processSchema.eGastos/'>" + obj.idMissionOrder + "</idMissionOrder>");
-                            LarXML.Append("      <idConsecutive xmlns='http://processSchema.eGastos/'>" + obj.idConsecutive + "</idConsecutive>");
-                            LarXML.Append("      <idLedgerAccount xmlns='http://processSchema.eGastos/'>" + obj.idLedgerAccount + "</idLedgerAccount>");
-                            LarXML.Append("      <nameLedgerAccount xmlns='http://processSchema.eGastos/'>" + obj.nameLedgerAccount + "</nameLedgerAccount>");
-                            LarXML.Append("      <departureHour xmlns='http://processSchema.eGastos/'>" + obj.departureHour + "</departureHour>");
-                            LarXML.Append("      <returnHour xmlns='http://processSchema.eGastos/'>" + obj.returnHour + "</returnHour>");
-                            LarXML.Append("      <observations xmlns='http://processSchema.eGastos/'>" + obj.observations + "</observations>");
-                            LarXML.Append("      <travelType xmlns='http://processSchema.eGastos/'>" + obj.travelType + "</travelType>");
-                            LarXML.Append("      <nameTravelType xmlns='http://processSchema.eGastos/'>" + obj.nameTravelType + "</nameTravelType>");
-                            LarXML.Append("      <departureCountry xmlns='http://processSchema.eGastos/'>" + obj.departureCountry + "</departureCountry>");
-                            LarXML.Append("      <departureCity xmlns='http://processSchema.eGastos/'>" + obj.departureCity + "</departureCity>");
-                            LarXML.Append("      <arrivalCountry xmlns='http://processSchema.eGastos/'>" + obj.arrivalCountry + "</arrivalCountry>");
-                            LarXML.Append("      <arrivalCity xmlns='http://processSchema.eGastos/'>" + obj.arrivalCity + "</arrivalCity>");
-                            LarXML.Append("      <departureDate  xmlns='http://processSchema.eGastos/'>" + ToXMLDateFormat(obj.departureDate) + "</departureDate>");
-                            LarXML.Append("      <arrivalDate  xmlns='http://processSchema.eGastos/'>" + ToXMLDateFormat(obj.arrivalDate) + "</arrivalDate>");
-                            LarXML.Append("      <status xmlns='http://processSchema.eGastos/'>" + obj.status.ToString().ToLower() + "</status>");
-                            LarXML.Append("    </UltItinerary>");
-                        }
-                    }
-                    else
-                    {
-                        LarXML.Append("    <UltItinerary xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("    <idItinerary xmlns='http://processSchema.eGastos/'>0</idItinerary>");
-                        LarXML.Append("    <idMissionOrder xmlns='http://processSchema.eGastos/'>0</idMissionOrder>");
-                        LarXML.Append("    <idConsecutive xmlns='http://processSchema.eGastos/'>0</idConsecutive>");
-                        LarXML.Append("    <idLedgerAccount xmlns='http://processSchema.eGastos/'>0</idLedgerAccount>");
-                        LarXML.Append("    <travelType xmlns='http://processSchema.eGastos/'>0</travelType>");
-                        LarXML.Append("    <departureDate xsi:nil='true' xmlns='http://processSchema.eGastos/' />");
-                        LarXML.Append("    <arrivalDate xsi:nil='true' xmlns='http://processSchema.eGastos/' />");
-                        LarXML.Append("    <status xmlns='http://processSchema.eGastos/'>false</status>");
-                        LarXML.Append("    </UltItinerary>");
-                    }
-                    #endregion
-                    LarXML.Append("        <Cancel xmlns='" + ProcessVersionNumber + "'>false</Cancel>");
-                    LarXML.Append("        <bApprover1 xmlns='" + ProcessVersionNumber + "'>false</bApprover1>");
-                    LarXML.Append("        <bApprover2 xmlns='" + ProcessVersionNumber + "'>false</bApprover2>");
-                    LarXML.Append("        <bApprover3 xmlns='" + ProcessVersionNumber + "'>false</bApprover3>");
-                    LarXML.Append("        <bApprover4 xmlns='" + ProcessVersionNumber + "'>false</bApprover4>");
-                    LarXML.Append("        <bController1 xmlns='" + ProcessVersionNumber + "'>false</bController1>");
-                    LarXML.Append("        <bController2 xmlns='" + ProcessVersionNumber + "'>false</bController2>");
-                    #region <UltItineraryOptionsDetail>
-                    if (me.UltItineraryOptionsDetail != null)
-                    {
-                        foreach (UltItineraryOptionsDetail obj in me.UltItineraryOptionsDetail)
-                        {
-                            LarXML.Append("    <UltItineraryOptionsDetail xmlns='" + ProcessVersionNumber + "'>");
-                            LarXML.Append("      <idItineraryOptionsDetail xmlns='http://processSchema.eGastos/'>" + obj.idItineraryOptionsDetail + "</idItineraryOptionsDetail>");
-                            LarXML.Append("      <idItineraryOption xmlns='http://processSchema.eGastos/'>" + obj.idItineraryOption + "</idItineraryOption>");
-                            LarXML.Append("      <idMissionOrder xmlns='http://processSchema.eGastos/'>" + obj.idMissionOrder + "</idMissionOrder>");
-                            LarXML.Append("      <airlineFlight xmlns='http://processSchema.eGastos/'>" + obj.airlineFlight + "</airlineFlight>");
-                            LarXML.Append("      <departure xmlns='http://processSchema.eGastos/'>" + obj.departure + "</departure>");
-                            LarXML.Append("      <arrival xmlns='http://processSchema.eGastos/'>" + obj.arrival + "</arrival>");
-                            LarXML.Append("      <departureDate xmlns='http://processSchema.eGastos/'>" + ToXMLDateFormat(obj.departureDate) + "</departureDate>");
-                            LarXML.Append("      <arrivalDate xmlns='http://processSchema.eGastos/'>" + ToXMLDateFormat(obj.arrivalDate) + "</arrivalDate>");
-                            LarXML.Append("      <lapseTime xmlns='http://processSchema.eGastos/'>" + obj.lapseTime + "</lapseTime>");
-                            LarXML.Append("    </UltItineraryOptionsDetail>");
-                        }
-                    }
-                    else
-                    {
-                        LarXML.Append("        <UltItineraryOptionsDetail xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("        <idItineraryOptionsDetail xmlns='http://processSchema.eGastos/'>0</idItineraryOptionsDetail>");
-                        LarXML.Append("        <idItineraryOption xmlns='http://processSchema.eGastos/'>0</idItineraryOption>");
-                        LarXML.Append("        <idMissionOrder xmlns='http://processSchema.eGastos/'>0</idMissionOrder>");
-                        LarXML.Append("        <departureDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</departureDate>");
-                        LarXML.Append("        <arrivalDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</arrivalDate>");
-                        LarXML.Append("        <lapseTime xmlns='http://processSchema.eGastos/'>0</lapseTime>");
-                        LarXML.Append("        </UltItineraryOptionsDetail>");
-                    }
-                    #endregion
-                    #region <UltPAClient>
-                    if (me.UltPAClient != null)
-                    {
-                        foreach (eGastosEntity.Ultimus.UltPAClient obj in me.UltPAClient)
-                        {
-                            LarXML.Append("    <UltPAClient xmlns='" + ProcessVersionNumber + "'>");
-                            LarXML.Append("      <idExpenseAccountDetail xmlns='http://processSchema.eGastos/'>" + obj.idExpenseAccountDetail + "</idExpenseAccountDetail>");
-                            LarXML.Append("      <code xmlns='http://processSchema.eGastos/'>" + obj.code + "</code>");
-                            LarXML.Append("      <name xmlns='http://processSchema.eGastos/'>" + obj.name + "</name>");
-                            LarXML.Append("    </UltPAClient>");
-                        }
-                    }
-                    else
-                    {
-                        LarXML.Append("    <UltPAClient xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("    <idExpenseAccountDetail xmlns='http://processSchema.eGastos/'>0</idExpenseAccountDetail>");
-                        LarXML.Append("    </UltPAClient>");
-                    }
-                    #endregion
-                    #region  <UltItineraryOptions>
-                    if (me.UltItineraryOptions != null)
-                    {
-                        foreach (UltItineraryOptions obj in me.UltItineraryOptions)
-                        {
-                            LarXML.Append("    <UltItineraryOptions xmlns='" + ProcessVersionNumber + "'>");
-                            LarXML.Append("      <idItineraryOption xmlns='http://processSchema.eGastos/'>" + obj.idItineraryOption + "</idItineraryOption>");
-                            LarXML.Append("      <idMissionOrder xmlns='http://processSchema.eGastos/'>" + obj.idMissionOrder + "</idMissionOrder>");
-                            LarXML.Append("      <idRate xmlns='http://processSchema.eGastos/'>" + obj.idRate + "</idRate>");
-                            LarXML.Append("      <quoteRate xmlns='http://processSchema.eGastos/'>" + obj.quoteRate + "</quoteRate>");
-                            LarXML.Append("      <observations xmlns='http://processSchema.eGastos/'>" + obj.observations + "</observations>");
-                            LarXML.Append("      <confirmed xmlns='http://processSchema.eGastos/'>" + obj.confirmed.ToString().ToLower() + "</confirmed>");
-                            LarXML.Append("      <lastDayPurchase xmlns='http://processSchema.eGastos/'>" + ToXMLDateFormat(obj.lastDayPurchase) + "</lastDayPurchase>");
-                            LarXML.Append("    </UltItineraryOptions>");
-                        }
-                    }
-                    else
-                    {
-                        LarXML.Append("    <UltItineraryOptions xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("    <idItineraryOption xmlns='http://processSchema.eGastos/'>0</idItineraryOption>");
-                        LarXML.Append("    <idMissionOrder xmlns='http://processSchema.eGastos/'>0</idMissionOrder>");
-                        LarXML.Append("    <idRate xmlns='http://processSchema.eGastos/'>0</idRate>");
-                        LarXML.Append("    <quoteRate xmlns='http://processSchema.eGastos/'>0</quoteRate>");
-                        LarXML.Append("    <confirmed xmlns='http://processSchema.eGastos/'>false</confirmed>");
-                        LarXML.Append("    <lastDayPurchase xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</lastDayPurchase>");
-                        LarXML.Append("    </UltItineraryOptions>");
-                    }
-                    #endregion
-                    #region <UltApprovalHistory>
-                    if (me.UltApprovalHistory != null)
-                    {
-                        foreach (UltApprovalHistory obj in me.UltApprovalHistory)
-                        {
-                            LarXML.Append("    <UltApprovalHistory xmlns='" + ProcessVersionNumber + "'>");
-                            LarXML.Append("      <stepName xmlns='http://processSchema.eGastos/'>" + obj.stepName + "</stepName>");
-                            LarXML.Append("      <approverName xmlns='http://processSchema.eGastos/'>" + obj.approverName + "</approverName>");
-                            LarXML.Append("      <approverLogin xmlns='http://processSchema.eGastos/'>" + obj.approverLogin + "</approverLogin>");
-                            LarXML.Append("      <userEmail xmlns='http://processSchema.eGastos/'>" + obj.userEmail + "</userEmail>");
-                            LarXML.Append("      <approveDate xmlns='http://processSchema.eGastos/'>" + ToXMLDateFormat(obj.approveDate) + "</approveDate>");
-                            LarXML.Append("      <comments xmlns='http://processSchema.eGastos/'>" + obj.comments + "</comments>");
-                            LarXML.Append("      <approveStatus xmlns='http://processSchema.eGastos/'>" + obj.approveStatus + "</approveStatus>");
-                            LarXML.Append("    </UltApprovalHistory>");
-                        }
-                    }
-                    else
-                    {
-                        LarXML.Append("    <UltApprovalHistory xmlns='" + ProcessVersionNumber + "'> ");
-                        LarXML.Append("      <approveDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</approveDate> ");
-                        LarXML.Append("    </UltApprovalHistory>");
-                    }
-                    #endregion
-                    #region <UltHotel>
-                    if (me.UltHotel != null)
-                    {
-                        foreach (eGastosEntity.Ultimus.UltHotel obj in me.UltHotel)
-                        {
-                            LarXML.Append("    <UltHotel xmlns='" + ProcessVersionNumber + "'>");
-                            LarXML.Append("      <idHotel xmlns='http://processSchema.eGastos/'>" + obj.idHotel + "</idHotel>");
-                            LarXML.Append("      <idMissionOrder xmlns='http://processSchema.eGastos/'>" + obj.idMissionOrder + "</idMissionOrder>");
-                            LarXML.Append("      <idRated xmlns='http://processSchema.eGastos/'>" + obj.idRated + "</idRated>");
-                            LarXML.Append("      <idConsecutive xmlns='http://processSchema.eGastos/'>" + obj.idConsecutive + "</idConsecutive>");
-                            LarXML.Append("      <idLegerAccount xmlns='http://processSchema.eGastos/'>" + obj.idLegerAccount + "</idLegerAccount>");
-                            LarXML.Append("      <nameLegerAccount xmlns='http://processSchema.eGastos/'>" + obj.nameLegerAccount + "</nameLegerAccount>");
-                            LarXML.Append("      <country xmlns='http://processSchema.eGastos/'>" + obj.country + "</country>");
-                            LarXML.Append("      <city xmlns='http://processSchema.eGastos/'>" + obj.city + "</city>");
-                            LarXML.Append("      <observations xmlns='http://processSchema.eGastos/'>" + obj.observations + "</observations>");
-                            LarXML.Append("      <checkInDate xmlns='http://processSchema.eGastos/'>" + ToXMLDateFormat(obj.checkInDate) + "</checkInDate>");
-                            LarXML.Append("      <checkoutDate xmlns='http://processSchema.eGastos/'>" + ToXMLDateFormat(obj.checkoutDate) + "</checkoutDate>");
-                            LarXML.Append("      <hotelName xmlns='http://processSchema.eGastos/'>" + obj.hotelName + "</hotelName>");
-                            LarXML.Append("      <reservation xmlns='http://processSchema.eGastos/'>" + obj.reservation + "</reservation>");
-                            LarXML.Append("      <telephone xmlns='http://processSchema.eGastos/'>" + obj.telephone + "</telephone>");
-                            LarXML.Append("      <address xmlns='http://processSchema.eGastos/'>" + obj.address + "</address>");
-                            LarXML.Append("      <quotedRate xmlns='http://processSchema.eGastos/'>" + obj.quotedRate + "</quotedRate>");
-                            LarXML.Append("      <realRate xmlns='http://processSchema.eGastos/'>" + obj.realRate + "</realRate>");
-                            LarXML.Append("      <IVA xmlns='http://processSchema.eGastos/'>" + obj.IVA + "</IVA>");
-                            LarXML.Append("      <hotelTax xmlns='http://processSchema.eGastos/'>" + obj.hotelTax + "</hotelTax>");
-                            LarXML.Append("      <otherTaxes xmlns='http://processSchema.eGastos/'>" + obj.otherTaxes + "</otherTaxes>");
-                            LarXML.Append("      <status xmlns='http://processSchema.eGastos/'>" + obj.status.ToString().ToLower() + "</status>");
-                            LarXML.Append("      <lineStatus xmlns='http://processSchema.eGastos/'>" + obj.lineStatus + "</lineStatus>");
-                            LarXML.Append("      <lineStatusName xmlns='http://processSchema.eGastos/'>" + obj.lineStatusName + "</lineStatusName>");
-                            LarXML.Append("    </UltHotel>");
-                        }
-                    }
-                    else
-                    {
-                        LarXML.Append("    <UltHotel xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("    <idHotel xmlns='http://processSchema.eGastos/'>0</idHotel>");
-                        LarXML.Append("    <idMissionOrder xmlns='http://processSchema.eGastos/'>0</idMissionOrder>");
-                        LarXML.Append("    <idRated xmlns='http://processSchema.eGastos/'>0</idRated>");
-                        LarXML.Append("    <idConsecutive xmlns='http://processSchema.eGastos/'>0</idConsecutive>");
-                        LarXML.Append("    <idLegerAccount xmlns='http://processSchema.eGastos/'>0</idLegerAccount>");
-                        LarXML.Append("    <checkInDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</checkInDate>");
-                        LarXML.Append("    <checkoutDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</checkoutDate>");
-                        LarXML.Append("    <quotedRate xmlns='http://processSchema.eGastos/'>0</quotedRate>");
-                        LarXML.Append("    <realRate xmlns='http://processSchema.eGastos/'>0</realRate>");
-                        LarXML.Append("    <IVA xmlns='http://processSchema.eGastos/'>0</IVA>");
-                        LarXML.Append("    <hotelTax xmlns='http://processSchema.eGastos/'>0</hotelTax>");
-                        LarXML.Append("    <otherTaxes xmlns='http://processSchema.eGastos/'>0</otherTaxes>");
-                        LarXML.Append("    <status xmlns='http://processSchema.eGastos/'>false</status>");
-                        LarXML.Append("    <lineStatus xmlns='http://processSchema.eGastos/'>0</lineStatus>");
-                        LarXML.Append("    </UltHotel>");
-                    }
-                    #endregion
-                    #region <UltFlobotVariables>
-                    if (me.UltFlobotVariables != null)
-                    {
-                        LarXML.Append("    <UltFlobotVariables xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("      <statusAgencyFlobot xmlns='http://processSchema.eGastos/'>" + me.UltFlobotVariables.statusAgencyFlobot + "</statusAgencyFlobot>");
-                        LarXML.Append("      <status xmlns='http://processSchema.eGastos/'>" + me.UltFlobotVariables.status + "</status>");
-                        LarXML.Append("      <messageError xmlns='http://processSchema.eGastos/'>" + me.UltFlobotVariables.messageError + "</messageError>");
-                        LarXML.Append("      <messageErrorAgency xmlns='http://processSchema.eGastos/'>" + me.UltFlobotVariables.messageErrorAgency + "</messageErrorAgency>");
-                        LarXML.Append("    </UltFlobotVariables>");
-                    }
-                    else
-                    {
-                        LarXML.Append("    <UltFlobotVariables xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("    <statusAgencyFlobot xmlns='http://processSchema.eGastos/'>0</statusAgencyFlobot>");
-                        LarXML.Append("    <status xmlns='http://processSchema.eGastos/'>0</status>");
-                        LarXML.Append("    </UltFlobotVariables>");
-                    }
-                    #endregion
-                    #region <UltSAPResponse>
-                    if (me.UltSAPResponse != null)
-                    {
-                        foreach (UltSAPResponse obj in me.UltSAPResponse)
-                        {
-                            LarXML.Append("    <UltSAPResponse xmlns='" + ProcessVersionNumber + "'>");
-                            LarXML.Append("      <idResponse xmlns='http://processSchema.eGastos/'>" + obj.idResponse + "</idResponse>");
-                            LarXML.Append("      <idRequest xmlns='http://processSchema.eGastos/'>" + obj.idRequest + "</idRequest>");
-                            LarXML.Append("      <docNumber xmlns='http://processSchema.eGastos/'>" + obj.docNumber + "</docNumber>");
-                            LarXML.Append("      <company xmlns='http://processSchema.eGastos/'>" + obj.company + "</company>");
-                            LarXML.Append("      <year xmlns='http://processSchema.eGastos/'>" + obj.year + "</year>");
-                            LarXML.Append("      <type xmlns='http://processSchema.eGastos/'>" + obj.type + "</type>");
-                            LarXML.Append("    </UltSAPResponse>");
-                        }
-                    }
-                    else
-                    {
-                        LarXML.Append("    <UltSAPResponse xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("    <idResponse xmlns='http://processSchema.eGastos/'>0</idResponse>");
-                        LarXML.Append("    <idRequest xmlns='http://processSchema.eGastos/'>0</idRequest>");
-                        LarXML.Append("    <docNumber xmlns='http://processSchema.eGastos/'>0</docNumber>");
-                        LarXML.Append("    <company xmlns='http://processSchema.eGastos/'>0</company>");
-                        LarXML.Append("    <year xmlns='http://processSchema.eGastos/'>0</year>");
-                        LarXML.Append("    </UltSAPResponse>");
-                    }
-                    #endregion
-                    #region <UltRequest>
-                    //Request
-                    if (me.UltRequest != null)
-                    {
-                        LarXML.Append("    <UltRequest xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("      <idRequest xmlns='http://processSchema.eGastos/'>" + me.UltRequest.idRequest + "</idRequest>");
-                        LarXML.Append("      <requestDate xmlns='http://processSchema.eGastos/'>" + strHoraAtual + "</requestDate>");
-                        if (!string.IsNullOrEmpty(me.UltRequest.companyName))
-                        {
-                            LarXML.Append("      <companyName xmlns='http://processSchema.eGastos/'>" + me.UltRequest.companyName + "</companyName>");
-                        }
-                        LarXML.Append("      <companyCode xmlns='http://processSchema.eGastos/'>" + me.UltRequest.companyCode + "</companyCode>");
-                        LarXML.Append("      <CeCoCode xmlns='http://processSchema.eGastos/'>" + me.UltRequest.CeCoCode + "</CeCoCode>");
-                        LarXML.Append("      <CeCoName  xmlns='http://processSchema.eGastos/'>" + me.UltRequest.CeCoName + "</CeCoName>");
-                        LarXML.Append("      <CeCoMiniCode xmlns='http://processSchema.eGastos/'>" + me.UltRequest.CeCoMiniCode + "</CeCoMiniCode>");
-                        LarXML.Append("      <CeCoMiniName  xmlns='http://processSchema.eGastos/'>" + me.UltRequest.CeCoMiniName + "</CeCoMiniName>");
-
-                        LarXML.Append("      <isMiniEvent xmlns='http://processSchema.eGastos/'>" + me.UltRequest.isMiniEvent.ToString().ToLower() + "</isMiniEvent>");
-                        if (!string.IsNullOrEmpty(me.UltRequest.arrival))
-                        {
-                            LarXML.Append("      <arrival xmlns='http://processSchema.eGastos/'>" + me.UltRequest.arrival + "</arrival>");
-                        }
-                        if (!string.IsNullOrEmpty(me.UltRequest.departureDate))
-                        {
-                            LarXML.Append("      <departureDate xmlns='http://processSchema.eGastos/'>" + me.UltRequest.departureDate + "</departureDate>");
-                        }
-                        if (!string.IsNullOrEmpty(me.UltRequest.returnDate))
-                        {
-                            LarXML.Append("      <returnDate xmlns='http://processSchema.eGastos/'>" + me.UltRequest.returnDate + "</returnDate>");
-                        }
-                        if (!string.IsNullOrEmpty(me.UltRequest.PEPElementId))
-                        {
-                            LarXML.Append("      <PEPElementId xmlns='http://processSchema.eGastos/'>" + me.UltRequest.PEPElementId + "</PEPElementId>");
-                        }
-                        if (!string.IsNullOrEmpty(me.UltRequest.PEPElementName))
-                        {
-                            LarXML.Append("      <PEPElementName xmlns='http://processSchema.eGastos/'>" + me.UltRequest.PEPElementName + "</PEPElementName>");
-                        }
-                        if (!string.IsNullOrEmpty(me.UltRequest.currencyId))
-                        {
-                            LarXML.Append("      <currencyId xmlns='http://processSchema.eGastos/'>" + me.UltRequest.currencyId + "</currencyId>");
-                        }
-                        if (!string.IsNullOrEmpty(me.UltRequest.currencyName))
-                        {
-                            LarXML.Append("      <currencyName xmlns='http://processSchema.eGastos/'>" + me.UltRequest.currencyName + "</currencyName>");
-                        }
-                        LarXML.Append("      <exchangeRate xmlns='http://processSchema.eGastos/'>" + me.UltRequest.exchangeRate + "</exchangeRate>");
-                        if (!string.IsNullOrEmpty(me.UltRequest.initiatorLogin))
-                        {
-                            LarXML.Append("      <initiatorLogin xmlns='http://processSchema.eGastos/'>" + me.UltRequest.initiatorLogin + "</initiatorLogin>");
-                        }
-                        if (!string.IsNullOrEmpty(me.UltRequest.initiatorName))
-                        {
-                            LarXML.Append("      <initiatorName xmlns='http://processSchema.eGastos/'>" + me.UltRequest.initiatorName + "</initiatorName>");
-                        }
-                        LarXML.Append("      <PAClientId  xmlns='http://processSchema.eGastos/'>" + me.UltRequest.PAClientId + "</PAClientId>");
-                        LarXML.Append("      <PAClientName  xmlns='http://processSchema.eGastos/'>" + me.UltRequest.PAClientName + "</PAClientName>");
-                        if (!string.IsNullOrEmpty(me.UltRequest.responsibleLogin))
-                        {
-                            LarXML.Append("      <responsibleLogin xmlns='http://processSchema.eGastos/'>" + me.UltRequest.responsibleLogin + "</responsibleLogin>");
-                        }
-                        if (!string.IsNullOrEmpty(me.UltRequest.responsibleName))
-                        {
-                            LarXML.Append("      <responsibleName xmlns='http://processSchema.eGastos/'>" + me.UltRequest.responsibleName + "</responsibleName>");
-                        }
-                        if (!string.IsNullOrEmpty(me.UltRequest.responsibleEmployeeNum))
-                        {
-                            LarXML.Append("      <responsibleEmployeeNum xmlns='http://processSchema.eGastos/'>" + me.UltRequest.responsibleEmployeeNum + "</responsibleEmployeeNum>");
-                        }
-                        if (!string.IsNullOrEmpty(me.UltRequest.responsibleUserName))
-                        {
-                            LarXML.Append("      <responsibleUserName xmlns='http://processSchema.eGastos/'>" + me.UltRequest.responsibleUserName + "</responsibleUserName>");
-                        }
-                        LarXML.Append("      <pasteur xmlns='http://processSchema.eGastos/'>" + me.UltRequest.pasteur.ToString().ToLower() + "</pasteur>");
-                        LarXML.Append("      <areaId xmlns='http://processSchema.eGastos/'>" + me.UltRequest.areaId + "</areaId>");
-                        if (!string.IsNullOrEmpty(me.UltRequest.areaText))
-                        {
-                            LarXML.Append("      <areaText xmlns='http://processSchema.eGastos/'>" + me.UltRequest.areaText + "</areaText>");
-                        }
-                        LarXML.Append("      <ultimusNumber  xmlns='http://processSchema.eGastos/'>" + me.UltRequest.ultimusNumber + "</ultimusNumber>");
-                        LarXML.Append("      <type xmlns='http://processSchema.eGastos/'>" + me.UltRequest.type + "</type>");
-                        LarXML.Append("      <status xmlns='http://processSchema.eGastos/'>" + me.UltRequest.status + "</status>");
-                        LarXML.Append("      <salesForce  xmlns='http://processSchema.eGastos/'>" + me.UltRequest.salesForce.ToString().ToLower() + "</salesForce>");
-                        LarXML.Append("    </UltRequest>");
-                    }
-                    else
-                    {
-                        LarXML.Append("    <UltRequest xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("    <idRequest xmlns='http://processSchema.eGastos/'>0</idRequest>");
-                        LarXML.Append("    <requestDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</requestDate>");
-                        LarXML.Append("    <companyCode xmlns='http://processSchema.eGastos/'>0</companyCode>");
-                        LarXML.Append("    <CeCoCode xmlns='http://processSchema.eGastos/'>0</CeCoCode>");
-                        LarXML.Append("    <CeCoMiniCode xmlns='http://processSchema.eGastos/'>0</CeCoMiniCode>");
-                        LarXML.Append("    <isMiniEvent xmlns='http://processSchema.eGastos/'>false</isMiniEvent>");
-                        LarXML.Append("    <exchangeRate xmlns='http://processSchema.eGastos/'>0</exchangeRate>");
-                        LarXML.Append("    <pasteur xmlns='http://processSchema.eGastos/'>false</pasteur>");
-                        LarXML.Append("    <areaId xmlns='http://processSchema.eGastos/'>0</areaId>");
-                        LarXML.Append("    <ultimusNumber xsi:nil='true' xmlns='http://processSchema.eGastos/' />");
-                        LarXML.Append("    <type xmlns='http://processSchema.eGastos/'>0</type>");
-                        LarXML.Append("    <status xmlns='http://processSchema.eGastos/'>0</status>");
-                        LarXML.Append("    <salesForce xsi:nil='true' xmlns='http://processSchema.eGastos/' />");
-                        LarXML.Append("    </UltRequest>");
-                    }
-                    #endregion
-                    #region <UltExpenseAccountDetail>
-                    if (me.UltExpenseAccountDetail != null)
-                    {
-                        foreach (eGastosEntity.Ultimus.UltExpenseAccountDetail obj in me.UltExpenseAccountDetail)
-                        {
-                            LarXML.Append("    <UltExpenseAccountDetail xmlns='" + ProcessVersionNumber + "'>");
-                            LarXML.Append("      <idExpenseAccountDetail xmlns='http://processSchema.eGastos/'>" + obj.idExpenseAccountDetail + "</idExpenseAccountDetail>");
-                            LarXML.Append("      <idExpenseAccount xmlns='http://processSchema.eGastos/'>" + obj.idExpenseAccount + "</idExpenseAccount>");
-                            LarXML.Append("      <expenseDate xmlns='http://processSchema.eGastos/'>" + ToXMLDateFormat(obj.expenseDate) + "</expenseDate>");
-                            LarXML.Append("      <idAccount xmlns='http://processSchema.eGastos/'>" + obj.idAccount + "</idAccount>");
-                            LarXML.Append("      <accountName xmlns='http://processSchema.eGastos/'>" + obj.accountName + "</accountName>");
-                            LarXML.Append("      <amount xmlns='http://processSchema.eGastos/'>" + obj.amount + "</amount>");
-                            LarXML.Append("      <invoiceNumber xmlns='http://processSchema.eGastos/'>" + obj.invoiceNumber + "</invoiceNumber>");
-                            LarXML.Append("      <place xmlns='http://processSchema.eGastos/'>" + obj.place + "</place>");
-                            LarXML.Append("      <numberOfDiners xmlns='http://processSchema.eGastos/'>" + obj.numberOfDiners + "</numberOfDiners>");
-                            LarXML.Append("      <IVA xmlns='http://processSchema.eGastos/'>" + obj.IVA + "</IVA>");
-                            LarXML.Append("      <healthProfessional xmlns='http://processSchema.eGastos/'>" + obj.healthProfessional.ToString().ToLower() + "</healthProfessional>");
-                            LarXML.Append("      <discount xmlns='http://processSchema.eGastos/'>" + obj.discount + "</discount>");
-                            LarXML.Append("      <hasPAClient xmlns='http://processSchema.eGastos/'>" + obj.hasPAClient.ToString().ToLower() + "</hasPAClient>");
-                            LarXML.Append("      <IVATypeId xmlns='http://processSchema.eGastos/'>" + obj.IVATypeId + "</IVATypeId>");
-                            LarXML.Append("      <IVATypeName xmlns='http://processSchema.eGastos/'>" + obj.IVATypeName + "</IVATypeName>");
-                            LarXML.Append("      <total xmlns='http://processSchema.eGastos/'>" + obj.total + "</total>");
-                            LarXML.Append("      <observationId xmlns='http://processSchema.eGastos/'>" + obj.observationId + "</observationId>");
-                            LarXML.Append("      <observationName xmlns='http://processSchema.eGastos/'>" + obj.observationName + "</observationName>");
-                            LarXML.Append("      <status xmlns='http://processSchema.eGastos/'>" + obj.status.ToString().ToLower() + "</status>");
-                            LarXML.Append("    </UltExpenseAccountDetail>");
-                        }
-                    }
-                    else
-                    {
-                        LarXML.Append("    <UltExpenseAccountDetail xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("          <idExpenseAccountDetail xmlns='http://processSchema.eGastos/'>0</idExpenseAccountDetail>");
-                        LarXML.Append("          <idExpenseAccount xmlns='http://processSchema.eGastos/'>0</idExpenseAccount>");
-                        LarXML.Append("          <expenseDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</expenseDate>");
-                        LarXML.Append("          <idAccount xmlns='http://processSchema.eGastos/'>0</idAccount>");
-                        LarXML.Append("          <amount xmlns='http://processSchema.eGastos/'>0</amount>");
-                        LarXML.Append("          <numberOfDiners xmlns='http://processSchema.eGastos/'>0</numberOfDiners>");
-                        LarXML.Append("          <IVA xmlns='http://processSchema.eGastos/'>0</IVA>");
-                        LarXML.Append("          <healthProfessional xmlns='http://processSchema.eGastos/'>false</healthProfessional>");
-                        LarXML.Append("          <discount xmlns='http://processSchema.eGastos/'>0</discount>");
-                        LarXML.Append("          <hasPAClient xmlns='http://processSchema.eGastos/'>false</hasPAClient>");
-                        LarXML.Append("          <total xmlns='http://processSchema.eGastos/'>0</total>");
-                        LarXML.Append("          <observationId xmlns='http://processSchema.eGastos/'>0</observationId>");
-                        LarXML.Append("          <status xmlns='http://processSchema.eGastos/'>false</status>");
-                        LarXML.Append("    </UltExpenseAccountDetail>");
                     }
                     #endregion
 
-                    LarXML.Append("    <sObserver xsi:nil='true' xmlns='" + ProcessVersionNumber + "' />");
-                    LarXML.Append("    <bObserver xmlns='" + ProcessVersionNumber + "'>false</bObserver>");
-                    LarXML.Append("    <OutOfCountry xsi:nil='true' xmlns='" + ProcessVersionNumber + "' />");
-                    LarXML.Append("    <AdminTelephone xsi:nil='true' xmlns='" + ProcessVersionNumber + "' />");
-                    LarXML.Append("    <MailAgencia xsi:nil='true' xmlns='" + ProcessVersionNumber + "' />");
-                    #region <UltApprove>
-                    if (me.UltApprove != null)
+                    #region StepSchemaUltGetThere
+                    if ((me.UltGetThere != null))
                     {
-                        LarXML.Append("    <UltApprove xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("      <approved xmlns='http://processSchema.eGastos/'>" + me.UltApprove.approved.ToString().ToLower() + "</approved>");
-                        LarXML.Append("      <approverName xmlns='http://processSchema.eGastos/'>" + me.UltApprove.approverName + "</approverName>");
-                        LarXML.Append("      <approverLogin xmlns='http://processSchema.eGastos/'>" + me.UltApprove.approverLogin + "</approverLogin>");
-                        LarXML.Append("      <approverEmail xmlns='http://processSchema.eGastos/'>" + me.UltApprove.approverEmail + "</approverEmail>");
-                        LarXML.Append("    </UltApprove>");
-                    }
-                    else
-                    {
-                        LarXML.Append("    <UltApprove xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("    <approved xmlns='http://processSchema.eGastos/'>false</approved>");
-                        LarXML.Append("    </UltApprove>");
+                        ObjXML.ChildNodes[1].ChildNodes[3].InnerXml = xmlStepSchemaUltGetThere;
+                        foreach (XmlNode SSUGT in ObjXML.ChildNodes[1].ChildNodes[3])
+                        {
+                            if (SSUGT.Name == "idGetThere") { SSUGT.InnerText = me.UltGetThere.idGetThere.ToString(); }
+                            if (SSUGT.Name == "idMissionOrder") { SSUGT.InnerText = me.UltGetThere.idMissionOrder.ToString(); }
+                            if (SSUGT.Name == "conceptId") { SSUGT.InnerText = me.UltGetThere.conceptId.ToString(); }
+                            if (SSUGT.Name == "conceptText") { SSUGT.InnerText = me.UltGetThere.conceptText; }
+                            if (SSUGT.Name == "lowCost") { SSUGT.InnerText = me.UltGetThere.lowCost.ToString().ToLower(); }
+                            if (SSUGT.Name == "justification") { SSUGT.InnerText = me.UltGetThere.justification; }
+                            if (SSUGT.Name == "cheapestRate") { SSUGT.InnerText = me.UltGetThere.cheapestRate; }
+                            if (SSUGT.Name == "outPolitic") { SSUGT.InnerText = me.UltGetThere.outPolitic.ToString().ToLower(); }
+                            if (SSUGT.Name == "outPoliticMessage") { SSUGT.InnerText = me.UltGetThere.outPoliticMessage; }
+                        }
                     }
                     #endregion
-                    LarXML.Append("    <CountJobFunctionObservador xsi:nil='true' xmlns='" + ProcessVersionNumber + "' />");
-                    LarXML.Append("    <CountJobFunctionController1 xsi:nil='true' xmlns='" + ProcessVersionNumber + "' />");
-                    LarXML.Append("    <CountJobFunctionController2 xsi:nil='true' xmlns='" + ProcessVersionNumber + "' />");
-                    LarXML.Append("    <CountJobFunctionAutorizador1 xsi:nil='true' xmlns='" + ProcessVersionNumber + "' />");
-                    LarXML.Append("    <CountJobFunctionAutorizador2 xsi:nil='true' xmlns='" + ProcessVersionNumber + "' />");
-                    LarXML.Append("    <CountJobFunctionAutorizador3 xsi:nil='true' xmlns='" + ProcessVersionNumber + "' />");
-                    LarXML.Append("    <CountJobFunctionAutorizador4 xsi:nil='true' xmlns='" + ProcessVersionNumber + "' />");
 
-                    LarXML.Append("        <ExpenseAccountTotal xmlns='" + ProcessVersionNumber + "'>");
-                    LarXML.Append("        <WithoutIVA xsi:nil='true' />");
-                    LarXML.Append("        <IVA xsi:nil='true' />");
-                    LarXML.Append("        <Amount xsi:nil='true' />");
-                    LarXML.Append("        </ExpenseAccountTotal>");
-
-                    #region <UltItineraryRate>
-                    if (me.UltItineraryRate != null)
+                    #region UltItinerary Node Create
+                    int nodeCountItinerary = 0;
+                    if ((me.UltItinerary != null) && (me.UltItinerary.Length > 1) && (me.UltRequest.type < 3))
                     {
-                        LarXML.Append("    <UltItineraryRate xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("      <IdItineraryRate xmlns='http://processSchema.eGastos/'>" + me.UltItineraryRate.IdItineraryRate + "</IdItineraryRate>");
-                        LarXML.Append("      <idMissionOrder xmlns='http://processSchema.eGastos/'>" + me.UltItineraryRate.idMissionOrder + "</idMissionOrder>");
-                        LarXML.Append("      <realRate xmlns='http://processSchema.eGastos/'>" + me.UltItineraryRate.realRate + "</realRate>");
-                        LarXML.Append("      <IVA xmlns='http://processSchema.eGastos/'>" + me.UltItineraryRate.IVA + "</IVA>");
-                        LarXML.Append("      <TUA xmlns='http://processSchema.eGastos/'>" + me.UltItineraryRate.TUA + "</TUA>");
-                        LarXML.Append("      <otherTaxes xmlns='http://processSchema.eGastos/'>" + me.UltItineraryRate.otherTaxes + "</otherTaxes>");
-                        LarXML.Append("      <lineStatus xmlns='http://processSchema.eGastos/'>" + me.UltItineraryRate.lineStatus + "</lineStatus>");
-                        LarXML.Append("      <lineStatusName xmlns='http://processSchema.eGastos/'>" + me.UltItineraryRate.lineStatusName + "</lineStatusName>");
-                        LarXML.Append("    </UltItineraryRate>");
-                    }
-                    else
-                    {
-                        LarXML.Append("        <UltItineraryRate xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("        <IdItineraryRate xmlns='http://processSchema.eGastos/'>0</IdItineraryRate>");
-                        LarXML.Append("        <idMissionOrder xmlns='http://processSchema.eGastos/'>0</idMissionOrder>");
-                        LarXML.Append("        <realRate xmlns='http://processSchema.eGastos/'>0</realRate>");
-                        LarXML.Append("        <IVA xmlns='http://processSchema.eGastos/'>0</IVA>");
-                        LarXML.Append("        <TUA xmlns='http://processSchema.eGastos/'>0</TUA>");
-                        LarXML.Append("        <otherTaxes xmlns='http://processSchema.eGastos/'>0</otherTaxes>");
-                        LarXML.Append("        <lineStatus xmlns='http://processSchema.eGastos/'>0</lineStatus>");
-                        LarXML.Append("        </UltItineraryRate>");
+                        foreach (XmlNode globalNode in ObjXML.ChildNodes[1].ChildNodes[0])
+                        {
+                            if (globalNode.Name == "UltItinerary")
+                            {
+                                if (nodeCountItinerary == 0)
+                                {
+                                    nodeCountItinerary++;
+                                    nodeUIFirstIndex = nodeCountItinerary;
+                                }
+                                else
+                                {
+                                    nodeUILastIndex = nodeCountItinerary;
+                                }
+                                nodeCountUI++;
+                            }
+                            nodeCountItinerary++;
+                        }
 
+                        XmlElement xmlUltItineraryElement = ObjXML.CreateElement("UltItinerary", ProcessVersionNumber);
+                        for (int i = 0; i < me.UltItinerary.Length; i++)
+                        {
+                            if (i == 0)
+                            {
+                                xmlUltItineraryElement.InnerXml = xmlUltItinerary;
+                            }
+                            else
+                            {
+                                xmlUltItineraryElement.InnerXml = xmlUltItinerary;
+                                ObjXML.ChildNodes[1].ChildNodes[0].InsertAfter(xmlUltItineraryElement, ObjXML.ChildNodes[1].ChildNodes[0].ChildNodes[nodeUILastIndex]);
+                            }
+                        }
                     }
                     #endregion
-                    #region  <UltExpenseFlowVariables>
-                    if (me.UltExpenseFlowVariables != null)
+
+                    #region UltItineraryOptions Node Create
+                    int nodeCountUltItineraryOptions = 0;
+                    if ((me.UltItineraryOptions != null) && (me.UltItineraryOptions.Length > 1) && (me.UltRequest.type < 3)) //OK
                     {
-                        LarXML.Append("    <UltExpenseFlowVariables xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("      <summaryText xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.summaryText + "</summaryText>");
-                        LarXML.Append("      <jobFunctionResponsible xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionResponsible + "</jobFunctionResponsible>");
-                        LarXML.Append("      <activeDirAreaGastos xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.activeDirAreaGastos.ToString().ToLower() + "</activeDirAreaGastos>");
-                        LarXML.Append("      <activeDirFinanzasGastos xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.activeDirFinanzasGastos.ToString().ToLower() + "</activeDirFinanzasGastos>");
-                        LarXML.Append("      <activeManager xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.activeManager.ToString().ToLower() + "</activeManager>");
-                        LarXML.Append("      <jobFunctionControlling xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionControlling + "</jobFunctionControlling>");
-                        LarXML.Append("      <jobFunctionNationalManager xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionNationalManager + "</jobFunctionNationalManager>");
-                        LarXML.Append("      <jobFunctionAutorizador1 xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionAutorizador1 + "</jobFunctionAutorizador1>");
-                        LarXML.Append("      <jobFunctionAutorizador2 xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionAutorizador2 + "</jobFunctionAutorizador2>");
-                        LarXML.Append("      <jobFunctionAutorizador3 xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionAutorizador3 + "</jobFunctionAutorizador3>");
-                        LarXML.Append("      <jobFunctionAutorizador4 xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionAutorizador4 + "</jobFunctionAutorizador4>");
-                        LarXML.Append("      <jobFunctionController1 xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionController1 + "</jobFunctionController1>");
-                        LarXML.Append("      <jobFunctionController2 xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionController2 + "</jobFunctionController2>");
-                        LarXML.Append("      <jobFunctionObservador xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionObservador + "</jobFunctionObservador>");
-                        LarXML.Append("      <jobFunctionDirAreaGastos xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionDirAreaGastos + "</jobFunctionDirAreaGastos>");
-                        LarXML.Append("      <jobFunctionFinanzasGastos xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionFinanzasGastos + "</jobFunctionFinanzasGastos>");
-                        LarXML.Append("      <activeDirGralGastos xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.activeDirGralGastos.ToString().ToLower() + "</activeDirGralGastos>");
-                        LarXML.Append("    </UltExpenseFlowVariables>");
-                    }
-                    else
-                    {
-                        LarXML.Append("    <UltExpenseFlowVariables xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("    <activeDirAreaGastos xmlns='http://processSchema.eGastos/'>false</activeDirAreaGastos>");
-                        LarXML.Append("    <activeDirFinanzasGastos xmlns='http://processSchema.eGastos/'>false</activeDirFinanzasGastos>");
-                        LarXML.Append("    <activeManager xmlns='http://processSchema.eGastos/'>false</activeManager>");
-                        LarXML.Append("    <activeDirGralGastos xmlns='http://processSchema.eGastos/'>false</activeDirGralGastos>");
-                        LarXML.Append("    </UltExpenseFlowVariables>");
+                        foreach (XmlNode globalNode in ObjXML.ChildNodes[1].ChildNodes[0])
+                        {
+                            if (globalNode.Name == "UltItineraryOptions")
+                            {
+                                if (nodeCountUltItineraryOptions == 0)
+                                {
+                                    nodeCountUltItineraryOptions++;
+                                    nodeUIOFirstIndex = nodeCountUltItineraryOptions;
+                                }
+                                else
+                                {
+                                    nodeUIOLastIndex = nodeCountUltItineraryOptions;
+                                }
+                                nodeCountUIO++;
+                            }
+                            nodeCountUltItineraryOptions++;
+                        }
+
+                        XmlElement xmlUltItineraryOptionsElement = ObjXML.CreateElement("UltItineraryOptions", ProcessVersionNumber);
+                        for (int i = 0; i < me.UltItineraryOptions.Length; i++)
+                        {
+                            if (i == 0)
+                            {
+                                xmlUltItineraryOptionsElement.InnerXml = xmlUltItineraryOptions;
+                            }
+                            else
+                            {
+                                xmlUltItineraryOptionsElement.InnerXml = xmlUltItineraryOptions;
+                                ObjXML.ChildNodes[1].ChildNodes[0].InsertAfter(xmlUltItineraryOptionsElement, ObjXML.ChildNodes[1].ChildNodes[0].ChildNodes[nodeUIOLastIndex]);
+                            }
+                        }
                     }
                     #endregion
-                    LarXML.Append("      </Global>");
-                    LarXML.Append("      <SYS_PROCESSATTACHMENTS />");
-                    LarXML.Append("    </TaskData>");
-                    //-------------
-                    strxml1 = LarXML.ToString();
 
-                    strError = "";
-                    bolResultado = ult_obj.LaunchIncident(fd.UserLogin, summary, "Incidente criado por: ", false, 9, strxml1, true, out intIncident, out strError);
+                    #region UltItineraryOptionsDetail Node Create
+                    int nodeCountUltItineraryOptionsDetail = 0;
+                    if ((me.UltItineraryOptionsDetail != null) && (me.UltItineraryOptionsDetail.Length > 1) && (me.UltRequest.type < 3))
+                    {
+                        foreach (XmlNode globalNode in ObjXML.ChildNodes[1].ChildNodes[0])
+                        {
+                            if (globalNode.Name == "UltItineraryOptionsDetail")
+                            {
+                                if (nodeCountUltItineraryOptionsDetail == 0)
+                                {
+                                    nodeCountUltItineraryOptionsDetail++;
+                                    nodeUIODFirstIndex = nodeCountUltItineraryOptionsDetail;
+                                }
+                                else
+                                {
+                                    nodeUIODLastIndex = nodeCountUltItineraryOptionsDetail;
+                                }
+                                nodeCountUIOD++;
+                            }
+                            nodeCountUltItineraryOptionsDetail++;
+                        }
 
+                        XmlElement xmlUltItineraryOptionsDetailElement = ObjXML.CreateElement("UltItineraryOptionsDetail", ProcessVersionNumber);
+                        for (int i = 0; i < me.UltItineraryOptionsDetail.Length; i++)
+                        {
+                            if (i == 0)
+                            {
+                                xmlUltItineraryOptionsDetailElement.InnerXml = xmlUltItineraryOptionsDetail;
+                            }
+                            else
+                            {
+                                xmlUltItineraryOptionsDetailElement.InnerXml = xmlUltItineraryOptionsDetail;
+                                ObjXML.ChildNodes[1].ChildNodes[0].InsertAfter(xmlUltItineraryOptionsDetailElement, ObjXML.ChildNodes[1].ChildNodes[0].ChildNodes[nodeUIODLastIndex]);
+                            }
+                        }
+                    }
+                    #endregion
+
+                    #region UltPAClient Node Create
+                    int nodeCountPAClient = 0;
+                    if ((me.UltPAClient != null) && (me.UltPAClient.Length > 1) && (me.UltRequest.type >= 3))
+                    {
+                        foreach (XmlNode globalNode in ObjXML.ChildNodes[1].ChildNodes[0])
+                        {
+                            if (globalNode.Name == "UltPAClient")
+                            {
+                                if (nodeCountPAClient == 0)
+                                {
+                                    nodeCountPAClient++;
+                                    nodeUPACFirstIndex = nodeCountPAClient;
+                                }
+                                else
+                                {
+                                    nodeUPACLastIndex = nodeCountPAClient;
+                                }
+                                nodeCountUPAC++;
+                            }
+                            nodeCountPAClient++;
+                        }
+
+                        XmlElement xmlUltPAClientElement = ObjXML.CreateElement("UltPAClient", ProcessVersionNumber);
+                        for (int i = 0; i < me.UltPAClient.Length; i++)
+                        {
+                            if (i == 0)
+                            {
+                                xmlUltPAClientElement.InnerXml = xmlUltPAClient;
+                            }
+                            else
+                            {
+                                xmlUltPAClientElement.InnerXml = xmlUltPAClient;
+                                ObjXML.ChildNodes[1].ChildNodes[0].InsertAfter(xmlUltPAClientElement, ObjXML.ChildNodes[1].ChildNodes[0].ChildNodes[nodeUPACLastIndex]);
+                            }
+                        }
+                    }
+                    #endregion
+
+                    #region UltExpenseAccountDetail Node Create
+                    int nodeCountUltExpenseAccountDetail = 0;
+                    if ((me.UltExpenseAccountDetail != null) && (me.UltExpenseAccountDetail.Length > 1) && (me.UltRequest.type >= 3))
+                    {
+                        foreach (XmlNode globalNode in ObjXML.ChildNodes[1].ChildNodes[0])
+                        {
+                            if (globalNode.Name == "UltExpenseAccountDetail")
+                            {
+                                if (nodeCountUltExpenseAccountDetail == 0)
+                                {
+                                    nodeCountUltExpenseAccountDetail++;
+                                    nodeUEADFirstIndex = nodeCountUltExpenseAccountDetail;
+                                }
+                                else
+                                {
+                                    nodeUEADLastIndex = nodeCountUltExpenseAccountDetail;
+                                }
+                                nodeCountUEAD++;
+                            }
+                            nodeCountUltExpenseAccountDetail++;
+                        }
+
+                        XmlElement xmlUltExpenseAccountDetailElement = ObjXML.CreateElement("UltExpenseAccountDetail", ProcessVersionNumber);
+                        for (int i = 0; i < me.UltPAClient.Length; i++)
+                        {
+                            if (i == 0)
+                            {
+                                xmlUltExpenseAccountDetailElement.InnerXml = xmlUltExpenseAccountDetail;
+                            }
+                            else
+                            {
+                                xmlUltExpenseAccountDetailElement.InnerXml = xmlUltExpenseAccountDetail;
+                                ObjXML.ChildNodes[1].ChildNodes[0].InsertAfter(xmlUltExpenseAccountDetailElement, ObjXML.ChildNodes[1].ChildNodes[0].ChildNodes[nodeUEADLastIndex]);
+                            }
+                        }
+                    }
+                    #endregion
+
+                    int ui = 0, uio = 0, uiod = 0, pac = 0, ead = 0;
+                    foreach (XmlNode globalNode in ObjXML.ChildNodes[1].ChildNodes[0])
+                    {
+                        #region Global Ultapprove
+                        if (me.UltApprove != null)
+                        {
+                            if (globalNode.Name == "UltApprove")
+                            {
+                                globalNode.InnerXml = "<approved xmlns='http://processSchema.eGastos/'>" + me.UltApprove.approved.ToString().ToLower() + "</approved><approverName xmlns='http://processSchema.eGastos/'>" + me.UltApprove.approverName + "</approverName><approverLogin xmlns='http://processSchema.eGastos/'>" + me.UltApprove.approverLogin + "</approverLogin><approverEmail xmlns='http://processSchema.eGastos/'>" + me.UltApprove.approverEmail + "</approverEmail>";
+                            }
+                        }
+                        #endregion
+
+                        #region Global UltExpenseAccount
+                        if (me.UltExpenseAccount != null)
+                        {
+                            if (globalNode.Name == "UltExpenseAccount")
+                            {
+                                if (me.UltRequest.type >= 3)
+                                {
+                                    globalNode.InnerXml = "<idExpenseAccount xmlns=\"http://processSchema.eGastos/\">0</idExpenseAccount><idRequest xmlns=\"http://processSchema.eGastos/\">0</idRequest><nationalManagerLogin xmlns=\"http://processSchema.eGastos/\"> </nationalManagerLogin><nationalManagerName xmlns=\"http://processSchema.eGastos/\"> </nationalManagerName><debitCard xmlns=\"http://processSchema.eGastos/\">false</debitCard><isCFDI xmlns=\"http://processSchema.eGastos/\">false</isCFDI><totalMiniEvent xmlns=\"http://processSchema.eGastos/\">0</totalMiniEvent><totalMeal xmlns=\"http://processSchema.eGastos/\">0</totalMeal><totalNationalMeal xmlns=\"http://processSchema.eGastos/\">0</totalNationalMeal><overdue xmlns=\"http://processSchema.eGastos/\">false</overdue><charged xmlns=\"http://processSchema.eGastos/\">false</charged><strike xmlns=\"http://processSchema.eGastos/\">false</strike>";
+                                    foreach (XmlNode UEA in globalNode)
+                                    {
+                                        if (UEA.Name == "charged")
+                                        {
+                                            UEA.InnerText = me.UltExpenseAccount.charged.ToString().ToLower();
+                                        }
+                                        if (UEA.Name == "debitCard")
+                                        {
+                                            UEA.InnerText = me.UltExpenseAccount.debitCard.ToString().ToLower();
+                                        }
+                                        if (UEA.Name == "idExpenseAccount")
+                                        {
+                                            UEA.InnerText = me.UltExpenseAccount.idExpenseAccount.ToString();
+                                        }
+                                        if (UEA.Name == "idRequest")
+                                        {
+                                            UEA.InnerText = me.UltExpenseAccount.idRequest.ToString();
+                                        }
+                                        if (UEA.Name == "isCFDI")
+                                        {
+                                            UEA.InnerText = me.UltExpenseAccount.isCFDI.ToString().ToLower();
+                                        }
+                                        if (UEA.Name == "nationalManagerLogin")
+                                        {
+                                            UEA.InnerText = me.UltExpenseAccount.nationalManagerLogin;
+                                        }
+                                        if (UEA.Name == "nationalManagerName")
+                                        {
+                                            UEA.InnerText = me.UltExpenseAccount.nationalManagerName;
+                                        }
+                                        if (UEA.Name == "overdue")
+                                        {
+                                            UEA.InnerText = me.UltExpenseAccount.overdue.ToString().ToLower();
+                                        }
+                                        if (UEA.Name == "strike")
+                                        {
+                                            UEA.InnerText = me.UltExpenseAccount.strike.ToString().ToLower();
+                                        }
+                                        if (UEA.Name == "totalMeal")
+                                        {
+                                            UEA.InnerText = me.UltExpenseAccount.totalMeal.ToString();
+                                        }
+                                        if (UEA.Name == "totalMiniEvent")
+                                        {
+                                            UEA.InnerText = me.UltExpenseAccount.totalMiniEvent.ToString();
+                                        }
+                                        if (UEA.Name == "totalNationalMeal")
+                                        {
+                                            UEA.InnerText = me.UltExpenseAccount.totalNationalMeal.ToString();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        #endregion
+
+                        #region Global UltExpenseFlowVariables
+                        if (me.UltExpenseFlowVariables != null)
+                        {
+                            if (globalNode.Name == "UltExpenseFlowVariables")
+                            {
+                                globalNode.InnerXml = "<summaryText xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.summaryText + "</summaryText><jobFunctionResponsible xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionResponsible + "</jobFunctionResponsible><activeDirAreaGastos xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.activeDirAreaGastos.ToString().ToLower() + "</activeDirAreaGastos><activeDirFinanzasGastos xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.activeDirFinanzasGastos.ToString().ToLower() + "</activeDirFinanzasGastos><activeManager xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.activeManager.ToString().ToLower() + "</activeManager><jobFunctionControlling xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionControlling + "</jobFunctionControlling><jobFunctionNationalManager xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionNationalManager + "</jobFunctionNationalManager><jobFunctionAutorizador1 xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionAutorizador1 + "</jobFunctionAutorizador1><jobFunctionAutorizador2 xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionAutorizador2 + "</jobFunctionAutorizador2><jobFunctionAutorizador3 xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionAutorizador3 + "</jobFunctionAutorizador3><jobFunctionAutorizador4 xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionAutorizador4 + "</jobFunctionAutorizador4><jobFunctionController1 xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionController1 + "</jobFunctionController1><jobFunctionController2 xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionController2 + "</jobFunctionController2><jobFunctionObservador xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionObservador + "</jobFunctionObservador><jobFunctionDirAreaGastos xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionDirAreaGastos + "</jobFunctionDirAreaGastos><jobFunctionFinanzasGastos xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionFinanzasGastos + "</jobFunctionFinanzasGastos><activeDirGralGastos xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.activeDirGralGastos.ToString().ToLower() + "</activeDirGralGastos>";
+                            }
+                        }
+                        #endregion
+
+                        #region Global UltRequest
+                        if (me.UltRequest != null)
+                        {
+                            if (globalNode.Name == "UltRequest")
+                            {
+                                int cont = 0;
+                                globalNode.InnerXml = "<idRequest xmlns='http://processSchema.eGastos/'></idRequest><requestDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</requestDate><companyName xmlns='http://processSchema.eGastos/'></companyName><companyCode xmlns='http://processSchema.eGastos/'>0</companyCode><CeCoCode xmlns='http://processSchema.eGastos/'>0</CeCoCode><CeCoName xmlns='http://processSchema.eGastos/'></CeCoName><CeCoMiniCode xmlns='http://processSchema.eGastos/'>0</CeCoMiniCode><CeCoMiniName xmlns='http://processSchema.eGastos/'></CeCoMiniName><isMiniEvent xmlns='http://processSchema.eGastos/'>false</isMiniEvent><arrival xmlns='http://processSchema.eGastos/'></arrival><departureDate xmlns='http://processSchema.eGastos/'></departureDate><returnDate xmlns='http://processSchema.eGastos/'></returnDate><PEPElementId xmlns='http://processSchema.eGastos/'></PEPElementId><PEPElementName xmlns='http://processSchema.eGastos/'></PEPElementName><currencyId xmlns='http://processSchema.eGastos/'></currencyId><currencyName xmlns='http://processSchema.eGastos/'></currencyName><exchangeRate xmlns='http://processSchema.eGastos/'>0</exchangeRate><initiatorLogin xmlns='http://processSchema.eGastos/'></initiatorLogin><initiatorName xmlns='http://processSchema.eGastos/'></initiatorName><PAClientId xmlns='http://processSchema.eGastos/'></PAClientId><PAClientName xmlns='http://processSchema.eGastos/'></PAClientName><responsibleLogin xmlns='http://processSchema.eGastos/'></responsibleLogin><responsibleName xmlns='http://processSchema.eGastos/'></responsibleName><responsibleEmployeeNum xmlns='http://processSchema.eGastos/'></responsibleEmployeeNum><responsibleUserName xmlns='http://processSchema.eGastos/'></responsibleUserName><responsiblePayMethod xmlns='http://processSchema.eGastos/'></responsiblePayMethod><pasteur xmlns='http://processSchema.eGastos/'>false</pasteur><areaId xmlns='http://processSchema.eGastos/'>0</areaId><areaText xmlns='http://processSchema.eGastos/'></areaText><ultimusNumber xmlns='http://processSchema.eGastos/' >0</ultimusNumber><type xmlns='http://processSchema.eGastos/'>0</type><typeName xmlns='http://processSchema.eGastos/'></typeName><status xmlns='http://processSchema.eGastos/'>0</status><statusName xmlns='http://processSchema.eGastos/'></statusName><salesForce xmlns='http://processSchema.eGastos/' >false</salesForce>";
+                                foreach (XmlNode UR in globalNode)
+                                {
+                                    cont++;
+                                    if (UR.Name == "areaId") { UR.InnerText = me.UltRequest.areaId.ToString(); }
+                                    if (UR.Name == "areaText") { UR.InnerText = me.UltRequest.areaText; }
+                                    if (UR.Name == "arrival") { UR.InnerText = me.UltRequest.arrival; }
+                                    if (UR.Name == "CeCoCode") { UR.InnerText = me.UltRequest.CeCoCode.ToString(); }
+                                    if (UR.Name == "CeCoMiniCode") { UR.InnerText = me.UltRequest.CeCoMiniCode.ToString(); }
+                                    if (UR.Name == "CeCoMiniName") { UR.InnerText = me.UltRequest.CeCoMiniName; }
+                                    if (UR.Name == "CeCoName") { UR.InnerText = me.UltRequest.CeCoName; }
+                                    if (UR.Name == "companyCode") { UR.InnerText = me.UltRequest.companyCode.ToString(); }
+                                    if (UR.Name == "companyName") { UR.InnerText = me.UltRequest.companyName; }
+                                    if (UR.Name == "currencyId") { UR.InnerText = me.UltRequest.currencyId; }
+                                    if (UR.Name == "currencyName") { UR.InnerText = me.UltRequest.currencyName; }
+                                    if (UR.Name == "departureDate") { UR.InnerText = me.UltRequest.departureDate; }
+                                    if (UR.Name == "exchangeRate") { UR.InnerText = me.UltRequest.exchangeRate.ToString(); }
+                                    if (UR.Name == "idRequest") { UR.InnerText = me.UltRequest.idRequest.ToString(); }
+                                    if (UR.Name == "initiatorLogin") { UR.InnerText = me.UltRequest.initiatorLogin; }
+                                    if (UR.Name == "initiatorName") { UR.InnerText = me.UltRequest.initiatorName; }
+                                    if (UR.Name == "isMiniEvent") { UR.InnerText = me.UltRequest.isMiniEvent.ToString().ToLower(); }
+                                    if (UR.Name == "PAClientId") { UR.InnerText = me.UltRequest.PAClientId; }
+                                    if (UR.Name == "PAClientName") { UR.InnerText = me.UltRequest.PAClientName; }
+                                    if (UR.Name == "pasteur") { UR.InnerText = me.UltRequest.pasteur.ToString().ToLower(); }
+                                    if (UR.Name == "PEPElementId") { UR.InnerText = me.UltRequest.PEPElementId; }
+                                    if (UR.Name == "PEPElementName") { UR.InnerText = me.UltRequest.PEPElementName; }
+                                    if (UR.Name == "requestDate") { UR.InnerText = ToXMLDateFormat(me.UltRequest.requestDate); }
+                                    if (UR.Name == "responsibleEmployeeNum") { UR.InnerText = me.UltRequest.responsibleEmployeeNum; }
+                                    if (UR.Name == "responsibleLogin") { UR.InnerText = me.UltRequest.responsibleLogin; }
+                                    if (UR.Name == "responsibleName") { UR.InnerText = me.UltRequest.responsibleName; }
+                                    if (UR.Name == "responsiblePayMethod") { UR.InnerText = me.UltRequest.responsiblePayMethod; }
+                                    if (UR.Name == "responsibleUserName") { UR.InnerText = me.UltRequest.responsibleUserName; }
+                                    if (UR.Name == "returnDate") { UR.InnerText = me.UltRequest.returnDate; }
+                                    if (UR.Name == "salesForce") { UR.InnerText = me.UltRequest.salesForce.ToString().ToLower(); }
+                                    if (UR.Name == "status") { UR.InnerText = me.UltRequest.status.ToString(); }
+                                    if (UR.Name == "statusName") { UR.InnerText = me.UltRequest.statusName; }
+                                    if (UR.Name == "type") { UR.InnerText = me.UltRequest.type.ToString(); }
+                                    if (UR.Name == "typeName") { UR.InnerText = me.UltRequest.typeName; }
+                                    if (UR.Name == "ultimusNumber") { UR.InnerText = me.UltRequest.ultimusNumber.ToString(); }
+                                }
+                            }
+                        }
+                        #endregion
+
+                        #region Global UltRequester
+                        if (me.UltRequester != null)
+                        {
+                            if (globalNode.Name == "UltRequester")
+                            {
+                                globalNode.InnerXml = "<requesterName xmlns='http://processSchema.eGastos/'> </requesterName><requesterLogin xmlns='http://processSchema.eGastos/'> </requesterLogin><requesterEmail xmlns='http://processSchema.eGastos/'> </requesterEmail><requesterDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</requesterDate>";
+                                foreach (XmlNode UR in globalNode)
+                                {
+                                    if (UR.Name == "requesterDate") { UR.InnerText = ToXMLDateFormat(me.UltRequester.requesterDate); }
+                                    if (UR.Name == "requesterEmail") { UR.InnerText = me.UltRequester.requesterEmail; }
+                                    if (UR.Name == "requesterLogin") { UR.InnerText = me.UltRequester.requesterLogin; }
+                                    if (UR.Name == "requesterName") { UR.InnerText = me.UltRequester.requesterName; }
+                                }
+                            }
+                        }
+                        #endregion
+
+                        #region Global UltResponsible
+                        if (me.UltResponsible != null)
+                        {
+                            if (globalNode.Name == "UltResponsible")
+                            {
+                                foreach (XmlNode UR in globalNode)
+                                {
+                                    if (UR.Name == "responsibleEmail") { UR.InnerText = me.UltResponsible.responsibleEmail; }
+                                    if (UR.Name == "responsibleLogin") { UR.InnerText = me.UltResponsible.responsibleLogin; }
+                                    if (UR.Name == "responsibleName") { UR.InnerText = me.UltResponsible.responsibleName; }
+                                }
+                            }
+                        }
+                        #endregion
+
+                        #region Global UltItinerary[]
+                        if ((me.UltItinerary != null) && (me.UltRequest.type < 3) && (me.UltMissionOrder.itinerary) && (me.UltItinerary.Length > 0))
+                        {
+
+                            if (globalNode.Name == "UltItinerary")
+                            {
+                                globalNode.InnerXml = xmlUltItinerary;
+
+                                foreach (XmlNode UI in globalNode)
+                                {
+                                    if (UI.Name == "idItinerary") { UI.InnerText = me.UltItinerary[ui].idItinerary.ToString(); }
+                                    if (UI.Name == "idMissionOrder") { UI.InnerText = me.UltItinerary[ui].idMissionOrder.ToString(); }
+                                    if (UI.Name == "idConsecutive") { UI.InnerText = me.UltItinerary[ui].idConsecutive.ToString(); }
+                                    if (UI.Name == "idLedgerAccount") { UI.InnerText = me.UltItinerary[ui].idLedgerAccount.ToString(); }
+                                    if (UI.Name == "nameLedgerAccount") { UI.InnerText = me.UltItinerary[ui].nameLedgerAccount; }
+                                    if (UI.Name == "departureHour") { UI.InnerText = me.UltItinerary[ui].departureHour; }
+                                    if (UI.Name == "returnHour") { UI.InnerText = me.UltItinerary[ui].returnHour; }
+                                    if (UI.Name == "observations") { UI.InnerText = me.UltItinerary[ui].observations; }
+                                    if (UI.Name == "travelType") { UI.InnerText = me.UltItinerary[ui].travelType.ToString(); }
+                                    if (UI.Name == "nameTravelType") { UI.InnerText = me.UltItinerary[ui].nameTravelType; }
+                                    if (UI.Name == "departureCountry") { UI.InnerText = me.UltItinerary[ui].departureCountry; }
+                                    if (UI.Name == "departureCity") { UI.InnerText = me.UltItinerary[ui].departureCity; }
+                                    if (UI.Name == "arrivalCountry") { UI.InnerText = me.UltItinerary[ui].arrivalCountry; }
+                                    if (UI.Name == "arrivalCity") { UI.InnerText = me.UltItinerary[ui].arrivalCity; }
+                                    if (UI.Name == "departureDate") { UI.InnerText = ToXMLDateFormat(me.UltItinerary[ui].departureDate); }
+                                    if (UI.Name == "arrivalDate") { UI.InnerText = ToXMLDateFormat(me.UltItinerary[ui].arrivalDate); }
+                                    if (UI.Name == "status") { UI.InnerText = me.UltItinerary[ui].status.ToString().ToLower(); }
+                                }
+                                ui++;
+                            }
+                        }
+                        #endregion
+
+                        #region Global UltItineraryOptions[]
+                        if ((me.UltItineraryOptions != null) && (me.UltRequest.type < 3) && (me.UltMissionOrder.itinerary) && (me.UltItineraryOptions.Length > 0))
+                        {
+                            if (globalNode.Name == "UltItineraryOptions")
+                            {
+                                globalNode.InnerXml = xmlUltItineraryOptions;
+
+                                foreach (XmlNode UIO in globalNode)
+                                {
+                                    if (UIO.Name == "idItineraryOption") { UIO.InnerText = me.UltItineraryOptions[uio].idItineraryOption.ToString(); }
+                                    if (UIO.Name == "idMissionOrder") { UIO.InnerText = me.UltItineraryOptions[uio].idMissionOrder.ToString(); }
+                                    if (UIO.Name == "idRate") { UIO.InnerText = me.UltItineraryOptions[uio].idRate.ToString(); }
+                                    if (UIO.Name == "quoteRate") { UIO.InnerText = me.UltItineraryOptions[uio].quoteRate.ToString(); }
+                                    if (UIO.Name == "observations") { UIO.InnerText = me.UltItineraryOptions[uio].observations; }
+                                    if (UIO.Name == "confirmed") { UIO.InnerText = me.UltItineraryOptions[uio].confirmed.ToString().ToLower(); }
+                                    if (UIO.Name == "lastDayPurchase") { UIO.InnerText = ToXMLDateFormat(me.UltItineraryOptions[uio].lastDayPurchase); }
+                                }
+                                uio++;
+                            }
+                        }
+                        #endregion
+
+                        #region Global UltItineraryOptionsDetail[]
+                        if ((me.UltItineraryOptionsDetail != null) && (me.UltRequest.type < 3) && (me.UltMissionOrder.itinerary) && (me.UltItineraryOptionsDetail.Length > 0))
+                        {
+                            if (globalNode.Name == "UltItineraryOptionsDetail")
+                            {
+                                globalNode.InnerXml = xmlUltItineraryOptionsDetail;
+
+                                foreach (XmlNode UIOD in globalNode)
+                                {
+                                    if (UIOD.Name == "airlineFlight") { UIOD.InnerText = me.UltItineraryOptionsDetail[uiod].airlineFlight; }
+                                    if (UIOD.Name == "arrival") { UIOD.InnerText = me.UltItineraryOptionsDetail[uiod].arrival; }
+                                    if (UIOD.Name == "arrivalDate") { UIOD.InnerText = ToXMLDateFormat(me.UltItineraryOptionsDetail[uiod].arrivalDate); }
+                                    if (UIOD.Name == "departure") { UIOD.InnerText = me.UltItineraryOptionsDetail[uiod].departure; }
+                                    if (UIOD.Name == "departureDate") { UIOD.InnerText = ToXMLDateFormat(me.UltItineraryOptionsDetail[uiod].departureDate); }
+                                    if (UIOD.Name == "idItineraryOption") { UIOD.InnerText = me.UltItineraryOptionsDetail[uiod].idItineraryOption.ToString(); }
+                                    if (UIOD.Name == "idItineraryOptionsDetail") { UIOD.InnerText = me.UltItineraryOptionsDetail[uiod].idItineraryOptionsDetail.ToString(); }
+                                    if (UIOD.Name == "idMissionOrder") { UIOD.InnerText = me.UltItineraryOptionsDetail[uiod].idMissionOrder.ToString(); }
+                                    if (UIOD.Name == "lapseTime") { UIOD.InnerText = me.UltItineraryOptionsDetail[uiod].lapseTime.ToString(); }
+                                }
+                                uiod++;
+                            }
+                        }
+                        #endregion
+
+                        #region Global UltPAClient[]
+                        if ((me.UltPAClient != null) && (me.UltRequest.type >= 3) && (me.UltPAClient.Length > 0))
+                        {
+                            if (globalNode.Name == "UltPAClient")
+                            {
+                                globalNode.InnerXml = xmlUltPAClient;
+
+                                foreach (XmlNode UPAC in globalNode)
+                                {
+                                    if (UPAC.Name == "code") { UPAC.InnerText = me.UltPAClient[pac].code; }
+                                    if (UPAC.Name == "idExpenseAccountDetail") { UPAC.InnerText = me.UltPAClient[pac].idExpenseAccountDetail.ToString(); }
+                                    if (UPAC.Name == "name") { UPAC.InnerText = me.UltPAClient[pac].name; }
+                                }
+                                pac++;
+                            }
+                        }
+                        #endregion
+
+                        #region Global UltExpenseAccountDetail[]
+                        if ((me.UltExpenseAccountDetail != null) && (me.UltRequest.type >= 3) && (me.UltExpenseAccountDetail.Length > 0))
+                        {
+                            if (globalNode.Name == "UltExpenseAccountDetail")
+                            {
+                                globalNode.InnerXml = xmlUltExpenseAccountDetail;
+
+                                foreach (XmlNode UEAD in globalNode)
+                                {
+                                    if (UEAD.Name == "idExpenseAccountDetail") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].idExpenseAccountDetail.ToString(); }
+                                    if (UEAD.Name == "idExpenseAccount") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].idExpenseAccount.ToString(); }
+                                    if (UEAD.Name == "expenseDate") { UEAD.InnerText = ToXMLDateFormat(me.UltExpenseAccountDetail[ead].expenseDate); }
+                                    if (UEAD.Name == "idAccount") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].idAccount.ToString(); }
+                                    if (UEAD.Name == "accountName") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].accountName; }
+                                    if (UEAD.Name == "amount") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].amount.ToString(); }
+                                    if (UEAD.Name == "invoiceNumber") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].invoiceNumber; }
+                                    if (UEAD.Name == "place") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].place; }
+                                    if (UEAD.Name == "numberOfDiners") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].numberOfDiners.ToString(); }
+                                    if (UEAD.Name == "IVA") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].IVA.ToString(); }
+                                    if (UEAD.Name == "healthProfessional") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].healthProfessional.ToString().ToLower(); }
+                                    if (UEAD.Name == "discount") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].discount.ToString(); }
+                                    if (UEAD.Name == "hasPAClient") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].hasPAClient.ToString().ToLower(); }
+                                    if (UEAD.Name == "IVATypeId") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].IVATypeId; }
+                                    if (UEAD.Name == "IVATypeName") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].IVATypeName; }
+                                    if (UEAD.Name == "total") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].total.ToString(); }
+                                    if (UEAD.Name == "observationId") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].observationId.ToString(); }
+                                    if (UEAD.Name == "observationName") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].observationName; }
+                                    if (UEAD.Name == "idXml") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].idXml.ToString(); }
+                                    if (UEAD.Name == "amountCFDI") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].amountCFDI.ToString(); }
+                                    if (UEAD.Name == "ivaCFDI") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].ivaCFDI.ToString(); }
+                                    if (UEAD.Name == "idExtract") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].idExtract.ToString(); }
+                                    if (UEAD.Name == "amountExtract") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].amountExtract.ToString(); }
+                                    if (UEAD.Name == "conciliated") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].conciliated.ToString().ToLower(); }
+                                    if (UEAD.Name == "strike") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].strike.ToString().ToLower(); }
+                                    if (UEAD.Name == "status") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].status.ToString().ToLower(); }
+                                }
+                                ead++;
+                            }
+                        }
+                        #endregion
+
+                    }
+
+                    #region StepSchemaUltHotel
+                    if ((me.UltHotel != null) && (me.UltRequest.type < 3) && (me.UltMissionOrder.hotel))
+                    {
+                        int i = me.UltHotel.Length - 1;
+                        foreach (object obj in me.UltHotel)
+                        {
+                            XmlNode xmlUltHotelElement = ObjXML.CreateNode("element", "StepSchemaUltHotel", "");
+
+                            xmlUltHotelElement.InnerXml = xmlStepSchemaUltHotel;
+                            ObjXML.ChildNodes[1].InsertBefore(xmlUltHotelElement, ObjXML.ChildNodes[1].ChildNodes[2]);
+
+                            foreach (XmlNode UH in xmlUltHotelElement)
+                            {
+                                if (UH.Name == "idHotel") { UH.InnerText = UH.InnerText = me.UltHotel[i].idHotel.ToString(); }
+                                if (UH.Name == "idMissionOrder") { UH.InnerText = me.UltHotel[i].idMissionOrder.ToString(); }
+                                if (UH.Name == "idRated") { UH.InnerText = me.UltHotel[i].idRated.ToString(); }
+                                if (UH.Name == "idConsecutive") { UH.InnerText = me.UltHotel[i].idConsecutive.ToString(); }
+                                if (UH.Name == "idLegerAccount") { UH.InnerText = me.UltHotel[i].idLegerAccount.ToString(); }
+                                if (UH.Name == "checkInDate") { UH.InnerText = ToXMLDateFormat(me.UltHotel[i].checkInDate); }
+                                if (UH.Name == "checkoutDate") { UH.InnerText = ToXMLDateFormat(me.UltHotel[i].checkoutDate); }
+                                if (UH.Name == "quotedRate") { UH.InnerText = me.UltHotel[i].quotedRate.ToString(); }
+                                if (UH.Name == "realRate") { UH.InnerText = me.UltHotel[i].realRate.ToString(); }
+                                if (UH.Name == "IVA") { UH.InnerText = me.UltHotel[i].IVA.ToString(); }
+                                if (UH.Name == "hotelTax") { UH.InnerText = me.UltHotel[i].hotelTax.ToString(); }
+                                if (UH.Name == "otherTaxes") { UH.InnerText = me.UltHotel[i].otherTaxes.ToString(); }
+                                if (UH.Name == "status") { UH.InnerText = me.UltHotel[i].status.ToString().ToLower(); }
+                                if (UH.Name == "lineStatus") { UH.InnerText = me.UltHotel[i].lineStatus.ToString(); }
+                            }
+                            i--;
+                        }
+                    }
+                    #endregion
+
+                    XmlDataDocument ObjXMLSend = new XmlDataDocument();
+                    ObjXMLSend.InnerXml = ObjXML.InnerXml.Replace("StepSchemaUltHotel xmlns=\"\"", "StepSchemaUltHotel");
+
+                    bolResultado = ult_obj.LaunchIncident(fd.UserLogin, summary, "Incidente criado por: ", false, 9, ObjXMLSend.InnerXml, true, out intIncident, out strError);
                 }
-
                 nIncident = intIncident;
                 if (strError != "")
                 {
                     msgError = strError;
                     return intIncident;
                 }
-
             }
             catch (Exception ex)
             {
@@ -1622,15 +1621,32 @@ namespace eGastosWS
 
         private int incidentGeneratePharma(Entity.MasterEntity me, Entity.FilterData fd, out string msgError, out int nIncident, bool isApprove)
         {
-            WSeGastosPharma.eGastos_Pharma ult_obj = new WSeGastosPharma.eGastos_Pharma();
+
+            WSeGastosPharma.eGastos_Pharma_BC ult_obj = new WSeGastosPharma.eGastos_Pharma_BC();
             WSeGastosPharma.SchemaFile[] schemas;
+
 
             // REQUEST  DATA (rd)           
             string strHoraAtual = ToXMLDateFormat(DateTime.Now);
+            string xmlStepSchemaUltHotel = "<idHotel xmlns='http://processSchema.eGastos/'>0</idHotel><idMissionOrder xmlns='http://processSchema.eGastos/'>0</idMissionOrder><idRated xmlns='http://processSchema.eGastos/'>0</idRated><idConsecutive xmlns='http://processSchema.eGastos/'>0</idConsecutive><idLegerAccount xmlns='http://processSchema.eGastos/'>0</idLegerAccount><nameLegerAccount xmlns='http://processSchema.eGastos/'>asd</nameLegerAccount><country xmlns='http://processSchema.eGastos/'>asd</country><city xmlns='http://processSchema.eGastos/'>asd</city><observations xmlns='http://processSchema.eGastos/'>asd</observations><checkInDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</checkInDate><checkoutDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</checkoutDate><hotelName xmlns='http://processSchema.eGastos/'>asd</hotelName><reservation xmlns='http://processSchema.eGastos/'>asd</reservation><telephone xmlns='http://processSchema.eGastos/'>asd</telephone><address xmlns='http://processSchema.eGastos/'>asd</address><quotedRate xmlns='http://processSchema.eGastos/'>0</quotedRate><realRate xmlns='http://processSchema.eGastos/'>0</realRate><IVA xmlns='http://processSchema.eGastos/'>0</IVA><hotelTax xmlns='http://processSchema.eGastos/'>0</hotelTax><otherTaxes xmlns='http://processSchema.eGastos/'>0</otherTaxes><status xmlns='http://processSchema.eGastos/'>true</status><lineStatus xmlns='http://processSchema.eGastos/'>0</lineStatus><lineStatusName xmlns='http://processSchema.eGastos/'>asd</lineStatusName>";
+            string xmlStepSchemaUltApprovalHistory = "<stepName xmlns='http://processSchema.eGastos/'></stepName><approverName xmlns='http://processSchema.eGastos/'></approverName><approverLogin xmlns='http://processSchema.eGastos/'></approverLogin><userEmail xmlns='http://processSchema.eGastos/'></userEmail><approveDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</approveDate><comments xmlns='http://processSchema.eGastos/'></comments><approveStatus xmlns='http://processSchema.eGastos/'></approveStatus>";
+            string xmlStepSchemaUltMissionOrder = "<idMissionOrder xmlns='http://processSchema.eGastos/'>0</idMissionOrder><idRequest xmlns='http://processSchema.eGastos/'>0</idRequest><idAgencyResponse xmlns='http://processSchema.eGastos/'>0</idAgencyResponse><statusAgencyProcess xmlns='http://processSchema.eGastos/'>0</statusAgencyProcess><statusAgencySend xmlns='http://processSchema.eGastos/'>0</statusAgencySend><countAgencyWait xmlns='http://processSchema.eGastos/'>0</countAgencyWait><idAgencyLog xmlns='http://processSchema.eGastos/'>0</idAgencyLog><travelId xmlns='http://processSchema.eGastos/'></travelId><travelName xmlns='http://processSchema.eGastos/'></travelName><objective xmlns='http://processSchema.eGastos/'></objective><advance xmlns='http://processSchema.eGastos/'>0</advance><nationalCurrency xmlns='http://processSchema.eGastos/'>0</nationalCurrency><advanceApply xmlns='http://processSchema.eGastos/'>false</advanceApply><itinerary xmlns='http://processSchema.eGastos/'>false</itinerary><hotel xmlns='http://processSchema.eGastos/'>false</hotel><comment xmlns='http://processSchema.eGastos/'></comment><exceededAdvance xmlns='http://processSchema.eGastos/'>false</exceededAdvance><missionOrderType xmlns='http://processSchema.eGastos/'>0</missionOrderType><missionOrderTypeText xmlns='http://processSchema.eGastos/'>0</missionOrderTypeText><advanceAndDebitCard xmlns='http://processSchema.eGastos/'>false</advanceAndDebitCard>";
+            string xmlStepSchemaUltGetThere = "<idGetThere xmlns='http://processSchema.eGastos/'>0</idGetThere><idMissionOrder xmlns='http://processSchema.eGastos/'>0</idMissionOrder><conceptId xmlns='http://processSchema.eGastos/'>0</conceptId><conceptText xmlns='http://processSchema.eGastos/'> </conceptText><lowCost xmlns='http://processSchema.eGastos/'>false</lowCost><justification xmlns='http://processSchema.eGastos/'> </justification><cheapestRate xmlns='http://processSchema.eGastos/'> </cheapestRate><outPolitic xmlns='http://processSchema.eGastos/'>false</outPolitic><outPoliticMessage xmlns='http://processSchema.eGastos/'> </outPoliticMessage>";
+            string xmlUltItinerary = "<idItinerary xmlns='http://processSchema.eGastos/'>0</idItinerary><idMissionOrder xmlns='http://processSchema.eGastos/'>0</idMissionOrder><idConsecutive xmlns='http://processSchema.eGastos/'>0</idConsecutive><idLedgerAccount xmlns='http://processSchema.eGastos/'>0</idLedgerAccount><nameLedgerAccount  xmlns='http://processSchema.eGastos/'> </nameLedgerAccount><departureHour  xmlns='http://processSchema.eGastos/'>00:00</departureHour><returnHour  xmlns='http://processSchema.eGastos/'>00:00</returnHour><observations  xmlns='http://processSchema.eGastos/'> </observations><travelType xmlns='http://processSchema.eGastos/'>0</travelType><nameTravelType  xmlns='http://processSchema.eGastos/'> </nameTravelType><departureCountry  xmlns='http://processSchema.eGastos/'> </departureCountry><departureCity  xmlns='http://processSchema.eGastos/'> </departureCity><arrivalCountry  xmlns='http://processSchema.eGastos/'> </arrivalCountry><arrivalCity  xmlns='http://processSchema.eGastos/'> </arrivalCity><departureDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</departureDate><arrivalDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</arrivalDate><status xmlns='http://processSchema.eGastos/'>false</status>";
+            string xmlUltItineraryOptions = "<idItineraryOption xmlns='http://processSchema.eGastos/'>0</idItineraryOption><idMissionOrder xmlns='http://processSchema.eGastos/'>0</idMissionOrder><idRate xmlns='http://processSchema.eGastos/'>0</idRate><quoteRate xmlns='http://processSchema.eGastos/'>0</quoteRate><observations xmlns='http://processSchema.eGastos/'> </observations><confirmed xmlns='http://processSchema.eGastos/'>false</confirmed><lastDayPurchase xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</lastDayPurchase>";
+            string xmlUltItineraryOptionsDetail = "<idItineraryOptionsDetail xmlns='http://processSchema.eGastos/'>0</idItineraryOptionsDetail><idItineraryOption xmlns='http://processSchema.eGastos/'>0</idItineraryOption><idMissionOrder xmlns='http://processSchema.eGastos/'>0</idMissionOrder><airlineFlight xmlns='http://processSchema.eGastos/'> </airlineFlight><departure xmlns='http://processSchema.eGastos/'> </departure><arrival xmlns='http://processSchema.eGastos/'> </arrival><departureDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</departureDate><arrivalDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</arrivalDate><lapseTime xmlns='http://processSchema.eGastos/'>0</lapseTime>";
+            string xmlUltPAClient = "<idExpenseAccountDetail xmlns='http://processSchema.eGastos/'>0</idExpenseAccountDetail><code xmlns='http://processSchema.eGastos/'> </code><name xmlns='http://processSchema.eGastos/'> </name>";
+            string xmlUltExpenseAccountDetail = "<idExpenseAccountDetail xmlns='http://processSchema.eGastos/'>0</idExpenseAccountDetail><idExpenseAccount xmlns='http://processSchema.eGastos/'>0</idExpenseAccount><expenseDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</expenseDate><idAccount xmlns='http://processSchema.eGastos/'>0</idAccount><accountName xmlns='http://processSchema.eGastos/'> </accountName><amount xmlns='http://processSchema.eGastos/'>0</amount><invoiceNumber xmlns='http://processSchema.eGastos/'> </invoiceNumber><place xmlns='http://processSchema.eGastos/'> </place><numberOfDiners xmlns='http://processSchema.eGastos/'>0</numberOfDiners><IVA xmlns='http://processSchema.eGastos/'>0</IVA><healthProfessional xmlns='http://processSchema.eGastos/'>false</healthProfessional><discount xmlns='http://processSchema.eGastos/'>0</discount><hasPAClient xmlns='http://processSchema.eGastos/'>false</hasPAClient><IVATypeId xmlns='http://processSchema.eGastos/'> </IVATypeId><IVATypeName xmlns='http://processSchema.eGastos/'> </IVATypeName><total xmlns='http://processSchema.eGastos/'>0</total><observationId xmlns='http://processSchema.eGastos/'>0</observationId><observationName xmlns='http://processSchema.eGastos/'> </observationName><idXml xmlns='http://processSchema.eGastos/'>0</idXml><amountCFDI xmlns='http://processSchema.eGastos/'>0</amountCFDI><ivaCFDI xmlns='http://processSchema.eGastos/'>0</ivaCFDI><idExtract xmlns='http://processSchema.eGastos/'>0</idExtract><amountExtract xmlns='http://processSchema.eGastos/'>0</amountExtract><conciliated xmlns='http://processSchema.eGastos/'>false</conciliated><strike xmlns='http://processSchema.eGastos/'>false</strike><status xmlns='http://processSchema.eGastos/'>false</status>";
 
-            string summary = "Sumario da Solicitacao do eGastos Pharma ";
+            int nodeCountUI = 0, nodeUILastIndex = 0, nodeUIFirstIndex = 0;
+            int nodeCountUIO = 0, nodeUIOLastIndex = 0, nodeUIOFirstIndex = 0;
+            int nodeCountUIOD = 0, nodeUIODLastIndex = 0, nodeUIODFirstIndex = 0;
+            int nodeCountUPAC = 0, nodeUPACLastIndex = 0, nodeUPACFirstIndex = 0;
+            int nodeCountUEAD = 0, nodeUEADLastIndex = 0, nodeUEADFirstIndex = 0;
+
+            string summary = me.UltExpenseFlowVariables.summaryText;
             string strError = "";
-            string strxml, strxml1;
+            string strxml;
 
             msgError = "";
             XmlDataDocument ObjXML = new System.Xml.XmlDataDocument();
@@ -1649,608 +1665,606 @@ namespace eGastosWS
                     string ProcessVersion = ObjXML.ChildNodes.Item(1).Attributes["xmlns"].Value;
                     int n = ProcessVersion.LastIndexOf("/");
                     string ProcessVersionNumber = ProcessVersion.Substring(0, n).ToString() + "/Types";
-                    //ObjXML.ChildNodes[1].ChildNodes[0].ChildNodes[0].FirstChild.NamespaceURI = "http://processSchema.eGastos/";
 
-                    XmlNode XmlNodeCustom = (ObjXML.ChildNodes[1].ChildNodes[0]);
+                    #region StepSchemaUltApprovalHistory
+                    ObjXML.ChildNodes[1].ChildNodes[1].InnerXml = xmlStepSchemaUltApprovalHistory;
+                    foreach (XmlNode SSUAH in ObjXML.ChildNodes[1].ChildNodes[1])
+                    {
+                        if (SSUAH.Name == "approveDate") { SSUAH.InnerText = ToXMLDateFormat(me.UltApprovalHistory[0].approveDate); }
+                        if (SSUAH.Name == "approverLogin") { SSUAH.InnerText = me.UltApprovalHistory[0].approverLogin; }
+                        if (SSUAH.Name == "approverName") { SSUAH.InnerText = me.UltApprovalHistory[0].approverName; }
+                        if (SSUAH.Name == "approveStatus") { SSUAH.InnerText = me.UltApprovalHistory[0].approveStatus; }
+                        if (SSUAH.Name == "comments") { SSUAH.InnerText = me.UltApprovalHistory[0].comments; }
+                        if (SSUAH.Name == "stepName") { SSUAH.InnerText = me.UltApprovalHistory[0].stepName; }
+                        if (SSUAH.Name == "userEmail") { SSUAH.InnerText = me.UltApprovalHistory[0].userEmail; }
+                    };
+                    #endregion
 
-                    LarXML.Append("<?xml version='1.0' encoding='utf-16'?> ");
-                    LarXML.Append("<TaskData xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns='" + ProcessVersion + "'>");
+                    #region StepSchemaUltMissionOrder
+                    if ((me.UltMissionOrder != null) && (me.UltRequest.type < 3))
+                    {
+                        ObjXML.ChildNodes[1].ChildNodes[2].InnerXml = xmlStepSchemaUltMissionOrder;
+                        foreach (XmlNode SSUMO in ObjXML.ChildNodes[1].ChildNodes[2])
+                        {
+                            if (SSUMO.Name == "advance") { SSUMO.InnerText = me.UltMissionOrder.advance.ToString(); }
+                            if (SSUMO.Name == "advanceAndDebitCard") { SSUMO.InnerText = me.UltMissionOrder.advanceAndDebitCard.ToString().ToLower(); }
+                            if (SSUMO.Name == "advanceApply") { SSUMO.InnerText = me.UltMissionOrder.advanceApply.ToString().ToLower(); }
+                            if (SSUMO.Name == "comment") { SSUMO.InnerText = me.UltMissionOrder.comment; }
+                            if (SSUMO.Name == "countAgencyWait") { SSUMO.InnerText = me.UltMissionOrder.countAgencyWait.ToString(); }
+                            if (SSUMO.Name == "exceededAdvance") { SSUMO.InnerText = me.UltMissionOrder.exceededAdvance.ToString().ToLower(); }
+                            if (SSUMO.Name == "hotel") { SSUMO.InnerText = me.UltMissionOrder.hotel.ToString().ToLower(); }
+                            if (SSUMO.Name == "idAgencyLog") { SSUMO.InnerText = me.UltMissionOrder.idAgencyLog.ToString(); }
+                            if (SSUMO.Name == "idAgencyResponse") { SSUMO.InnerText = me.UltMissionOrder.idAgencyResponse.ToString(); }
+                            if (SSUMO.Name == "idMissionOrder") { SSUMO.InnerText = me.UltMissionOrder.idMissionOrder.ToString(); }
+                            if (SSUMO.Name == "idRequest") { SSUMO.InnerText = me.UltMissionOrder.idRequest.ToString(); }
+                            if (SSUMO.Name == "itinerary") { SSUMO.InnerText = me.UltMissionOrder.itinerary.ToString().ToLower(); }
+                            if (SSUMO.Name == "missionOrderType") { SSUMO.InnerText = me.UltMissionOrder.missionOrderType.ToString(); }
+                            if (SSUMO.Name == "missionOrderTypeText") { SSUMO.InnerText = me.UltMissionOrder.missionOrderTypeText; }
+                            if (SSUMO.Name == "nationalCurrency") { SSUMO.InnerText = me.UltMissionOrder.nationalCurrency.ToString(); }
+                            if (SSUMO.Name == "objective") { SSUMO.InnerText = me.UltMissionOrder.objective; }
+                            if (SSUMO.Name == "statusAgencyProcess") { SSUMO.InnerText = me.UltMissionOrder.statusAgencyProcess.ToString(); }
+                            if (SSUMO.Name == "statusAgencySend") { SSUMO.InnerText = me.UltMissionOrder.statusAgencySend.ToString(); }
+                            if (SSUMO.Name == "travelId") { SSUMO.InnerText = me.UltMissionOrder.travelId; }
+                            if (SSUMO.Name == "travelName") { SSUMO.InnerText = me.UltMissionOrder.travelName; }
+                        }
+                    }
+                    #endregion
 
-                    LarXML.Append("  <Global>");
-                    LarXML.Append("    <UltConfiguration xmlns='" + ProcessVersionNumber + "'>");
-                    LarXML.Append("      <serverName xmlns='http://processSchema.eGastos/'>http://saosultuat01.pharma.aventis.com/</serverName>");
-                    LarXML.Append("      <appDirectory xmlns='http://processSchema.eGastos/'>eGastos/Pages/</appDirectory>");
-                    LarXML.Append("      <pageRequest xmlns='http://processSchema.eGastos/'>frmExpenseRequest.aspx</pageRequest>");
-                    LarXML.Append("      <pageApproval xmlns='http://processSchema.eGastos/'>frmExpenseApproval.aspx</pageApproval>");
-                    LarXML.Append("      <pageExpenseAccount xmlns='http://processSchema.eGastos/'>frmExpenseAccount.aspx</pageExpenseAccount>");
-                    LarXML.Append("      <pageConfirmQuote xmlns='http://processSchema.eGastos/'>frmConfirmQuote.aspx</pageConfirmQuote>");
-                    LarXML.Append("      <uRLRequest xmlns='http://processSchema.eGastos/'>http://saosultuat01.pharma.aventis.com/eGastos/Pages/frmExpenseRequest.aspx</uRLRequest>");
-                    LarXML.Append("      <uRLApproval xmlns='http://processSchema.eGastos/'>http://saosultuat01.pharma.aventis.com/eGastos/Pages/frmExpenseApproval.aspx</uRLApproval>");
-                    LarXML.Append("      <uRLExpenseAccount xmlns='http://processSchema.eGastos/'>http://saosultuat01.pharma.aventis.com/eGastos/Pages/frmExpenseAccount.aspx</uRLExpenseAccount>");
-                    LarXML.Append("      <uRLConfirmQuote xmlns='http://processSchema.eGastos/'>http://saosultuat01.pharma.aventis.com/eGastos/Pages/frmConfirmQuote.aspx</uRLConfirmQuote>");
-                    LarXML.Append("    </UltConfiguration>");
-                    if (me.UltApprovalHistory != null)
+                    #region StepSchemaUltGetThere
+                    if ((me.UltGetThere != null))
                     {
-                        foreach (UltApprovalHistory obj in me.UltApprovalHistory)
+                        ObjXML.ChildNodes[1].ChildNodes[3].InnerXml = xmlStepSchemaUltGetThere;
+                        foreach (XmlNode SSUGT in ObjXML.ChildNodes[1].ChildNodes[3])
                         {
-                            LarXML.Append("    <UltApprovalHistory xmlns='" + ProcessVersionNumber + "'>");
-                            LarXML.Append("      <stepName xmlns='http://processSchema.eGastos/'>" + obj.stepName + "</stepName>");
-                            LarXML.Append("      <approverName xmlns='http://processSchema.eGastos/'>" + obj.approverName + "</approverName>");
-                            LarXML.Append("      <approverLogin xmlns='http://processSchema.eGastos/'>" + obj.approverLogin + "</approverLogin>");
-                            LarXML.Append("      <userEmail xmlns='http://processSchema.eGastos/'>" + obj.userEmail + "</userEmail>");
-                            LarXML.Append("      <approveDate xmlns='http://processSchema.eGastos/'>" + String.Format("{0:s}", obj.approveDate) + "</approveDate>");
-                            LarXML.Append("      <comments xmlns='http://processSchema.eGastos/'>" + obj.comments + "</comments>");
-                            LarXML.Append("      <approveStatus xmlns='http://processSchema.eGastos/'>" + obj.approveStatus + "</approveStatus>");
-                            LarXML.Append("    </UltApprovalHistory>");
+                            if (SSUGT.Name == "idGetThere") { SSUGT.InnerText = me.UltGetThere.idGetThere.ToString(); }
+                            if (SSUGT.Name == "idMissionOrder") { SSUGT.InnerText = me.UltGetThere.idMissionOrder.ToString(); }
+                            if (SSUGT.Name == "conceptId") { SSUGT.InnerText = me.UltGetThere.conceptId.ToString(); }
+                            if (SSUGT.Name == "conceptText") { SSUGT.InnerText = me.UltGetThere.conceptText; }
+                            if (SSUGT.Name == "lowCost") { SSUGT.InnerText = me.UltGetThere.lowCost.ToString().ToLower(); }
+                            if (SSUGT.Name == "justification") { SSUGT.InnerText = me.UltGetThere.justification; }
+                            if (SSUGT.Name == "cheapestRate") { SSUGT.InnerText = me.UltGetThere.cheapestRate; }
+                            if (SSUGT.Name == "outPolitic") { SSUGT.InnerText = me.UltGetThere.outPolitic.ToString().ToLower(); }
+                            if (SSUGT.Name == "outPoliticMessage") { SSUGT.InnerText = me.UltGetThere.outPoliticMessage; }                            
                         }
                     }
-                    else
-                    {
-                        LarXML.Append("    <UltApprovalHistory xmlns='" + ProcessVersionNumber + "'> ");
-                        LarXML.Append("      <approveDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</approveDate> ");
-                        LarXML.Append("    </UltApprovalHistory>");
-                    }
+                    #endregion
 
-                    if (me.UltApprove != null)
+                    #region UltItinerary Node Create
+                    int nodeCountItinerary = 0;
+                    if ((me.UltItinerary != null) && (me.UltItinerary.Length > 1) && (me.UltRequest.type < 3))
                     {
-                        LarXML.Append("    <UltApprove xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("         <approved xmlns='http://processSchema.eGastos/'>" + me.UltApprove.approved.ToString().ToLower() + "</approved>");
-                        LarXML.Append("         <approverName xmlns='http://processSchema.eGastos/'>" + me.UltApprove.approverName + "</approverName>");
-                        LarXML.Append("         <approverLogin xmlns='http://processSchema.eGastos/'>" + me.UltApprove.approverLogin + "</approverLogin>");
-                        LarXML.Append("         <approverEmail xmlns='http://processSchema.eGastos/'>" + me.UltApprove.approverEmail + "</approverEmail>");
-                        LarXML.Append("    </UltApprove>");
-                    }
-                    else
-                    {
-                        LarXML.Append("    <UltApprove xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("         <approved xmlns='http://processSchema.eGastos/'>false</approved>");
-                        LarXML.Append("    </UltApprove>");
+                        foreach (XmlNode globalNode in ObjXML.ChildNodes[1].ChildNodes[0])
+                        {
+                            if (globalNode.Name == "UltItinerary")
+                            {
+                                if (nodeCountItinerary == 0)
+                                {
+                                    nodeCountItinerary++;
+                                    nodeUIFirstIndex = nodeCountItinerary;
+                                }
+                                else
+                                {
+                                    nodeUILastIndex = nodeCountItinerary;
+                                }
+                                nodeCountUI++;
+                            }
+                            nodeCountItinerary++;
+                        }
 
+                        XmlElement xmlUltItineraryElement = ObjXML.CreateElement("UltItinerary", ProcessVersionNumber);
+                        for (int i = 0; i < me.UltItinerary.Length; i++)
+                        {
+                            if (i == 0)
+                            {
+                                xmlUltItineraryElement.InnerXml = xmlUltItinerary;
+                            }
+                            else
+                            {
+                                xmlUltItineraryElement.InnerXml = xmlUltItinerary;
+                                ObjXML.ChildNodes[1].ChildNodes[0].InsertAfter(xmlUltItineraryElement, ObjXML.ChildNodes[1].ChildNodes[0].ChildNodes[nodeUILastIndex]);
+                            }
+                        }
                     }
+                    #endregion
 
-                    if (me.UltExpenseAccount != null)
+                    #region UltItineraryOptions Node Create
+                    int nodeCountUltItineraryOptions = 0;
+                    if ((me.UltItineraryOptions != null) && (me.UltItineraryOptions.Length > 1) && (me.UltRequest.type < 3)) //OK
                     {
-                        LarXML.Append("    <UltExpenseAccount xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("      <idExpenseAccount xmlns='http://processSchema.eGastos/'>" + me.UltExpenseAccount.idExpenseAccount + "</idExpenseAccount>");
-                        LarXML.Append("      <nationalManagerLogin xmlns='http://processSchema.eGastos/'>" + me.UltExpenseAccount.nationalManagerLogin + "</nationalManagerLogin>");
-                        LarXML.Append("      <nationalManagerName xmlns='http://processSchema.eGastos/'>" + me.UltExpenseAccount.nationalManagerName + "</nationalManagerName>");
-                        LarXML.Append("      <creditCard xmlns='http://processSchema.eGastos/'>" + me.UltExpenseAccount.creditCard.ToString().ToLower() + "</creditCard>");
-                        LarXML.Append("      <totalMiniEvent xmlns='http://processSchema.eGastos/'>" + (double)me.UltExpenseAccount.totalMiniEvent + "</totalMiniEvent>");
-                        LarXML.Append("      <totalMeal xmlns='http://processSchema.eGastos/'>" + me.UltExpenseAccount.totalMeal + "</totalMeal>");
-                        LarXML.Append("      <totalNationalMeal xmlns='http://processSchema.eGastos/'>" + me.UltExpenseAccount.totalNationalMeal + "</totalNationalMeal>");
-                        LarXML.Append("      <overdue xmlns='http://processSchema.eGastos/'>" + me.UltExpenseAccount.overdue.ToString().ToLower() + "</overdue>");
-                        LarXML.Append("      <charged xmlns='http://processSchema.eGastos/'>" + me.UltExpenseAccount.charged.ToString().ToLower() + "</charged>");
-                        LarXML.Append("    </UltExpenseAccount>");
-                    }
-                    else
-                    {
-                        LarXML.Append("    <UltExpenseAccount xmlns='" + ProcessVersionNumber + "'> ");
-                        LarXML.Append("          <idExpenseAccount xmlns='http://processSchema.eGastos/'>0</idExpenseAccount> ");
-                        LarXML.Append("          <creditCard xmlns='http://processSchema.eGastos/'>false</creditCard> ");
-                        LarXML.Append("          <totalMiniEvent xmlns='http://processSchema.eGastos/'>0</totalMiniEvent> ");
-                        LarXML.Append("          <totalMeal xmlns='http://processSchema.eGastos/'>0</totalMeal> ");
-                        LarXML.Append("          <totalNationalMeal xmlns='http://processSchema.eGastos/'>0</totalNationalMeal> ");
-                        LarXML.Append("          <overdue xmlns='http://processSchema.eGastos/'>false</overdue> ");
-                        LarXML.Append("          <charged xmlns='http://processSchema.eGastos/'>false</charged> ");
-                        LarXML.Append("    </UltExpenseAccount> ");
+                        foreach (XmlNode globalNode in ObjXML.ChildNodes[1].ChildNodes[0])
+                        {
+                            if (globalNode.Name == "UltItineraryOptions")
+                            {
+                                if (nodeCountUltItineraryOptions == 0)
+                                {
+                                    nodeCountUltItineraryOptions++;
+                                    nodeUIOFirstIndex = nodeCountUltItineraryOptions;
+                                }
+                                else
+                                {
+                                    nodeUIOLastIndex = nodeCountUltItineraryOptions;
+                                }
+                                nodeCountUIO++;
+                            }
+                            nodeCountUltItineraryOptions++;
+                        }
 
-                    }
-                    if (me.UltExpenseAccountDetail != null)
-                    {
-                        foreach (eGastosEntity.Ultimus.UltExpenseAccountDetail obj in me.UltExpenseAccountDetail)
+                        XmlElement xmlUltItineraryOptionsElement = ObjXML.CreateElement("UltItineraryOptions", ProcessVersionNumber);
+                        for (int i = 0; i < me.UltItineraryOptions.Length; i++)
                         {
-                            LarXML.Append("    <UltExpenseAccountDetail xmlns='" + ProcessVersionNumber + "'>");
-                            LarXML.Append("      <idExpenseAccountDetail xmlns='http://processSchema.eGastos/'>" + obj.idExpenseAccountDetail + "</idExpenseAccountDetail>");
-                            LarXML.Append("      <idExpenseAccount xmlns='http://processSchema.eGastos/'>" + obj.idExpenseAccount + "</idExpenseAccount>");
-                            LarXML.Append("      <expenseDate xmlns='http://processSchema.eGastos/'>" + String.Format("{0:s}", obj.expenseDate) + "</expenseDate>");
-                            LarXML.Append("      <idAccount xmlns='http://processSchema.eGastos/'>" + obj.idAccount + "</idAccount>");
-                            LarXML.Append("      <amount xmlns='http://processSchema.eGastos/'>" + obj.amount + "</amount>");
-                            LarXML.Append("      <invoiceNumber xmlns='http://processSchema.eGastos/'>" + obj.invoiceNumber + "</invoiceNumber>");
-                            LarXML.Append("      <place xmlns='http://processSchema.eGastos/'>" + obj.place + "</place>");
-                            LarXML.Append("      <numberOfDiners xmlns='http://processSchema.eGastos/'>" + obj.numberOfDiners + "</numberOfDiners>");
-                            LarXML.Append("      <IVA xmlns='http://processSchema.eGastos/'>" + obj.IVA + "</IVA>");
-                            LarXML.Append("      <healthProfessional xmlns='http://processSchema.eGastos/'>" + obj.healthProfessional.ToString().ToLower() + "</healthProfessional>");
-                            LarXML.Append("      <discount xmlns='http://processSchema.eGastos/'>" + obj.discount + "</discount>");
-                            LarXML.Append("      <hasPAClient xmlns='http://processSchema.eGastos/'>" + obj.hasPAClient.ToString().ToLower() + "</hasPAClient>");
-                            LarXML.Append("      <IVATypeId xmlns='http://processSchema.eGastos/'>" + obj.IVATypeId + "</IVATypeId>");
-                            LarXML.Append("      <IVATypeName xmlns='http://processSchema.eGastos/'>" + obj.IVATypeName + "</IVATypeName>");
-                            LarXML.Append("      <total xmlns='http://processSchema.eGastos/'>" + obj.total + "</total>");
-                            LarXML.Append("      <observationId xmlns='http://processSchema.eGastos/'>" + obj.observationId + "</observationId>");
-                            LarXML.Append("      <observationName xmlns='http://processSchema.eGastos/'>" + obj.observationName + "</observationName>");
-                            LarXML.Append("      <status xmlns='http://processSchema.eGastos/'>" + obj.status.ToString().ToLower() + "</status>");
-                            LarXML.Append("    </UltExpenseAccountDetail>");
+                            if (i == 0)
+                            {
+                                xmlUltItineraryOptionsElement.InnerXml = xmlUltItineraryOptions;
+                            }
+                            else
+                            {
+                                xmlUltItineraryOptionsElement.InnerXml = xmlUltItineraryOptions;
+                                ObjXML.ChildNodes[1].ChildNodes[0].InsertAfter(xmlUltItineraryOptionsElement, ObjXML.ChildNodes[1].ChildNodes[0].ChildNodes[nodeUIOLastIndex]);
+                            }
                         }
                     }
-                    else
-                    {
-                        LarXML.Append("    <UltExpenseAccountDetail xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("          <idExpenseAccountDetail xmlns='http://processSchema.eGastos/'>0</idExpenseAccountDetail>");
-                        LarXML.Append("          <idExpenseAccount xmlns='http://processSchema.eGastos/'>0</idExpenseAccount>");
-                        LarXML.Append("          <expenseDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</expenseDate>");
-                        LarXML.Append("          <idAccount xmlns='http://processSchema.eGastos/'>0</idAccount>");
-                        LarXML.Append("          <amount xmlns='http://processSchema.eGastos/'>0</amount>");
-                        LarXML.Append("          <numberOfDiners xmlns='http://processSchema.eGastos/'>0</numberOfDiners>");
-                        LarXML.Append("          <IVA xmlns='http://processSchema.eGastos/'>0</IVA>");
-                        LarXML.Append("          <healthProfessional xmlns='http://processSchema.eGastos/'>false</healthProfessional>");
-                        LarXML.Append("          <discount xmlns='http://processSchema.eGastos/'>0</discount>");
-                        LarXML.Append("          <hasPAClient xmlns='http://processSchema.eGastos/'>false</hasPAClient>");
-                        LarXML.Append("          <total xmlns='http://processSchema.eGastos/'>0</total>");
-                        LarXML.Append("          <observationId xmlns='http://processSchema.eGastos/'>0</observationId>");
-                        LarXML.Append("          <status xmlns='http://processSchema.eGastos/'>false</status>");
-                        LarXML.Append("    </UltExpenseAccountDetail>");
-                    }
+                    #endregion
 
-                    if (me.UltExpenseFlowVariables != null)
+                    #region UltItineraryOptionsDetail Node Create
+                    int nodeCountUltItineraryOptionsDetail = 0;
+                    if ((me.UltItineraryOptionsDetail != null) && (me.UltItineraryOptionsDetail.Length > 1) && (me.UltRequest.type < 3))
                     {
-                        LarXML.Append("    <UltExpenseFlowVariables xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("      <summaryText xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.summaryText + "</summaryText>");
-                        LarXML.Append("      <jobFunctionResponsible xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionResponsible + "</jobFunctionResponsible>");
-                        LarXML.Append("      <activeDirAreaGastos xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.activeDirAreaGastos.ToString().ToLower() + "</activeDirAreaGastos>");
-                        LarXML.Append("      <activeDirFinanzasGastos xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.activeDirFinanzasGastos.ToString().ToLower() + "</activeDirFinanzasGastos>");
-                        LarXML.Append("      <activeManager xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.activeManager.ToString().ToLower() + "</activeManager>");
-                        LarXML.Append("      <jobFunctionControlling xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionControlling + "</jobFunctionControlling>");
-                        LarXML.Append("      <jobFunctionNationalManager xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionNationalManager + "</jobFunctionNationalManager>");
-                        LarXML.Append("      <jobFunctionAutorizador1 xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionAutorizador1 + "</jobFunctionAutorizador1>");
-                        LarXML.Append("      <jobFunctionAutorizador2 xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionAutorizador2 + "</jobFunctionAutorizador2>");
-                        LarXML.Append("      <jobFunctionAutorizador3 xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionAutorizador3 + "</jobFunctionAutorizador3>");
-                        LarXML.Append("      <jobFunctionAutorizador4 xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionAutorizador4 + "</jobFunctionAutorizador4>");
-                        LarXML.Append("      <jobFunctionController1 xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionController1 + "</jobFunctionController1>");
-                        LarXML.Append("      <jobFunctionController2 xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionController2 + "</jobFunctionController2>");
-                        LarXML.Append("      <jobFunctionObservador xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionObservador + "</jobFunctionObservador>");
-                        LarXML.Append("      <jobFunctionDirAreaGastos xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionDirAreaGastos + "</jobFunctionDirAreaGastos>");
-                        LarXML.Append("      <jobFunctionFinanzasGastos xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionFinanzasGastos + "</jobFunctionFinanzasGastos>");
-                        LarXML.Append("      <activeDirGralGastos xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.activeDirGralGastos.ToString().ToLower() + "</activeDirGralGastos>");
-                        LarXML.Append("    </UltExpenseFlowVariables>");
-                    }
-                    else
-                    {
-                        LarXML.Append("    <UltExpenseFlowVariables xmlns='" + ProcessVersionNumber + "'> ");
-                        LarXML.Append("    <activeDirAreaGastos xmlns='http://processSchema.eGastos/'>false</activeDirAreaGastos> ");
-                        LarXML.Append("    <activeDirFinanzasGastos xmlns='http://processSchema.eGastos/'>false</activeDirFinanzasGastos> ");
-                        LarXML.Append("    <activeManager xmlns='http://processSchema.eGastos/'>false</activeManager>");
-                        LarXML.Append("    <activeDirGralGastos xmlns='http://processSchema.eGastos/'>false</activeDirGralGastos> ");
-                        LarXML.Append("    </UltExpenseFlowVariables> ");
-                    }
+                        foreach (XmlNode globalNode in ObjXML.ChildNodes[1].ChildNodes[0])
+                        {
+                            if (globalNode.Name == "UltItineraryOptionsDetail")
+                            {
+                                if (nodeCountUltItineraryOptionsDetail == 0)
+                                {
+                                    nodeCountUltItineraryOptionsDetail++;
+                                    nodeUIODFirstIndex = nodeCountUltItineraryOptionsDetail;
+                                }
+                                else
+                                {
+                                    nodeUIODLastIndex = nodeCountUltItineraryOptionsDetail;
+                                }
+                                nodeCountUIOD++;
+                            }
+                            nodeCountUltItineraryOptionsDetail++;
+                        }
 
-                    if (me.UltFlobotVariables != null)
-                    {
-                        LarXML.Append("    <UltFlobotVariables xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("      <statusAgencyFlobot xmlns='http://processSchema.eGastos/'>" + me.UltFlobotVariables.statusAgencyFlobot + "</statusAgencyFlobot>");
-                        LarXML.Append("      <messageErrorAgency xmlns='http://processSchema.eGastos/'>" + me.UltFlobotVariables.messageErrorAgency + "</messageErrorAgency>");
-                        LarXML.Append("      <status xmlns='http://processSchema.eGastos/'>" + me.UltFlobotVariables.status + "</status>");
-                        LarXML.Append("      <messageError xmlns='http://processSchema.eGastos/'>" + me.UltFlobotVariables.messageError + "</messageError>");
-                        LarXML.Append("    </UltFlobotVariables>");
+                        XmlElement xmlUltItineraryOptionsDetailElement = ObjXML.CreateElement("UltItineraryOptionsDetail", ProcessVersionNumber);
+                        for (int i = 0; i < me.UltItineraryOptionsDetail.Length; i++)
+                        {
+                            if (i == 0)
+                            {
+                                xmlUltItineraryOptionsDetailElement.InnerXml = xmlUltItineraryOptionsDetail;
+                            }
+                            else
+                            {
+                                xmlUltItineraryOptionsDetailElement.InnerXml = xmlUltItineraryOptionsDetail;
+                                ObjXML.ChildNodes[1].ChildNodes[0].InsertAfter(xmlUltItineraryOptionsDetailElement, ObjXML.ChildNodes[1].ChildNodes[0].ChildNodes[nodeUIODLastIndex]);
+                            }
+                        }
                     }
-                    else
-                    {
-                        LarXML.Append("    <UltFlobotVariables xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("    <statusAgencyFlobot xmlns='http://processSchema.eGastos/'>0</statusAgencyFlobot>");
-                        LarXML.Append("    <status xmlns='http://processSchema.eGastos/'>0</status>");
-                        LarXML.Append("    </UltFlobotVariables>");
-                    }
+                    #endregion
 
-                    if (me.UltHotel != null)
+                    #region UltPAClient Node Create
+                    int nodeCountPAClient = 0;
+                    if ((me.UltPAClient != null) && (me.UltPAClient.Length > 1) && (me.UltRequest.type >= 3))
                     {
-                        foreach (eGastosEntity.Ultimus.UltHotel obj in me.UltHotel)
+                        foreach (XmlNode globalNode in ObjXML.ChildNodes[1].ChildNodes[0])
                         {
-                            LarXML.Append("    <UltHotel xmlns='" + ProcessVersionNumber + "'>");
-                            LarXML.Append("      <idHotel xmlns='http://processSchema.eGastos/'>" + obj.idHotel + "</idHotel>");
-                            LarXML.Append("      <idMissionOrder xmlns='http://processSchema.eGastos/'>" + obj.idMissionOrder + "</idMissionOrder>");
-                            LarXML.Append("      <idRated xmlns='http://processSchema.eGastos/'>" + obj.idRated + "</idRated>");
-                            LarXML.Append("      <idConsecutive xmlns='http://processSchema.eGastos/'>" + obj.idConsecutive + "</idConsecutive>");
-                            LarXML.Append("      <idLegerAccount xmlns='http://processSchema.eGastos/'>" + obj.idLegerAccount + "</idLegerAccount>");
-                            LarXML.Append("      <nameLegerAccount xmlns='http://processSchema.eGastos/'>" + obj.nameLegerAccount + "</nameLegerAccount>");
-                            LarXML.Append("      <country xmlns='http://processSchema.eGastos/'>" + obj.country + "</country>");
-                            LarXML.Append("      <city xmlns='http://processSchema.eGastos/'>" + obj.city + "</city>");
-                            LarXML.Append("      <observations xmlns='http://processSchema.eGastos/'>" + obj.observations + "</observations>");
-                            LarXML.Append("      <checkInDate xmlns='http://processSchema.eGastos/'>" + String.Format("{0:s}", obj.checkInDate) + "</checkInDate>");
-                            LarXML.Append("      <checkoutDate xmlns='http://processSchema.eGastos/'>" + String.Format("{0:s}", obj.checkoutDate) + "</checkoutDate>");
-                            LarXML.Append("      <hotelName xmlns='http://processSchema.eGastos/'>" + obj.hotelName + "</hotelName>");
-                            LarXML.Append("      <reservation xmlns='http://processSchema.eGastos/'>" + obj.reservation + "</reservation>");
-                            LarXML.Append("      <telephone xmlns='http://processSchema.eGastos/'>" + obj.telephone + "</telephone>");
-                            LarXML.Append("      <address xmlns='http://processSchema.eGastos/'>" + obj.address + "</address>");
-                            LarXML.Append("      <quotedRate xmlns='http://processSchema.eGastos/'>" + obj.quotedRate + "</quotedRate>");
-                            LarXML.Append("      <realRate xmlns='http://processSchema.eGastos/'>" + obj.realRate + "</realRate>");
-                            LarXML.Append("      <IVA xmlns='http://processSchema.eGastos/'>" + obj.IVA + "</IVA>");
-                            LarXML.Append("      <hotelTax xmlns='http://processSchema.eGastos/'>" + obj.hotelTax + "</hotelTax>");
-                            LarXML.Append("      <otherTaxes xmlns='http://processSchema.eGastos/'>" + obj.otherTaxes + "</otherTaxes>");
-                            LarXML.Append("      <status xmlns='http://processSchema.eGastos/'>" + obj.status.ToString().ToLower() + "</status>");
-                            LarXML.Append("      <lineStatus xmlns='http://processSchema.eGastos/'>" + obj.lineStatus + "</lineStatus>");
-                            LarXML.Append("      <lineStatusName xmlns='http://processSchema.eGastos/'>" + obj.lineStatusName + "</lineStatusName>");
-                            LarXML.Append("    </UltHotel>");
+                            if (globalNode.Name == "UltPAClient")
+                            {
+                                if (nodeCountPAClient == 0)
+                                {
+                                    nodeCountPAClient++;
+                                    nodeUPACFirstIndex = nodeCountPAClient;
+                                }
+                                else
+                                {
+                                    nodeUPACLastIndex = nodeCountPAClient;
+                                }
+                                nodeCountUPAC++;
+                            }
+                            nodeCountPAClient++;
                         }
-                    }
-                    else
-                    {
-                        LarXML.Append("    <UltHotel xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("    <idHotel xmlns='http://processSchema.eGastos/'>0</idHotel>");
-                        LarXML.Append("    <idMissionOrder xmlns='http://processSchema.eGastos/'>0</idMissionOrder>");
-                        LarXML.Append("    <idRated xmlns='http://processSchema.eGastos/'>0</idRated>");
-                        LarXML.Append("    <idConsecutive xmlns='http://processSchema.eGastos/'>0</idConsecutive>");
-                        LarXML.Append("    <idLegerAccount xmlns='http://processSchema.eGastos/'>0</idLegerAccount>");
-                        LarXML.Append("    <checkInDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</checkInDate>");
-                        LarXML.Append("    <checkoutDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</checkoutDate>");
-                        LarXML.Append("    <quotedRate xmlns='http://processSchema.eGastos/'>0</quotedRate>");
-                        LarXML.Append("    <realRate xmlns='http://processSchema.eGastos/'>0</realRate>");
-                        LarXML.Append("    <IVA xmlns='http://processSchema.eGastos/'>0</IVA>");
-                        LarXML.Append("    <hotelTax xmlns='http://processSchema.eGastos/'>0</hotelTax>");
-                        LarXML.Append("    <otherTaxes xmlns='http://processSchema.eGastos/'>0</otherTaxes>");
-                        LarXML.Append("    <status xmlns='http://processSchema.eGastos/'>false</status>");
-                        LarXML.Append("    <lineStatus xmlns='http://processSchema.eGastos/'>0</lineStatus>");
-                        LarXML.Append("    </UltHotel>");
-                    }
 
-                    if (me.UltItinerary != null)
-                    {
+                        XmlElement xmlUltPAClientElement = ObjXML.CreateElement("UltPAClient", ProcessVersionNumber);
+                        for (int i = 0; i < me.UltPAClient.Length; i++)
+                        {
+                            if (i == 0)
+                            {
+                                xmlUltPAClientElement.InnerXml = xmlUltPAClient;
+                            }
+                            else
+                            {
+                                xmlUltPAClientElement.InnerXml = xmlUltPAClient;
+                                ObjXML.ChildNodes[1].ChildNodes[0].InsertAfter(xmlUltPAClientElement, ObjXML.ChildNodes[1].ChildNodes[0].ChildNodes[nodeUPACLastIndex]);
+                            }
+                        }
+                    }
+                    #endregion
 
-                        foreach (eGastosEntity.Ultimus.UltItinerary obj in me.UltItinerary)
-                        {
-                            LarXML.Append("    <UltItinerary xmlns='" + ProcessVersionNumber + "'>");
-                            LarXML.Append("      <idItinerary xmlns='http://processSchema.eGastos/'>" + obj.idItinerary + "</idItinerary>");
-                            LarXML.Append("      <idMissionOrder xmlns='http://processSchema.eGastos/'>" + obj.idMissionOrder + "</idMissionOrder>");
-                            LarXML.Append("      <idConsecutive xmlns='http://processSchema.eGastos/'>" + obj.idConsecutive + "</idConsecutive>");
-                            LarXML.Append("      <idLedgerAccount xmlns='http://processSchema.eGastos/'>" + obj.idLedgerAccount + "</idLedgerAccount>");
-                            LarXML.Append("      <nameLedgerAccount xmlns='http://processSchema.eGastos/'>" + obj.nameLedgerAccount + "</nameLedgerAccount>");
-                            LarXML.Append("      <departureHour xmlns='http://processSchema.eGastos/'>" + obj.departureHour + "</departureHour>");
-                            LarXML.Append("      <returnHour xmlns='http://processSchema.eGastos/'>" + obj.returnHour + "</returnHour>");
-                            LarXML.Append("      <observations xmlns='http://processSchema.eGastos/'>" + obj.observations + "</observations>");
-                            LarXML.Append("      <travelType xmlns='http://processSchema.eGastos/'>" + obj.travelType + "</travelType>");
-                            LarXML.Append("      <nameTravelType xmlns='http://processSchema.eGastos/'>" + obj.nameTravelType + "</nameTravelType>");
-                            LarXML.Append("      <departureCountry xmlns='http://processSchema.eGastos/'>" + obj.departureCountry + "</departureCountry>");
-                            LarXML.Append("      <departureCity xmlns='http://processSchema.eGastos/'>" + obj.departureCity + "</departureCity>");
-                            LarXML.Append("      <arrivalCountry xmlns='http://processSchema.eGastos/'>" + obj.arrivalCountry + "</arrivalCountry>");
-                            LarXML.Append("      <arrivalCity xmlns='http://processSchema.eGastos/'>" + obj.arrivalCity + "</arrivalCity>");
-                            LarXML.Append("      <departureDate xmlns='http://processSchema.eGastos/'>" + String.Format("{0:s}", obj.departureDate) + "</departureDate>");
-                            LarXML.Append("      <arrivalDate xmlns='http://processSchema.eGastos/'>" + String.Format("{0:s}", obj.arrivalDate) + "</arrivalDate>");
-                            LarXML.Append("      <status xmlns='http://processSchema.eGastos/'>" + obj.status.ToString().ToLower() + "</status>");
-                            LarXML.Append("    </UltItinerary>");
-                        }
-                    }
-                    else
+                    #region UltExpenseAccountDetail Node Create
+                    int nodeCountUltExpenseAccountDetail = 0;
+                    if ((me.UltExpenseAccountDetail != null) && (me.UltExpenseAccountDetail.Length > 1) && (me.UltRequest.type >= 3))
                     {
-                        LarXML.Append("    <UltItinerary xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("    <idItinerary xmlns='http://processSchema.eGastos/'>0</idItinerary>");
-                        LarXML.Append("    <idMissionOrder xmlns='http://processSchema.eGastos/'>0</idMissionOrder>");
-                        LarXML.Append("    <idConsecutive xmlns='http://processSchema.eGastos/'>0</idConsecutive>");
-                        LarXML.Append("    <idLedgerAccount xmlns='http://processSchema.eGastos/'>0</idLedgerAccount>");
-                        LarXML.Append("    <travelType xmlns='http://processSchema.eGastos/'>0</travelType>");
-                        LarXML.Append("    <departureDate xsi:nil='true' xmlns='http://processSchema.eGastos/' />");
-                        LarXML.Append("    <arrivalDate xsi:nil='true' xmlns='http://processSchema.eGastos/' />");
-                        LarXML.Append("    <status xmlns='http://processSchema.eGastos/'>false</status>");
-                        LarXML.Append("    </UltItinerary>");
-                    }
+                        foreach (XmlNode globalNode in ObjXML.ChildNodes[1].ChildNodes[0])
+                        {
+                            if (globalNode.Name == "UltExpenseAccountDetail")
+                            {
+                                if (nodeCountUltExpenseAccountDetail == 0)
+                                {
+                                    nodeCountUltExpenseAccountDetail++;
+                                    nodeUEADFirstIndex = nodeCountUltExpenseAccountDetail;
+                                }
+                                else
+                                {
+                                    nodeUEADLastIndex = nodeCountUltExpenseAccountDetail;
+                                }
+                                nodeCountUEAD++;
+                            }
+                            nodeCountUltExpenseAccountDetail++;
+                        }
 
-                    if (me.UltItineraryOptions != null)
-                    {
-                        foreach (UltItineraryOptions obj in me.UltItineraryOptions)
+                        XmlElement xmlUltExpenseAccountDetailElement = ObjXML.CreateElement("UltExpenseAccountDetail", ProcessVersionNumber);
+                        for (int i = 0; i < me.UltPAClient.Length; i++)
                         {
-                            LarXML.Append("    <UltItineraryOptions xmlns='" + ProcessVersionNumber + "'>");
-                            LarXML.Append("      <idItineraryOption xmlns='http://processSchema.eGastos/'>" + obj.idItineraryOption + "</idItineraryOption>");
-                            LarXML.Append("      <idMissionOrder xmlns='http://processSchema.eGastos/'>" + obj.idMissionOrder + "</idMissionOrder>");
-                            LarXML.Append("      <idRate xmlns='http://processSchema.eGastos/'>" + obj.idRate + "</idRate>");
-                            LarXML.Append("      <quoteRate xmlns='http://processSchema.eGastos/'>" + obj.quoteRate + "</quoteRate>");
-                            LarXML.Append("      <observations xmlns='http://processSchema.eGastos/'>" + obj.observations + "</observations>");
-                            LarXML.Append("      <confirmed xmlns='http://processSchema.eGastos/'>" + obj.confirmed.ToString().ToLower() + "</confirmed>");
-                            LarXML.Append("      <lastDayPurchase xmlns='http://processSchema.eGastos/'>" + String.Format("{0:s}", obj.lastDayPurchase) + "</lastDayPurchase>");
-                            LarXML.Append("    </UltItineraryOptions>");
+                            if (i == 0)
+                            {
+                                xmlUltExpenseAccountDetailElement.InnerXml = xmlUltExpenseAccountDetail;
+                            }
+                            else
+                            {
+                                xmlUltExpenseAccountDetailElement.InnerXml = xmlUltExpenseAccountDetail;
+                                ObjXML.ChildNodes[1].ChildNodes[0].InsertAfter(xmlUltExpenseAccountDetailElement, ObjXML.ChildNodes[1].ChildNodes[0].ChildNodes[nodeUEADLastIndex]);
+                            }
                         }
                     }
-                    else
-                    {
-                        LarXML.Append("    <UltItineraryOptions xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("    <idItineraryOption xmlns='http://processSchema.eGastos/'>0</idItineraryOption>");
-                        LarXML.Append("    <idMissionOrder xmlns='http://processSchema.eGastos/'>0</idMissionOrder>");
-                        LarXML.Append("    <idRate xmlns='http://processSchema.eGastos/'>0</idRate>");
-                        LarXML.Append("    <quoteRate xmlns='http://processSchema.eGastos/'>0</quoteRate>");
-                        LarXML.Append("    <confirmed xmlns='http://processSchema.eGastos/'>false</confirmed>");
-                        LarXML.Append("    <lastDayPurchase xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</lastDayPurchase>");
-                        LarXML.Append("    </UltItineraryOptions>");
-                    }
+                    #endregion
 
-                    if (me.UltItineraryOptionsDetail != null)
+                    int ui = 0, uio = 0, uiod = 0, pac = 0, ead = 0;
+                    foreach (XmlNode globalNode in ObjXML.ChildNodes[1].ChildNodes[0])
                     {
-                        foreach (UltItineraryOptionsDetail obj in me.UltItineraryOptionsDetail)
+                        #region Global Ultapprove
+                        if (me.UltApprove != null)
                         {
-                            LarXML.Append("    <UltItineraryOptionsDetail xmlns='" + ProcessVersionNumber + "'>");
-                            LarXML.Append("      <idItineraryOptionsDetail xmlns='http://processSchema.eGastos/'>" + obj.idItineraryOptionsDetail + "</idItineraryOptionsDetail>");
-                            LarXML.Append("      <idItineraryOption xmlns='http://processSchema.eGastos/'>" + obj.idItineraryOption + "</idItineraryOption>");
-                            LarXML.Append("      <idMissionOrder xmlns='http://processSchema.eGastos/'>" + obj.idMissionOrder + "</idMissionOrder>");
-                            LarXML.Append("      <airlineFlight xmlns='http://processSchema.eGastos/'>" + obj.airlineFlight + "</airlineFlight>");
-                            LarXML.Append("      <departure xmlns='http://processSchema.eGastos/'>" + obj.departure + "</departure>");
-                            LarXML.Append("      <arrival xmlns='http://processSchema.eGastos/'>" + obj.arrival + "</arrival>");
-                            LarXML.Append("      <departureDate xmlns='http://processSchema.eGastos/'>" + String.Format("{0:s}", obj.departureDate) + "</departureDate>");
-                            LarXML.Append("      <arrivalDate xmlns='http://processSchema.eGastos/'>" + String.Format("{0:s}", obj.arrivalDate) + "</arrivalDate>");
-                            LarXML.Append("      <lapseTime xmlns='http://processSchema.eGastos/'>" + obj.lapseTime + "</lapseTime>");
-                            LarXML.Append("    </UltItineraryOptionsDetail>");
+                            if (globalNode.Name == "UltApprove")
+                            {
+                                globalNode.InnerXml = "<approved xmlns='http://processSchema.eGastos/'>" + me.UltApprove.approved.ToString().ToLower() + "</approved><approverName xmlns='http://processSchema.eGastos/'>" + me.UltApprove.approverName + "</approverName><approverLogin xmlns='http://processSchema.eGastos/'>" + me.UltApprove.approverLogin + "</approverLogin><approverEmail xmlns='http://processSchema.eGastos/'>" + me.UltApprove.approverEmail + "</approverEmail>";
+                            }
                         }
-                    }
-                    else
-                    {
-                        LarXML.Append("        <UltItineraryOptionsDetail xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("        <idItineraryOptionsDetail xmlns='http://processSchema.eGastos/'>0</idItineraryOptionsDetail>");
-                        LarXML.Append("        <idItineraryOption xmlns='http://processSchema.eGastos/'>0</idItineraryOption>");
-                        LarXML.Append("        <idMissionOrder xmlns='http://processSchema.eGastos/'>0</idMissionOrder>");
-                        LarXML.Append("        <departureDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</departureDate>");
-                        LarXML.Append("        <arrivalDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</arrivalDate>");
-                        LarXML.Append("        <lapseTime xmlns='http://processSchema.eGastos/'>0</lapseTime>");
-                        LarXML.Append("        </UltItineraryOptionsDetail>");
-                    }
+                        #endregion
 
-                    if (me.UltItineraryRate != null)
-                    {
-                        LarXML.Append("    <UltItineraryRate xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("      <IdItineraryRate xmlns='http://processSchema.eGastos/'>" + me.UltItineraryRate.IdItineraryRate + "</IdItineraryRate>");
-                        LarXML.Append("      <idMissionOrder xmlns='http://processSchema.eGastos/'>" + me.UltItineraryRate.idMissionOrder + "</idMissionOrder>");
-                        LarXML.Append("      <realRate xmlns='http://processSchema.eGastos/'>" + me.UltItineraryRate.realRate + "</realRate>");
-                        LarXML.Append("      <IVA xmlns='http://processSchema.eGastos/'>" + me.UltItineraryRate.IVA + "</IVA>");
-                        LarXML.Append("      <TUA xmlns='http://processSchema.eGastos/'>" + me.UltItineraryRate.TUA + "</TUA>");
-                        LarXML.Append("      <otherTaxes xmlns='http://processSchema.eGastos/'>" + me.UltItineraryRate.otherTaxes + "</otherTaxes>");
-                        LarXML.Append("      <lineStatus xmlns='http://processSchema.eGastos/'>" + me.UltItineraryRate.lineStatus + "</lineStatus>");
-                        LarXML.Append("      <lineStatusName xmlns='http://processSchema.eGastos/'>" + me.UltItineraryRate.lineStatusName + "</lineStatusName>");
-                        LarXML.Append("    </UltItineraryRate>");
-                    }
-                    else
-                    {
-                        LarXML.Append("        <UltItineraryRate xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("            <IdItineraryRate xmlns='http://processSchema.eGastos/'>0</IdItineraryRate>");
-                        LarXML.Append("            <idMissionOrder xmlns='http://processSchema.eGastos/'>0</idMissionOrder>");
-                        LarXML.Append("            <realRate xmlns='http://processSchema.eGastos/'>0</realRate>");
-                        LarXML.Append("            <IVA xmlns='http://processSchema.eGastos/'>0</IVA>");
-                        LarXML.Append("            <TUA xmlns='http://processSchema.eGastos/'>0</TUA>");
-                        LarXML.Append("            <otherTaxes xmlns='http://processSchema.eGastos/'>0</otherTaxes>");
-                        LarXML.Append("            <lineStatus xmlns='http://processSchema.eGastos/'>0</lineStatus>");
-                        LarXML.Append("        </UltItineraryRate>");
-                    }
+                        #region Global UltExpenseAccount
+                        if (me.UltExpenseAccount != null)
+                        {
+                            if (globalNode.Name == "UltExpenseAccount")
+                            {
+                                if (me.UltRequest.type >= 3)
+                                {
+                                    globalNode.InnerXml = "<idExpenseAccount xmlns=\"http://processSchema.eGastos/\">0</idExpenseAccount><idRequest xmlns=\"http://processSchema.eGastos/\">0</idRequest><nationalManagerLogin xmlns=\"http://processSchema.eGastos/\"> </nationalManagerLogin><nationalManagerName xmlns=\"http://processSchema.eGastos/\"> </nationalManagerName><debitCard xmlns=\"http://processSchema.eGastos/\">false</debitCard><isCFDI xmlns=\"http://processSchema.eGastos/\">false</isCFDI><totalMiniEvent xmlns=\"http://processSchema.eGastos/\">0</totalMiniEvent><totalMeal xmlns=\"http://processSchema.eGastos/\">0</totalMeal><totalNationalMeal xmlns=\"http://processSchema.eGastos/\">0</totalNationalMeal><overdue xmlns=\"http://processSchema.eGastos/\">false</overdue><charged xmlns=\"http://processSchema.eGastos/\">false</charged><strike xmlns=\"http://processSchema.eGastos/\">false</strike>";
+                                    foreach (XmlNode UEA in globalNode)
+                                    {
+                                        if (UEA.Name == "charged")
+                                        {
+                                            UEA.InnerText = me.UltExpenseAccount.charged.ToString().ToLower();
+                                        }
+                                        if (UEA.Name == "debitCard")
+                                        {
+                                            UEA.InnerText = me.UltExpenseAccount.debitCard.ToString().ToLower();
+                                        }
+                                        if (UEA.Name == "idExpenseAccount")
+                                        {
+                                            UEA.InnerText = me.UltExpenseAccount.idExpenseAccount.ToString();
+                                        }
+                                        if (UEA.Name == "idRequest")
+                                        {
+                                            UEA.InnerText = me.UltExpenseAccount.idRequest.ToString();
+                                        }
+                                        if (UEA.Name == "isCFDI")
+                                        {
+                                            UEA.InnerText = me.UltExpenseAccount.isCFDI.ToString().ToLower();
+                                        }
+                                        if (UEA.Name == "nationalManagerLogin")
+                                        {
+                                            UEA.InnerText = me.UltExpenseAccount.nationalManagerLogin;
+                                        }
+                                        if (UEA.Name == "nationalManagerName")
+                                        {
+                                            UEA.InnerText = me.UltExpenseAccount.nationalManagerName;
+                                        }
+                                        if (UEA.Name == "overdue")
+                                        {
+                                            UEA.InnerText = me.UltExpenseAccount.overdue.ToString().ToLower();
+                                        }
+                                        if (UEA.Name == "strike")
+                                        {
+                                            UEA.InnerText = me.UltExpenseAccount.strike.ToString().ToLower();
+                                        }
+                                        if (UEA.Name == "totalMeal")
+                                        {
+                                            UEA.InnerText = me.UltExpenseAccount.totalMeal.ToString();
+                                        }
+                                        if (UEA.Name == "totalMiniEvent")
+                                        {
+                                            UEA.InnerText = me.UltExpenseAccount.totalMiniEvent.ToString();
+                                        }
+                                        if (UEA.Name == "totalNationalMeal")
+                                        {
+                                            UEA.InnerText = me.UltExpenseAccount.totalNationalMeal.ToString();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        #endregion
 
-                    if (me.UltMissionOrder != null)
-                    {
-                        LarXML.Append("    <UltMissionOrder xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("      <idMissionOrder xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.idMissionOrder + "</idMissionOrder>");
-                        LarXML.Append("      <idRequest xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.idRequest + "</idRequest>");
-                        LarXML.Append("      <idAgencyResponse xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.idAgencyResponse + "</idAgencyResponse>");
-                        LarXML.Append("      <statusAgencyProcess xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.statusAgencyProcess + "</statusAgencyProcess>");
-                        LarXML.Append("      <statusAgencySend xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.statusAgencySend + "</statusAgencySend>");
-                        LarXML.Append("      <countAgencyWait xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.countAgencyWait + "</countAgencyWait>");
-                        LarXML.Append("      <idAgencyLog xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.idAgencyLog + "</idAgencyLog>");
-                        LarXML.Append("      <travelId xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.travelId + "</travelId>");
-                        LarXML.Append("      <travelName xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.travelName + "</travelName>");
-                        LarXML.Append("      <objective xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.objective + "</objective>");
-                        LarXML.Append("      <advance xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.advance + "</advance>");
-                        LarXML.Append("      <nationalCurrency xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.nationalCurrency + "</nationalCurrency>");
-                        LarXML.Append("      <advanceApply xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.advanceApply.ToString().ToLower() + "</advanceApply>");
-                        LarXML.Append("      <itinerary xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.itinerary.ToString().ToLower() + "</itinerary>");
-                        LarXML.Append("      <hotel xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.hotel.ToString().ToLower() + "</hotel>");
-                        if (!string.IsNullOrEmpty(me.UltMissionOrder.comment))
+                        #region Global UltExpenseFlowVariables
+                        if (me.UltExpenseFlowVariables != null)
                         {
-                            LarXML.Append("      <comment xmlns='http://processSchema.eGastos/'>" + me.UltMissionOrder.comment + "</comment>");
+                            if (globalNode.Name == "UltExpenseFlowVariables")
+                            {
+                                globalNode.InnerXml = "<summaryText xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.summaryText + "</summaryText><jobFunctionResponsible xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionResponsible + "</jobFunctionResponsible><activeDirAreaGastos xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.activeDirAreaGastos.ToString().ToLower() + "</activeDirAreaGastos><activeDirFinanzasGastos xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.activeDirFinanzasGastos.ToString().ToLower() + "</activeDirFinanzasGastos><activeManager xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.activeManager.ToString().ToLower() + "</activeManager><jobFunctionControlling xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionControlling + "</jobFunctionControlling><jobFunctionNationalManager xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionNationalManager + "</jobFunctionNationalManager><jobFunctionAutorizador1 xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionAutorizador1 + "</jobFunctionAutorizador1><jobFunctionAutorizador2 xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionAutorizador2 + "</jobFunctionAutorizador2><jobFunctionAutorizador3 xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionAutorizador3 + "</jobFunctionAutorizador3><jobFunctionAutorizador4 xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionAutorizador4 + "</jobFunctionAutorizador4><jobFunctionController1 xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionController1 + "</jobFunctionController1><jobFunctionController2 xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionController2 + "</jobFunctionController2><jobFunctionObservador xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionObservador + "</jobFunctionObservador><jobFunctionDirAreaGastos xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionDirAreaGastos + "</jobFunctionDirAreaGastos><jobFunctionFinanzasGastos xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.jobFunctionFinanzasGastos + "</jobFunctionFinanzasGastos><activeDirGralGastos xmlns='http://processSchema.eGastos/'>" + me.UltExpenseFlowVariables.activeDirGralGastos.ToString().ToLower() + "</activeDirGralGastos>";
+                            }
                         }
-                        LarXML.Append("    </UltMissionOrder>");
-                    }
-                    else
-                    {
-                        LarXML.Append("      <UltMissionOrder xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("      <idMissionOrder xmlns='http://processSchema.eGastos/'>0</idMissionOrder>");
-                        LarXML.Append("      <idRequest xmlns='http://processSchema.eGastos/'>0</idRequest>");
-                        LarXML.Append("      <idAgencyResponse xmlns='http://processSchema.eGastos/'>0</idAgencyResponse>");
-                        LarXML.Append("      <statusAgencyProcess xmlns='http://processSchema.eGastos/'>0</statusAgencyProcess>");
-                        LarXML.Append("      <statusAgencySend xmlns='http://processSchema.eGastos/'>0</statusAgencySend>");
-                        LarXML.Append("      <countAgencyWait xmlns='http://processSchema.eGastos/'>0</countAgencyWait>");
-                        LarXML.Append("      <idAgencyLog xmlns='http://processSchema.eGastos/'>0</idAgencyLog>");
-                        LarXML.Append("      <advance xmlns='http://processSchema.eGastos/'>0</advance>");
-                        LarXML.Append("      <nationalCurrency xmlns='http://processSchema.eGastos/'>0</nationalCurrency>");
-                        LarXML.Append("      <advanceApply xmlns='http://processSchema.eGastos/'>false</advanceApply>");
-                        LarXML.Append("      <itinerary xmlns='http://processSchema.eGastos/'>false</itinerary>");
-                        LarXML.Append("      <hotel xmlns='http://processSchema.eGastos/'>false</hotel>");
-                        LarXML.Append("      </UltMissionOrder>");
-                    }
+                        #endregion
 
-                    if (me.UltPAClient != null)
-                    {
-                        foreach (eGastosEntity.Ultimus.UltPAClient obj in me.UltPAClient)
+                        #region Global UltRequest
+                        if (me.UltRequest != null)
                         {
-                            LarXML.Append("    <UltPAClient xmlns='" + ProcessVersionNumber + "'>");
-                            LarXML.Append("      <idExpenseAccountDetail xmlns='http://processSchema.eGastos/'>" + obj.idExpenseAccountDetail + "</idExpenseAccountDetail>");
-                            LarXML.Append("      <code xmlns='http://processSchema.eGastos/'>" + obj.code + "</code>");
-                            LarXML.Append("      <name xmlns='http://processSchema.eGastos/'>" + obj.name + "</name>");
-                            LarXML.Append("    </UltPAClient>");
+                            if (globalNode.Name == "UltRequest")
+                            {
+                                int cont = 0;
+                                globalNode.InnerXml = "<idRequest xmlns='http://processSchema.eGastos/'></idRequest><requestDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</requestDate><companyName xmlns='http://processSchema.eGastos/'></companyName><companyCode xmlns='http://processSchema.eGastos/'>0</companyCode><CeCoCode xmlns='http://processSchema.eGastos/'>0</CeCoCode><CeCoName xmlns='http://processSchema.eGastos/'></CeCoName><CeCoMiniCode xmlns='http://processSchema.eGastos/'>0</CeCoMiniCode><CeCoMiniName xmlns='http://processSchema.eGastos/'></CeCoMiniName><isMiniEvent xmlns='http://processSchema.eGastos/'>false</isMiniEvent><arrival xmlns='http://processSchema.eGastos/'></arrival><departureDate xmlns='http://processSchema.eGastos/'></departureDate><returnDate xmlns='http://processSchema.eGastos/'></returnDate><PEPElementId xmlns='http://processSchema.eGastos/'></PEPElementId><PEPElementName xmlns='http://processSchema.eGastos/'></PEPElementName><currencyId xmlns='http://processSchema.eGastos/'></currencyId><currencyName xmlns='http://processSchema.eGastos/'></currencyName><exchangeRate xmlns='http://processSchema.eGastos/'>0</exchangeRate><initiatorLogin xmlns='http://processSchema.eGastos/'></initiatorLogin><initiatorName xmlns='http://processSchema.eGastos/'></initiatorName><PAClientId xmlns='http://processSchema.eGastos/'></PAClientId><PAClientName xmlns='http://processSchema.eGastos/'></PAClientName><responsibleLogin xmlns='http://processSchema.eGastos/'></responsibleLogin><responsibleName xmlns='http://processSchema.eGastos/'></responsibleName><responsibleEmployeeNum xmlns='http://processSchema.eGastos/'></responsibleEmployeeNum><responsibleUserName xmlns='http://processSchema.eGastos/'></responsibleUserName><responsiblePayMethod xmlns='http://processSchema.eGastos/'></responsiblePayMethod><pasteur xmlns='http://processSchema.eGastos/'>false</pasteur><areaId xmlns='http://processSchema.eGastos/'>0</areaId><areaText xmlns='http://processSchema.eGastos/'></areaText><ultimusNumber xmlns='http://processSchema.eGastos/' >0</ultimusNumber><type xmlns='http://processSchema.eGastos/'>0</type><typeName xmlns='http://processSchema.eGastos/'></typeName><status xmlns='http://processSchema.eGastos/'>0</status><statusName xmlns='http://processSchema.eGastos/'></statusName><salesForce xmlns='http://processSchema.eGastos/' >false</salesForce>";
+                                foreach (XmlNode UR in globalNode)
+                                {
+                                    cont++;
+                                    if (UR.Name == "areaId") { UR.InnerText = me.UltRequest.areaId.ToString(); }
+                                    if (UR.Name == "areaText") { UR.InnerText = me.UltRequest.areaText; }
+                                    if (UR.Name == "arrival") { UR.InnerText = me.UltRequest.arrival; }
+                                    if (UR.Name == "CeCoCode") { UR.InnerText = me.UltRequest.CeCoCode.ToString(); }
+                                    if (UR.Name == "CeCoMiniCode") { UR.InnerText = me.UltRequest.CeCoMiniCode.ToString(); }
+                                    if (UR.Name == "CeCoMiniName") { UR.InnerText = me.UltRequest.CeCoMiniName; }
+                                    if (UR.Name == "CeCoName") { UR.InnerText = me.UltRequest.CeCoName; }
+                                    if (UR.Name == "companyCode") { UR.InnerText = me.UltRequest.companyCode.ToString(); }
+                                    if (UR.Name == "companyName") { UR.InnerText = me.UltRequest.companyName; }
+                                    if (UR.Name == "currencyId") { UR.InnerText = me.UltRequest.currencyId; }
+                                    if (UR.Name == "currencyName") { UR.InnerText = me.UltRequest.currencyName; }
+                                    if (UR.Name == "departureDate") { UR.InnerText = me.UltRequest.departureDate; }
+                                    if (UR.Name == "exchangeRate") { UR.InnerText = me.UltRequest.exchangeRate.ToString(); }
+                                    if (UR.Name == "idRequest") { UR.InnerText = me.UltRequest.idRequest.ToString(); }
+                                    if (UR.Name == "initiatorLogin") { UR.InnerText = me.UltRequest.initiatorLogin; }
+                                    if (UR.Name == "initiatorName") { UR.InnerText = me.UltRequest.initiatorName; }
+                                    if (UR.Name == "isMiniEvent") { UR.InnerText = me.UltRequest.isMiniEvent.ToString().ToLower(); }
+                                    if (UR.Name == "PAClientId") { UR.InnerText = me.UltRequest.PAClientId; }
+                                    if (UR.Name == "PAClientName") { UR.InnerText = me.UltRequest.PAClientName; }
+                                    if (UR.Name == "pasteur") { UR.InnerText = me.UltRequest.pasteur.ToString().ToLower(); }
+                                    if (UR.Name == "PEPElementId") { UR.InnerText = me.UltRequest.PEPElementId; }
+                                    if (UR.Name == "PEPElementName") { UR.InnerText = me.UltRequest.PEPElementName; }
+                                    if (UR.Name == "requestDate") { UR.InnerText = ToXMLDateFormat(me.UltRequest.requestDate); }
+                                    if (UR.Name == "responsibleEmployeeNum") { UR.InnerText = me.UltRequest.responsibleEmployeeNum; }
+                                    if (UR.Name == "responsibleLogin") { UR.InnerText = me.UltRequest.responsibleLogin; }
+                                    if (UR.Name == "responsibleName") { UR.InnerText = me.UltRequest.responsibleName; }
+                                    if (UR.Name == "responsiblePayMethod") { UR.InnerText = me.UltRequest.responsiblePayMethod; }
+                                    if (UR.Name == "responsibleUserName") { UR.InnerText = me.UltRequest.responsibleUserName; }
+                                    if (UR.Name == "returnDate") { UR.InnerText = me.UltRequest.returnDate; }
+                                    if (UR.Name == "salesForce") { UR.InnerText = me.UltRequest.salesForce.ToString().ToLower(); }
+                                    if (UR.Name == "status") { UR.InnerText = me.UltRequest.status.ToString(); }
+                                    if (UR.Name == "statusName") { UR.InnerText = me.UltRequest.statusName; }
+                                    if (UR.Name == "type") { UR.InnerText = me.UltRequest.type.ToString(); }
+                                    if (UR.Name == "typeName") { UR.InnerText = me.UltRequest.typeName; }
+                                    if (UR.Name == "ultimusNumber") { UR.InnerText = me.UltRequest.ultimusNumber.ToString(); }
+                                }
+                            }
                         }
-                    }
-                    else
-                    {
-                        LarXML.Append("    <UltPAClient xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("    <idExpenseAccountDetail xmlns='http://processSchema.eGastos/'>0</idExpenseAccountDetail>");
-                        LarXML.Append("    </UltPAClient>");
-                    }
+                        #endregion
 
-                    if (me.UltRequest != null)
-                    {
-                        LarXML.Append("    <UltRequest xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("      <idRequest xmlns='http://processSchema.eGastos/'>" + me.UltRequest.idRequest + "</idRequest>");
-                        LarXML.Append("      <requestDate xmlns='http://processSchema.eGastos/'>" + strHoraAtual + "</requestDate>");
-                        if (!string.IsNullOrEmpty(me.UltRequest.companyName))
+                        #region Global UltRequester
+                        if (me.UltRequester != null)
                         {
-                            LarXML.Append("      <companyName xmlns='http://processSchema.eGastos/'>" + me.UltRequest.companyName + "</companyName>");
+                            if (globalNode.Name == "UltRequester")
+                            {
+                                globalNode.InnerXml = "<requesterName xmlns='http://processSchema.eGastos/'> </requesterName><requesterLogin xmlns='http://processSchema.eGastos/'> </requesterLogin><requesterEmail xmlns='http://processSchema.eGastos/'> </requesterEmail><requesterDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</requesterDate>";
+                                foreach (XmlNode UR in globalNode)
+                                {
+                                    if (UR.Name == "requesterDate") { UR.InnerText = ToXMLDateFormat(me.UltRequester.requesterDate); }
+                                    if (UR.Name == "requesterEmail") { UR.InnerText = me.UltRequester.requesterEmail; }
+                                    if (UR.Name == "requesterLogin") { UR.InnerText = me.UltRequester.requesterLogin; }
+                                    if (UR.Name == "requesterName") { UR.InnerText = me.UltRequester.requesterName; }
+                                }
+                            }
                         }
-                        LarXML.Append("      <companyCode xmlns='http://processSchema.eGastos/'>" + me.UltRequest.companyCode + "</companyCode>");
-                        LarXML.Append("      <CeCoCode xmlns='http://processSchema.eGastos/'>" + me.UltRequest.CeCoCode + "</CeCoCode>");
-                        LarXML.Append("      <CeCoName xmlns='http://processSchema.eGastos/'>" + me.UltRequest.CeCoName + "</CeCoName>");
-                        LarXML.Append("      <CeCoMiniCode xmlns='http://processSchema.eGastos/'>" + me.UltRequest.CeCoMiniCode + "</CeCoMiniCode>");
-                        LarXML.Append("      <CeCoMiniName xmlns='http://processSchema.eGastos/'>" + me.UltRequest.CeCoMiniName + "</CeCoMiniName>");
-                        LarXML.Append("      <isMiniEvent xmlns='http://processSchema.eGastos/'>" + me.UltRequest.isMiniEvent.ToString().ToLower() + "</isMiniEvent>");
-                        if (!string.IsNullOrEmpty(me.UltRequest.arrival))
-                        {
-                            LarXML.Append("      <arrival xmlns='http://processSchema.eGastos/'>" + me.UltRequest.arrival + "</arrival>");
-                        }
-                        if (!string.IsNullOrEmpty(me.UltRequest.departureDate))
-                        {
-                            LarXML.Append("      <departureDate xmlns='http://processSchema.eGastos/'>" + me.UltRequest.departureDate + "</departureDate>");
-                        }
-                        if (!string.IsNullOrEmpty(me.UltRequest.returnDate))
-                        {
-                            LarXML.Append("      <returnDate xmlns='http://processSchema.eGastos/'>" + me.UltRequest.returnDate + "</returnDate>");
-                        }
-                        if (!string.IsNullOrEmpty(me.UltRequest.PEPElementId))
-                        {
-                            LarXML.Append("      <PEPElementId xmlns='http://processSchema.eGastos/'>" + me.UltRequest.PEPElementId + "</PEPElementId>");
-                        }
-                        if (!string.IsNullOrEmpty(me.UltRequest.PEPElementName))
-                        {
-                            LarXML.Append("      <PEPElementName xmlns='http://processSchema.eGastos/'>" + me.UltRequest.PEPElementName + "</PEPElementName>");
-                        }
-                        if (!string.IsNullOrEmpty(me.UltRequest.currencyId))
-                        {
-                            LarXML.Append("      <currencyId xmlns='http://processSchema.eGastos/'>" + me.UltRequest.currencyId + "</currencyId>");
-                        }
-                        if (!string.IsNullOrEmpty(me.UltRequest.currencyName))
-                        {
-                            LarXML.Append("      <currencyName xmlns='http://processSchema.eGastos/'>" + me.UltRequest.currencyName + "</currencyName>");
-                        }
-                        LarXML.Append("      <exchangeRate xmlns='http://processSchema.eGastos/'>" + me.UltRequest.exchangeRate + "</exchangeRate>");
-                        if (!string.IsNullOrEmpty(me.UltRequest.initiatorLogin))
-                        {
-                            LarXML.Append("      <initiatorLogin xmlns='http://processSchema.eGastos/'>" + me.UltRequest.initiatorLogin + "</initiatorLogin>");
-                        }
-                        if (!string.IsNullOrEmpty(me.UltRequest.initiatorName))
-                        {
-                            LarXML.Append("      <initiatorName xmlns='http://processSchema.eGastos/'>" + me.UltRequest.initiatorName + "</initiatorName>");
-                        }
-                        LarXML.Append("      <PAClientId xmlns='http://processSchema.eGastos/'>" + me.UltRequest.PAClientId + "</PAClientId>");
-                        LarXML.Append("      <PAClientName xmlns='http://processSchema.eGastos/'>" + me.UltRequest.PAClientName + "</PAClientName>");
-                        if (!string.IsNullOrEmpty(me.UltRequest.responsibleLogin))
-                        {
-                            LarXML.Append("      <responsibleLogin xmlns='http://processSchema.eGastos/'>" + me.UltRequest.responsibleLogin + "</responsibleLogin>");
-                        }
-                        if (!string.IsNullOrEmpty(me.UltRequest.responsibleName))
-                        {
-                            LarXML.Append("      <responsibleName xmlns='http://processSchema.eGastos/'>" + me.UltRequest.responsibleName + "</responsibleName>");
-                        }
-                        if (!string.IsNullOrEmpty(me.UltRequest.responsibleEmployeeNum))
-                        {
-                            LarXML.Append("      <responsibleEmployeeNum xmlns='http://processSchema.eGastos/'>" + me.UltRequest.responsibleEmployeeNum + "</responsibleEmployeeNum>");
-                        }
-                        if (!string.IsNullOrEmpty(me.UltRequest.responsibleUserName))
-                        {
-                            LarXML.Append("      <responsibleUserName xmlns='http://processSchema.eGastos/'>" + me.UltRequest.responsibleUserName + "</responsibleUserName>");
-                        }
-                        LarXML.Append("      <responsiblePayMethod xmlns='http://processSchema.eGastos/'>" + me.UltRequest.responsiblePayMethod + "</responsiblePayMethod>");
-                        LarXML.Append("      <pasteur xmlns='http://processSchema.eGastos/'>" + me.UltRequest.pasteur.ToString().ToLower() + "</pasteur>");
-                        LarXML.Append("      <areaId xmlns='http://processSchema.eGastos/'>" + me.UltRequest.areaId + "</areaId>");
-                        if (!string.IsNullOrEmpty(me.UltRequest.areaText))
-                        {
-                            LarXML.Append("      <areaText xmlns='http://processSchema.eGastos/'>" + me.UltRequest.areaText + "</areaText>");
-                        }
-                        LarXML.Append("      <ultimusNumber xmlns='http://processSchema.eGastos/'>" + me.UltRequest.ultimusNumber + "</ultimusNumber>");
+                        #endregion
 
-                        LarXML.Append("      <type xmlns='http://processSchema.eGastos/'>" + me.UltRequest.type + "</type>");
-                        LarXML.Append("      <typeName xmlns='http://processSchema.eGastos/'>" + me.UltRequest.typeName + "</typeName>");
-                        LarXML.Append("      <status xmlns='http://processSchema.eGastos/'>" + me.UltRequest.status + "</status>");
-                        LarXML.Append("      <statusName xmlns='http://processSchema.eGastos/'>" + me.UltRequest.statusName + "</statusName>");
-                        LarXML.Append("      <salesForce xmlns='http://processSchema.eGastos/'>" + me.UltRequest.salesForce.ToString().ToLower() + "</salesForce>");
-                        LarXML.Append("    </UltRequest>");
-                    }
-                    else
-                    {
-                        LarXML.Append("    <UltRequest xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("    <idRequest xmlns='http://processSchema.eGastos/'>0</idRequest>");
-                        LarXML.Append("    <requestDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</requestDate>");
-                        LarXML.Append("    <companyCode xmlns='http://processSchema.eGastos/'>0</companyCode>");
-                        LarXML.Append("    <CeCoCode xmlns='http://processSchema.eGastos/'>0</CeCoCode>");
-                        LarXML.Append("    <CeCoMiniCode xmlns='http://processSchema.eGastos/'>0</CeCoMiniCode>");
-                        LarXML.Append("    <isMiniEvent xmlns='http://processSchema.eGastos/'>false</isMiniEvent>");
-                        LarXML.Append("    <exchangeRate xmlns='http://processSchema.eGastos/'>0</exchangeRate>");
-                        LarXML.Append("    <pasteur xmlns='http://processSchema.eGastos/'>false</pasteur>");
-                        LarXML.Append("    <areaId xmlns='http://processSchema.eGastos/'>0</areaId>");
-                        LarXML.Append("    <ultimusNumber xsi:nil='true' xmlns='http://processSchema.eGastos/' />");
-                        LarXML.Append("    <type xmlns='http://processSchema.eGastos/'>0</type>");
-                        LarXML.Append("    <status xmlns='http://processSchema.eGastos/'>0</status>");
-                        LarXML.Append("    <salesForce xsi:nil='true' xmlns='http://processSchema.eGastos/' />");
-                        LarXML.Append("    </UltRequest>");
-                    }
-                    if (me.UltRequester != null)
-                    {
-                        LarXML.Append("    <UltRequester xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("      <requesterName xmlns='http://processSchema.eGastos/'>" + me.UltRequester.requesterName + "</requesterName>");
-                        LarXML.Append("      <requesterLogin xmlns='http://processSchema.eGastos/'>" + me.UltRequester.requesterLogin + "</requesterLogin>");
-                        LarXML.Append("      <requesterEmail xmlns='http://processSchema.eGastos/'>" + me.UltRequester.requesterEmail + "</requesterEmail>");
-                        LarXML.Append("      <requesterDate xmlns='http://processSchema.eGastos/'>" + ToXMLDateFormat(me.UltRequester.requesterDate) + "</requesterDate>");
-                        LarXML.Append("    </UltRequester>");
-                    }
-                    else
-                    {
-                        LarXML.Append("    <UltRequester xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("    <requesterDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</requesterDate>");
-                        LarXML.Append("    </UltRequester>");
-                    }
-
-                    if (me.UltResponsible != null)
-                    {
-                        LarXML.Append("    <UltResponsible xmlns='" + ProcessVersionNumber + "' >");
-                        LarXML.Append("      <responsibleName xmlns='http://processSchema.eGastos/'>" + me.UltResponsible.responsibleName + "</responsibleName>");
-                        LarXML.Append("      <responsibleLogin xmlns='http://processSchema.eGastos/'>" + me.UltResponsible.responsibleLogin + "</responsibleLogin>");
-                        LarXML.Append("      <responsibleEmail xmlns='http://processSchema.eGastos/'>" + me.UltResponsible.responsibleEmail + "</responsibleEmail>");
-                        LarXML.Append("    </UltResponsible>");
-                    }
-                    else
-                    {
-                        LarXML.Append("    <UltResponsible xmlns='" + ProcessVersionNumber + "' />");
-                    }
-
-                    if (me.UltSAPResponse != null)
-                    {
-                        foreach (UltSAPResponse obj in me.UltSAPResponse)
+                        #region Global UltResponsible
+                        if (me.UltResponsible != null)
                         {
-                            LarXML.Append("    <UltSAPResponse xmlns='" + ProcessVersionNumber + "'>");
-                            LarXML.Append("      <idResponse xmlns='http://processSchema.eGastos/'>" + obj.idResponse + "</idResponse>");
-                            LarXML.Append("      <idRequest xmlns='http://processSchema.eGastos/'>" + obj.idRequest + "</idRequest>");
-                            LarXML.Append("      <docNumber xmlns='http://processSchema.eGastos/'>" + obj.docNumber + "</docNumber>");
-                            LarXML.Append("      <company xmlns='http://processSchema.eGastos/'>" + obj.company + "</company>");
-                            LarXML.Append("      <year xmlns='http://processSchema.eGastos/'>" + obj.year + "</year>");
-                            LarXML.Append("      <type xmlns='http://processSchema.eGastos/'>" + obj.type + "</type>");
-                            LarXML.Append("    </UltSAPResponse>");
+                            if (globalNode.Name == "UltResponsible")
+                            {
+                                foreach (XmlNode UR in globalNode)
+                                {
+                                    if (UR.Name == "responsibleEmail") { UR.InnerText = me.UltResponsible.responsibleEmail; }
+                                    if (UR.Name == "responsibleLogin") { UR.InnerText = me.UltResponsible.responsibleLogin; }
+                                    if (UR.Name == "responsibleName") { UR.InnerText = me.UltResponsible.responsibleName; }
+                                }
+                            }
                         }
-                    }
-                    else
-                    {
-                        LarXML.Append("    <UltSAPResponse xmlns='" + ProcessVersionNumber + "'>");
-                        LarXML.Append("    <idResponse xmlns='http://processSchema.eGastos/'>0</idResponse>");
-                        LarXML.Append("    <idRequest xmlns='http://processSchema.eGastos/'>0</idRequest>");
-                        LarXML.Append("    <docNumber xmlns='http://processSchema.eGastos/'>0</docNumber>");
-                        LarXML.Append("    <company xmlns='http://processSchema.eGastos/'>0</company>");
-                        LarXML.Append("    <year xmlns='http://processSchema.eGastos/'>0</year>");
-                        LarXML.Append("    </UltSAPResponse>");
+                        #endregion
+
+                        #region Global UltItinerary[]
+                        if ((me.UltItinerary != null) && (me.UltRequest.type < 3) && (me.UltMissionOrder.itinerary) && (me.UltItinerary.Length > 0))
+                        {
+
+                            if (globalNode.Name == "UltItinerary")
+                            {
+                                globalNode.InnerXml = xmlUltItinerary;
+
+                                foreach (XmlNode UI in globalNode)
+                                {
+                                    if (UI.Name == "idItinerary") { UI.InnerText = me.UltItinerary[ui].idItinerary.ToString(); }
+                                    if (UI.Name == "idMissionOrder") { UI.InnerText = me.UltItinerary[ui].idMissionOrder.ToString(); }
+                                    if (UI.Name == "idConsecutive") { UI.InnerText = me.UltItinerary[ui].idConsecutive.ToString(); }
+                                    if (UI.Name == "idLedgerAccount") { UI.InnerText = me.UltItinerary[ui].idLedgerAccount.ToString(); }
+                                    if (UI.Name == "nameLedgerAccount") { UI.InnerText = me.UltItinerary[ui].nameLedgerAccount; }
+                                    if (UI.Name == "departureHour") { UI.InnerText = me.UltItinerary[ui].departureHour; }
+                                    if (UI.Name == "returnHour") { UI.InnerText = me.UltItinerary[ui].returnHour; }
+                                    if (UI.Name == "observations") { UI.InnerText = me.UltItinerary[ui].observations; }
+                                    if (UI.Name == "travelType") { UI.InnerText = me.UltItinerary[ui].travelType.ToString(); }
+                                    if (UI.Name == "nameTravelType") { UI.InnerText = me.UltItinerary[ui].nameTravelType; }
+                                    if (UI.Name == "departureCountry") { UI.InnerText = me.UltItinerary[ui].departureCountry; }
+                                    if (UI.Name == "departureCity") { UI.InnerText = me.UltItinerary[ui].departureCity; }
+                                    if (UI.Name == "arrivalCountry") { UI.InnerText = me.UltItinerary[ui].arrivalCountry; }
+                                    if (UI.Name == "arrivalCity") { UI.InnerText = me.UltItinerary[ui].arrivalCity; }
+                                    if (UI.Name == "departureDate") { UI.InnerText = ToXMLDateFormat(me.UltItinerary[ui].departureDate); }
+                                    if (UI.Name == "arrivalDate") { UI.InnerText = ToXMLDateFormat(me.UltItinerary[ui].arrivalDate); }
+                                    if (UI.Name == "status") { UI.InnerText = me.UltItinerary[ui].status.ToString().ToLower(); }
+                                }
+                                ui++;
+                            }
+                        }
+                        #endregion
+
+                        #region Global UltItineraryOptions[]
+                        if ((me.UltItineraryOptions != null) && (me.UltRequest.type < 3) && (me.UltMissionOrder.itinerary) && (me.UltItineraryOptions.Length > 0))
+                        {
+                            if (globalNode.Name == "UltItineraryOptions")
+                            {
+                                globalNode.InnerXml = xmlUltItineraryOptions;
+
+                                foreach (XmlNode UIO in globalNode)
+                                {
+                                    if (UIO.Name == "idItineraryOption") { UIO.InnerText = me.UltItineraryOptions[uio].idItineraryOption.ToString(); }
+                                    if (UIO.Name == "idMissionOrder") { UIO.InnerText = me.UltItineraryOptions[uio].idMissionOrder.ToString(); }
+                                    if (UIO.Name == "idRate") { UIO.InnerText = me.UltItineraryOptions[uio].idRate.ToString(); }
+                                    if (UIO.Name == "quoteRate") { UIO.InnerText = me.UltItineraryOptions[uio].quoteRate.ToString(); }
+                                    if (UIO.Name == "observations") { UIO.InnerText = me.UltItineraryOptions[uio].observations; }
+                                    if (UIO.Name == "confirmed") { UIO.InnerText = me.UltItineraryOptions[uio].confirmed.ToString().ToLower(); }
+                                    if (UIO.Name == "lastDayPurchase") { UIO.InnerText = ToXMLDateFormat(me.UltItineraryOptions[uio].lastDayPurchase); }
+                                }
+                                uio++;
+                            }
+                        }
+                        #endregion
+
+                        #region Global UltItineraryOptionsDetail[]
+                        if ((me.UltItineraryOptionsDetail != null) && (me.UltRequest.type < 3) && (me.UltMissionOrder.itinerary) && (me.UltItineraryOptionsDetail.Length > 0))
+                        {
+                            if (globalNode.Name == "UltItineraryOptionsDetail")
+                            {
+                                globalNode.InnerXml = xmlUltItineraryOptionsDetail;
+
+                                foreach (XmlNode UIOD in globalNode)
+                                {
+                                    if (UIOD.Name == "airlineFlight") { UIOD.InnerText = me.UltItineraryOptionsDetail[uiod].airlineFlight; }
+                                    if (UIOD.Name == "arrival") { UIOD.InnerText = me.UltItineraryOptionsDetail[uiod].arrival; }
+                                    if (UIOD.Name == "arrivalDate") { UIOD.InnerText = ToXMLDateFormat(me.UltItineraryOptionsDetail[uiod].arrivalDate); }
+                                    if (UIOD.Name == "departure") { UIOD.InnerText = me.UltItineraryOptionsDetail[uiod].departure; }
+                                    if (UIOD.Name == "departureDate") { UIOD.InnerText = ToXMLDateFormat(me.UltItineraryOptionsDetail[uiod].departureDate); }
+                                    if (UIOD.Name == "idItineraryOption") { UIOD.InnerText = me.UltItineraryOptionsDetail[uiod].idItineraryOption.ToString(); }
+                                    if (UIOD.Name == "idItineraryOptionsDetail") { UIOD.InnerText = me.UltItineraryOptionsDetail[uiod].idItineraryOptionsDetail.ToString(); }
+                                    if (UIOD.Name == "idMissionOrder") { UIOD.InnerText = me.UltItineraryOptionsDetail[uiod].idMissionOrder.ToString(); }
+                                    if (UIOD.Name == "lapseTime") { UIOD.InnerText = me.UltItineraryOptionsDetail[uiod].lapseTime.ToString(); }
+                                }
+                                uiod++;
+                            }
+                        }
+                        #endregion
+
+                        #region Global UltPAClient[]
+                        if ((me.UltPAClient != null) && (me.UltRequest.type >= 3) && (me.UltPAClient.Length > 0))
+                        {
+                            if (globalNode.Name == "UltPAClient")
+                            {
+                                globalNode.InnerXml = xmlUltPAClient;
+
+                                foreach (XmlNode UPAC in globalNode)
+                                {
+                                    if (UPAC.Name == "code") { UPAC.InnerText = me.UltPAClient[pac].code; }
+                                    if (UPAC.Name == "idExpenseAccountDetail") { UPAC.InnerText = me.UltPAClient[pac].idExpenseAccountDetail.ToString(); }
+                                    if (UPAC.Name == "name") { UPAC.InnerText = me.UltPAClient[pac].name; }
+                                }
+                                pac++;
+                            }
+                        }
+                        #endregion
+
+                        #region Global UltExpenseAccountDetail[]
+                        if ((me.UltExpenseAccountDetail != null) && (me.UltRequest.type >= 3) && (me.UltExpenseAccountDetail.Length > 0))
+                        {
+                            if (globalNode.Name == "UltExpenseAccountDetail")
+                            {
+                                globalNode.InnerXml = xmlUltExpenseAccountDetail;
+
+                                foreach (XmlNode UEAD in globalNode)
+                                {
+                                    if (UEAD.Name == "idExpenseAccountDetail") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].idExpenseAccountDetail.ToString(); }
+                                    if (UEAD.Name == "idExpenseAccount") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].idExpenseAccount.ToString(); }
+                                    if (UEAD.Name == "expenseDate") { UEAD.InnerText = ToXMLDateFormat(me.UltExpenseAccountDetail[ead].expenseDate); }
+                                    if (UEAD.Name == "idAccount") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].idAccount.ToString(); }
+                                    if (UEAD.Name == "accountName") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].accountName; }
+                                    if (UEAD.Name == "amount") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].amount.ToString(); }
+                                    if (UEAD.Name == "invoiceNumber") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].invoiceNumber; }
+                                    if (UEAD.Name == "place") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].place; }
+                                    if (UEAD.Name == "numberOfDiners") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].numberOfDiners.ToString(); }
+                                    if (UEAD.Name == "IVA") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].IVA.ToString(); }
+                                    if (UEAD.Name == "healthProfessional") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].healthProfessional.ToString().ToLower(); }
+                                    if (UEAD.Name == "discount") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].discount.ToString(); }
+                                    if (UEAD.Name == "hasPAClient") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].hasPAClient.ToString().ToLower(); }
+                                    if (UEAD.Name == "IVATypeId") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].IVATypeId; }
+                                    if (UEAD.Name == "IVATypeName") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].IVATypeName; }
+                                    if (UEAD.Name == "total") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].total.ToString(); }
+                                    if (UEAD.Name == "observationId") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].observationId.ToString(); }
+                                    if (UEAD.Name == "observationName") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].observationName; }
+                                    if (UEAD.Name == "idXml") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].idXml.ToString(); }
+                                    if (UEAD.Name == "amountCFDI") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].amountCFDI.ToString(); }
+                                    if (UEAD.Name == "ivaCFDI") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].ivaCFDI.ToString(); }
+                                    if (UEAD.Name == "idExtract") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].idExtract.ToString(); }
+                                    if (UEAD.Name == "amountExtract") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].amountExtract.ToString(); }
+                                    if (UEAD.Name == "conciliated") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].conciliated.ToString().ToLower(); }
+                                    if (UEAD.Name == "strike") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].strike.ToString().ToLower(); }
+                                    if (UEAD.Name == "status") { UEAD.InnerText = me.UltExpenseAccountDetail[ead].status.ToString().ToLower(); }
+                                }
+                                ead++;
+                            }
+                        }
+                        #endregion
+
                     }
 
-                    LarXML.Append("        <Cancel xsi:nil='true' xmlns='" + ProcessVersionNumber + "' />");
-                    LarXML.Append("        <URLAttach xsi:nil='true' xmlns='" + ProcessVersionNumber + "' />");
-                    LarXML.Append("        <DaysOutOfCountry xmlns='" + ProcessVersionNumber + "'>0</DaysOutOfCountry>");
-                    LarXML.Append("        <WSAgencyName xsi:nil='true' xmlns='" + ProcessVersionNumber + "' />");
-                    LarXML.Append("        <WSAgencyURL xsi:nil='true' xmlns='" + ProcessVersionNumber + "' />");
-                    LarXML.Append("        <WSChangeRequestName xsi:nil='true' xmlns='" + ProcessVersionNumber + "' />");
-                    LarXML.Append("        <WSChangeRequestURL xsi:nil='true' xmlns='" + ProcessVersionNumber + "' />");
-                    LarXML.Append("        <EmailAgency xsi:nil='true' xmlns='" + ProcessVersionNumber + "' />");
-                    LarXML.Append("        <Travel_Nacional xmlns='" + ProcessVersionNumber + "'>false</Travel_Nacional>");
-                    LarXML.Append("        <Travel_Internacional xmlns='" + ProcessVersionNumber + "'>false</Travel_Internacional>");
-                    LarXML.Append("        <Travel_Domestic xmlns='" + ProcessVersionNumber + "'>false</Travel_Domestic>");
-                    LarXML.Append("        <UltGlobal xmlns='" + ProcessVersionNumber + "'>");
-                    LarXML.Append("          <idSession xmlns='http://processSchema.eGastos/'>0</idSession>");
-                    LarXML.Append("        </UltGlobal>");
-                    LarXML.Append("        <ExpenseAccountTotal xmlns='" + ProcessVersionNumber + "'>");
-                    LarXML.Append("          <WithoutIVA>0</WithoutIVA>");
-                    LarXML.Append("          <IVA>0</IVA>");
-                    LarXML.Append("          <Amount>0</Amount>");
-                    LarXML.Append("        </ExpenseAccountTotal>");
-                    LarXML.Append("        <delayExpenseAccount xsi:nil='true' xmlns='" + ProcessVersionNumber + "' />");
-                    LarXML.Append("        <completionExpenseAccount xmlns='" + ProcessVersionNumber + "'>5</completionExpenseAccount>");
-                    LarXML.Append("      </Global>");
-                    LarXML.Append("      <StepSchemaUltApprovalHistory>");
-                    LarXML.Append("        <approveDate xmlns='http://processSchema.eGastos/'>0001-01-01T00:00:00</approveDate>");
-                    LarXML.Append("      </StepSchemaUltApprovalHistory>");
-                    LarXML.Append("      <SYS_PROCESSATTACHMENTS />");
-                    LarXML.Append("    </TaskData>");
-                    //-------------
-                    strxml1 = LarXML.ToString();
-                    strError = "";
-                    bolResultado = ult_obj.LaunchIncident(fd.UserLogin, summary, "Incidente criado por: ", false, 9, strxml1, true, out intIncident, out strError);
+                    #region StepSchemaUltHotel
+                    if ((me.UltHotel != null) && (me.UltRequest.type < 3) && (me.UltMissionOrder.hotel))
+                    {
+                        int i = me.UltHotel.Length - 1;
+                        foreach (object obj in me.UltHotel)
+                        {
+                            XmlNode xmlUltHotelElement = ObjXML.CreateNode("element", "StepSchemaUltHotel", "");
+
+                            xmlUltHotelElement.InnerXml = xmlStepSchemaUltHotel;
+                            ObjXML.ChildNodes[1].InsertBefore(xmlUltHotelElement, ObjXML.ChildNodes[1].ChildNodes[2]);
+
+                            foreach (XmlNode UH in xmlUltHotelElement)
+                            {
+                                if (UH.Name == "idHotel") { UH.InnerText = UH.InnerText = me.UltHotel[i].idHotel.ToString(); }
+                                if (UH.Name == "idMissionOrder") { UH.InnerText = me.UltHotel[i].idMissionOrder.ToString(); }
+                                if (UH.Name == "idRated") { UH.InnerText = me.UltHotel[i].idRated.ToString(); }
+                                if (UH.Name == "idConsecutive") { UH.InnerText = me.UltHotel[i].idConsecutive.ToString(); }
+                                if (UH.Name == "idLegerAccount") { UH.InnerText = me.UltHotel[i].idLegerAccount.ToString(); }
+                                if (UH.Name == "checkInDate") { UH.InnerText = ToXMLDateFormat(me.UltHotel[i].checkInDate); }
+                                if (UH.Name == "checkoutDate") { UH.InnerText = ToXMLDateFormat(me.UltHotel[i].checkoutDate); }
+                                if (UH.Name == "quotedRate") { UH.InnerText = me.UltHotel[i].quotedRate.ToString(); }
+                                if (UH.Name == "realRate") { UH.InnerText = me.UltHotel[i].realRate.ToString(); }
+                                if (UH.Name == "IVA") { UH.InnerText = me.UltHotel[i].IVA.ToString(); }
+                                if (UH.Name == "hotelTax") { UH.InnerText = me.UltHotel[i].hotelTax.ToString(); }
+                                if (UH.Name == "otherTaxes") { UH.InnerText = me.UltHotel[i].otherTaxes.ToString(); }
+                                if (UH.Name == "status") { UH.InnerText = me.UltHotel[i].status.ToString().ToLower(); }
+                                if (UH.Name == "lineStatus") { UH.InnerText = me.UltHotel[i].lineStatus.ToString(); }
+                            }
+                            i--;
+                        }
+                    }
+                    #endregion
+
+                    XmlDataDocument ObjXMLSend = new XmlDataDocument();
+                    ObjXMLSend.InnerXml = ObjXML.InnerXml.Replace("StepSchemaUltHotel xmlns=\"\"", "StepSchemaUltHotel");
+
+                    bolResultado = ult_obj.LaunchIncident(fd.UserLogin, summary, "Incidente criado por: ", false, 9, ObjXMLSend.InnerXml, true, out intIncident, out strError);
                 }
                 nIncident = intIncident;
                 if (strError != "")
@@ -2284,7 +2298,10 @@ namespace eGastosWS
             return returnData;
         }
 
+         //Descomentar para publicar - Marcio Nakamura
         private ExpenseAccountClient expAccClient = new ExpenseAccountClient();
+
+         //Descomentar para publicar - Marcio Nakamura
         private string generaExpenseAcc(eGastosEntity.Ultimus.UltRequest ultReq, eGastosEntity.Ultimus.UltExpenseAccount ultExpAcc, eGastosEntity.Ultimus.UltExpenseAccountDetail[] ultExpAccDetLst, eGastosEntity.Ultimus.UltPAClient[] ultPACliLst, bool update, int ultNumber)
         {
 
@@ -2292,7 +2309,7 @@ namespace eGastosWS
                 ultReq.CeCoMiniName, ultReq.isMiniEvent, ultReq.arrival, ultReq.departureDate, ultReq.requestDate.ToString(), ultReq.PEPElementId,
                 ultReq.PEPElementName, ultReq.currencyId, ultReq.currencyName, ultReq.initiatorLogin, ultReq.initiatorName, ultReq.responsibleLogin,
                 ultReq.responsibleName, ultReq.responsibleEmployeeNum, ultReq.responsibleUserName, ultReq.pasteur, ultReq.areaId,
-                ultReq.areaText, (bool)ultReq.salesForce, ultExpAcc.nationalManagerLogin, ultExpAcc.nationalManagerName, ultExpAcc.creditCard
+                ultReq.areaText, (bool)ultReq.salesForce, ultExpAcc.nationalManagerLogin, ultExpAcc.nationalManagerName, ultExpAcc.debitCard
                 , ultExpAcc.strike, ultExpAcc.isCFDI);
             if (ultExpAccDetLst != null)
             {
@@ -2324,7 +2341,11 @@ namespace eGastosWS
             //return expAccClient.getUltExpenseFlowVariables();
 
         }
+
+        // Descomentar para publicar - Marcio Nakamura
         private MissionOrderClient misOrdClient = new MissionOrderClient();
+
+        // Descomentar para publicar - Marcio Nakamura
         private string generaMissionOrder(eGastosEntity.Ultimus.UltRequest ultReq, eGastosEntity.Ultimus.UltMissionOrder ultMisOrd, eGastosEntity.Ultimus.UltItinerary[] ultItiLst, eGastosEntity.Ultimus.UltHotel[] ultHotLst, bool update, int ultNumber)
         {
 
@@ -2358,13 +2379,13 @@ namespace eGastosWS
             else {
                 return misOrdClient.updateRequest(ultNumber).ToString();
             }
-            
+
         }
-          
+
 
         [WebMethod]
         public int SendReviewData()
-        // public int SendReviewData(Entity.MasterEntity me, Entity.FilterData fd, out string error)
+        //public int SendReviewData(Entity.MasterEntity me, Entity.FilterData fd, out string error)
         {
             //DEBUG ------------------------------------------------------------
             Entity.FilterData fd = new Entity.FilterData();
@@ -2519,7 +2540,7 @@ namespace eGastosWS
                     node.ChildNodes[0].InnerText = me.UltExpenseAccount.idExpenseAccount.ToString();
                     node.ChildNodes[1].InnerText = me.UltExpenseAccount.nationalManagerLogin;
                     node.ChildNodes[2].InnerText = me.UltExpenseAccount.nationalManagerName;
-                    node.ChildNodes[3].InnerText = me.UltExpenseAccount.creditCard.ToString().ToLower();
+                    node.ChildNodes[3].InnerText = me.UltExpenseAccount.debitCard.ToString().ToLower();
                     node.ChildNodes[4].InnerText = me.UltExpenseAccount.totalMiniEvent.ToString();
                     node.ChildNodes[5].InnerText = me.UltExpenseAccount.totalMeal.ToString();
                     node.ChildNodes[6].InnerText = me.UltExpenseAccount.totalNationalMeal.ToString();
@@ -2820,12 +2841,12 @@ namespace eGastosWS
 
             if (fd.isPasteur)
             {
-                ult_objPasteur = new eGastos_Pasteur();
+                ult_objPasteur = new eGastos_Pasteur_BC();
                 ult_objPasteur.CompleteStep(fd.UserLogin, ref intIncident, fd.StepName, summary, "", false, 9, EAReviewXML.InnerXml, true, out strError);
             }
             else
             {
-                ult_objPharma = new eGastos_Pharma();
+                ult_objPharma = new eGastos_Pharma_BC();
                 ult_objPharma.CompleteStep(fd.UserLogin, ref intIncident, fd.StepName, summary, "", false, 9, EAReviewXML.InnerXml, true, out strError);
             }
 

@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{5A7A95F2-B9C6-469D-AEC5-D0CF473A12DF}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
@@ -121,7 +121,7 @@
     <None Include="Web References\WSeGastosPasteur\CTaskInfo.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\WSeGastosPasteur\eGastos_Pasteur.wsdl" />
+    <None Include="Web References\WSeGastosPasteur\eGastos_Pasteur_BC.wsdl" />
     <None Include="Web References\WSeGastosPasteur\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -129,12 +129,12 @@
     <None Include="Web References\WSeGastosPasteur\SchemaFile.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
+    <Content Include="Pharma XML\eGastos Pharma BC Original.xml" />
     <Content Include="Pharma XML\eGastosPharma Original.xml" />
     <Content Include="eGastosToUltimus.asmx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Pasteur XML\Pasteur_comValores.xml" />
-    <None Include="Web References\WSeGastosPasteur\eGastos_Pasteur.disco" />
     <None Include="Service References\ExpenseAccountServiceReference\ExpenseAccount.disco" />
     <None Include="Service References\ExpenseAccountServiceReference\configuration91.svcinfo" />
     <None Include="Service References\ExpenseAccountServiceReference\configuration.svcinfo" />
@@ -152,8 +152,7 @@
     <None Include="Web References\WSeGastosPharma\CTaskInfo.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\WSeGastosPharma\eGastos_Pharma.disco" />
-    <None Include="Web References\WSeGastosPharma\eGastos_Pharma.wsdl" />
+    <None Include="Web References\WSeGastosPharma\eGastos_Pharma_BC.wsdl" />
     <None Include="Web References\WSeGastosPharma\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -162,7 +161,12 @@
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <Content Include="Pharma XML\Pharma send XML.xml" />
+    <Content Include="Pharma XML\pharmaDebug.xml" />
+    <Content Include="Pharma XML\SendExpenseAccount.xml" />
+    <Content Include="Pharma XML\SendMissionOrder.xml" />
     <Content Include="TextFile1.txt" />
+    <None Include="Web References\WSeGastosPharma\eGastos_Pharma_BC.disco" />
+    <None Include="Web References\WSeGastosPasteur\eGastos_Pasteur_BC.disco" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -174,6 +178,8 @@
     </Compile>
     <Compile Include="Entity\FilterData.cs" />
     <Compile Include="Entity\MasterEntity.cs" />
+    <Compile Include="Pasteur XML\incidentGeneratePasteur.cs" />
+    <Compile Include="Pharma XML\Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -206,10 +212,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://saosultdev02.pharma.aventis.com/PLWebServices/eGastos_Pasteur.asmx">
+    <WebReferenceUrl Include="http://saosultdev02.pharma.aventis.com/PLWebservices/eGastos_Pasteur_BC.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\WSeGastosPasteur\</RelPath>
-      <UpdateFromURL>http://saosultdev02.pharma.aventis.com/PLWebServices/eGastos_Pasteur.asmx</UpdateFromURL>
+      <UpdateFromURL>http://saosultdev02.pharma.aventis.com/PLWebservices/eGastos_Pasteur_BC.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -217,10 +223,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>eGastosWS_WSeGastosPasteur_eGastos_Pasteur</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://saosultdev02.pharma.aventis.com/PLWebServices/eGastos_Pharma.asmx">
+    <WebReferenceUrl Include="http://saosultdev02.pharma.aventis.com/PLWebservices/eGastos_Pharma_BC.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\WSeGastosPharma\</RelPath>
-      <UpdateFromURL>http://saosultdev02.pharma.aventis.com/PLWebServices/eGastos_Pharma.asmx</UpdateFromURL>
+      <UpdateFromURL>http://saosultdev02.pharma.aventis.com/PLWebservices/eGastos_Pharma_BC.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -264,6 +270,9 @@
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost/eGastosWS</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>

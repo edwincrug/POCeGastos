@@ -8,7 +8,7 @@ namespace eGastosEntity.Ultimus
     public class UltExpenseAccount
     {
         public bool charged { get; set; }
-        public bool creditCard { get; set; }
+        public bool debitCard { get; set; }
         public int idExpenseAccount { get; set; }
         public int idRequest { get; set; }
         public string nationalManagerLogin { get; set; }

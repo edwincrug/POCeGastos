@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.ultimus.com/eGastos_Pharma" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.ultimus.com/eGastos_Pharma" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
-  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service allows you to launch incidents of eGastos Pharma. It also allows you to perform steps that are activated to you for this process</wsdl:documentation>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.ultimus.com/eGastos_Pasteur_BC" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.ultimus.com/eGastos_Pasteur_BC" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service allows you to launch incidents of eGastos Pasteur BC. It also allows you to perform steps that are activated to you for this process</wsdl:documentation>
   <wsdl:types>
-    <s:schema elementFormDefault="qualified" targetNamespace="http://www.ultimus.com/eGastos_Pharma">
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.ultimus.com/eGastos_Pasteur_BC">
       <s:element name="GetLaunchInformation">
         <s:complexType>
           <s:sequence>
@@ -209,47 +209,47 @@
   <wsdl:message name="ReturnStepSoapOut">
     <wsdl:part name="parameters" element="tns:ReturnStepResponse" />
   </wsdl:message>
-  <wsdl:portType name="eGastos_PharmaSoap">
+  <wsdl:portType name="eGastos_Pasteur_BCSoap">
     <wsdl:operation name="GetLaunchInformation">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method returns Begin Step Schema and default XML for lauching an incident of eGastos Pharma</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method returns Begin Step Schema and default XML for lauching an incident of eGastos Pasteur BC</wsdl:documentation>
       <wsdl:input message="tns:GetLaunchInformationSoapIn" />
       <wsdl:output message="tns:GetLaunchInformationSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="LaunchIncident">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method launches an incident of eGastos Pharma</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method launches an incident of eGastos Pasteur BC</wsdl:documentation>
       <wsdl:input message="tns:LaunchIncidentSoapIn" />
       <wsdl:output message="tns:LaunchIncidentSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetActiveTasks">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method returns the active tasks of eGastos Pharma for the user specified as an input parameter</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method returns the active tasks of eGastos Pasteur BC for the user specified as an input parameter</wsdl:documentation>
       <wsdl:input message="tns:GetActiveTasksSoapIn" />
       <wsdl:output message="tns:GetActiveTasksSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="AbortIncident">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method aborts an incident of eGastos Pharma</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method aborts an incident of eGastos Pasteur BC</wsdl:documentation>
       <wsdl:input message="tns:AbortIncidentSoapIn" />
       <wsdl:output message="tns:AbortIncidentSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetTaskInformation">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method returns the Step Schema and its current values for a particular task of eGastos Pharma</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method returns the Step Schema and its current values for a particular task of eGastos Pasteur BC</wsdl:documentation>
       <wsdl:input message="tns:GetTaskInformationSoapIn" />
       <wsdl:output message="tns:GetTaskInformationSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="CompleteStep">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method completes a step of eGastos Pharma with given XML data</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method completes a step of eGastos Pasteur BC with given XML data</wsdl:documentation>
       <wsdl:input message="tns:CompleteStepSoapIn" />
       <wsdl:output message="tns:CompleteStepSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="ReturnStep">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method returns a step of eGastos Pharma with given XML data</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method returns a step of eGastos Pasteur BC with given XML data</wsdl:documentation>
       <wsdl:input message="tns:ReturnStepSoapIn" />
       <wsdl:output message="tns:ReturnStepSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
-  <wsdl:binding name="eGastos_PharmaSoap" type="tns:eGastos_PharmaSoap">
+  <wsdl:binding name="eGastos_Pasteur_BCSoap" type="tns:eGastos_Pasteur_BCSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="GetLaunchInformation">
-      <soap:operation soapAction="http://www.ultimus.com/eGastos_Pharma/GetLaunchInformation" style="document" />
+      <soap:operation soapAction="http://www.ultimus.com/eGastos_Pasteur_BC/GetLaunchInformation" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -258,7 +258,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="LaunchIncident">
-      <soap:operation soapAction="http://www.ultimus.com/eGastos_Pharma/LaunchIncident" style="document" />
+      <soap:operation soapAction="http://www.ultimus.com/eGastos_Pasteur_BC/LaunchIncident" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -267,7 +267,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetActiveTasks">
-      <soap:operation soapAction="http://www.ultimus.com/eGastos_Pharma/GetActiveTasks" style="document" />
+      <soap:operation soapAction="http://www.ultimus.com/eGastos_Pasteur_BC/GetActiveTasks" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -276,7 +276,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="AbortIncident">
-      <soap:operation soapAction="http://www.ultimus.com/eGastos_Pharma/AbortIncident" style="document" />
+      <soap:operation soapAction="http://www.ultimus.com/eGastos_Pasteur_BC/AbortIncident" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -285,7 +285,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetTaskInformation">
-      <soap:operation soapAction="http://www.ultimus.com/eGastos_Pharma/GetTaskInformation" style="document" />
+      <soap:operation soapAction="http://www.ultimus.com/eGastos_Pasteur_BC/GetTaskInformation" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -294,7 +294,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="CompleteStep">
-      <soap:operation soapAction="http://www.ultimus.com/eGastos_Pharma/CompleteStep" style="document" />
+      <soap:operation soapAction="http://www.ultimus.com/eGastos_Pasteur_BC/CompleteStep" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -303,7 +303,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="ReturnStep">
-      <soap:operation soapAction="http://www.ultimus.com/eGastos_Pharma/ReturnStep" style="document" />
+      <soap:operation soapAction="http://www.ultimus.com/eGastos_Pasteur_BC/ReturnStep" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -312,10 +312,10 @@
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
-  <wsdl:binding name="eGastos_PharmaSoap12" type="tns:eGastos_PharmaSoap">
+  <wsdl:binding name="eGastos_Pasteur_BCSoap12" type="tns:eGastos_Pasteur_BCSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="GetLaunchInformation">
-      <soap12:operation soapAction="http://www.ultimus.com/eGastos_Pharma/GetLaunchInformation" style="document" />
+      <soap12:operation soapAction="http://www.ultimus.com/eGastos_Pasteur_BC/GetLaunchInformation" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -324,7 +324,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="LaunchIncident">
-      <soap12:operation soapAction="http://www.ultimus.com/eGastos_Pharma/LaunchIncident" style="document" />
+      <soap12:operation soapAction="http://www.ultimus.com/eGastos_Pasteur_BC/LaunchIncident" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -333,7 +333,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetActiveTasks">
-      <soap12:operation soapAction="http://www.ultimus.com/eGastos_Pharma/GetActiveTasks" style="document" />
+      <soap12:operation soapAction="http://www.ultimus.com/eGastos_Pasteur_BC/GetActiveTasks" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -342,7 +342,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="AbortIncident">
-      <soap12:operation soapAction="http://www.ultimus.com/eGastos_Pharma/AbortIncident" style="document" />
+      <soap12:operation soapAction="http://www.ultimus.com/eGastos_Pasteur_BC/AbortIncident" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -351,7 +351,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetTaskInformation">
-      <soap12:operation soapAction="http://www.ultimus.com/eGastos_Pharma/GetTaskInformation" style="document" />
+      <soap12:operation soapAction="http://www.ultimus.com/eGastos_Pasteur_BC/GetTaskInformation" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -360,7 +360,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="CompleteStep">
-      <soap12:operation soapAction="http://www.ultimus.com/eGastos_Pharma/CompleteStep" style="document" />
+      <soap12:operation soapAction="http://www.ultimus.com/eGastos_Pasteur_BC/CompleteStep" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -369,7 +369,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="ReturnStep">
-      <soap12:operation soapAction="http://www.ultimus.com/eGastos_Pharma/ReturnStep" style="document" />
+      <soap12:operation soapAction="http://www.ultimus.com/eGastos_Pasteur_BC/ReturnStep" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -378,13 +378,13 @@
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
-  <wsdl:service name="eGastos_Pharma">
-    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service allows you to launch incidents of eGastos Pharma. It also allows you to perform steps that are activated to you for this process</wsdl:documentation>
-    <wsdl:port name="eGastos_PharmaSoap" binding="tns:eGastos_PharmaSoap">
-      <soap:address location="http://trustultimus.trust.com.br/PLWebservices/eGastos_Pharma.asmx" />
+  <wsdl:service name="eGastos_Pasteur_BC">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service allows you to launch incidents of eGastos Pasteur BC. It also allows you to perform steps that are activated to you for this process</wsdl:documentation>
+    <wsdl:port name="eGastos_Pasteur_BCSoap" binding="tns:eGastos_Pasteur_BCSoap">
+      <soap:address location="http://saosultdev02.pharma.aventis.com/PLWebservices/eGastos_Pasteur_BC.asmx" />
     </wsdl:port>
-    <wsdl:port name="eGastos_PharmaSoap12" binding="tns:eGastos_PharmaSoap12">
-      <soap12:address location="http://trustultimus.trust.com.br/PLWebservices/eGastos_Pharma.asmx" />
+    <wsdl:port name="eGastos_Pasteur_BCSoap12" binding="tns:eGastos_Pasteur_BCSoap12">
+      <soap12:address location="http://saosultdev02.pharma.aventis.com/PLWebservices/eGastos_Pasteur_BC.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
